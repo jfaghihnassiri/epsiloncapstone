@@ -43,9 +43,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int logo=0x7f030003;
     }
     public static final class menu {
-        public static final int activity_camera=0x7f070000;
-        public static final int activity_camera_view=0x7f070001;
-        public static final int activity_main=0x7f070002;
+        public static final int activity_camera_view=0x7f070000;
+        public static final int activity_main=0x7f070001;
     }
     public static final class string {
         public static final int LOGO=0x7f050004;
