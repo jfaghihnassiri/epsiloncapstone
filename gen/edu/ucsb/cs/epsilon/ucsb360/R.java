@@ -28,20 +28,24 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int ucsb360logo=0x7f020001;
     }
     public static final class id {
-        public static final int btnLogin=0x7f080001;
-        public static final int btnViewNoLogin=0x7f080002;
-        public static final int fullscreen_content=0x7f080003;
-        public static final int fullscreen_content_controls=0x7f080004;
-        public static final int header=0x7f080000;
-        public static final int menu_settings=0x7f080005;
+        public static final int btnLogin=0x7f080002;
+        public static final int btnViewNoLogin=0x7f080003;
+        public static final int fullscreen_content=0x7f080004;
+        public static final int fullscreen_content_controls=0x7f080005;
+        public static final int header=0x7f080001;
+        public static final int menu_settings=0x7f080006;
+        public static final int surface_camera=0x7f080000;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
-        public static final int activity_splash_screen=0x7f030001;
-        public static final int logo=0x7f030002;
+        public static final int activity_camera_view=0x7f030000;
+        public static final int activity_main=0x7f030001;
+        public static final int activity_splash_screen=0x7f030002;
+        public static final int logo=0x7f030003;
     }
     public static final class menu {
-        public static final int activity_main=0x7f070000;
+        public static final int activity_camera=0x7f070000;
+        public static final int activity_camera_view=0x7f070001;
+        public static final int activity_main=0x7f070002;
     }
     public static final class string {
         public static final int LOGO=0x7f050004;
@@ -55,6 +59,8 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int menu_settings=0x7f050006;
         public static final int password_hint=0x7f050009;
         public static final int splash_screen=0x7f050001;
+        public static final int title_activity_camera=0x7f05000c;
+        public static final int title_activity_camera_view=0x7f05000d;
         public static final int view=0x7f05000b;
     }
     public static final class style {

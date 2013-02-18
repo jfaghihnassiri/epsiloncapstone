@@ -4,5 +4,6 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
+	<classpathentry kind="lib" path="D:/Development/Android/vuforia-sdk-android-2-0-30/build/java/QCAR/QCAR.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
