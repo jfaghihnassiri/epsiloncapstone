@@ -2,7 +2,15 @@
 <resources>
 
     <string name="app_name">UCSB 360</string>
+    <string name="splash_screen">Splash Screen</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="dummy_button">Dummy Button</string>
-
+	<string name="LOGO">UCSB360</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="menu_settings">Settings</string>
+    <string name="Welcome">Login with Facebook</string>
+    <string name="login_hint">Email</string>
+    <string name="password_hint">Password</string>
+	<string name="login">Login</string>
+	<string name="view">View Without Login</string>
 </resources>
