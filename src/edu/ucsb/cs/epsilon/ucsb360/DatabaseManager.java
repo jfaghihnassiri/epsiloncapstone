@@ -77,8 +77,41 @@ public class DatabaseManager {
 		
 		}
 	
-		public static void incrementViews(String id) throws SQLException {
+	/**
+	 * @param id
+	 */
+		public static int incrementViews(String id) throws SQLException {
+			PreparedStatement query, update;
 			
+			// Initialize SQL statements
+			String q = "Select views"
+					+ "From Augmentations"
+					+ "Where id = ?";
+			
+			String u = "Update Augmentations"
+					+ "Set views = ?"
+					+ "Where id = ?";
+			
+			// Create statements
+			query = connection.prepareStatement(q);
+			update = connection.prepareStatement(u);
+			
+			// Insert input values
+			query.setString(1, id);
+			
+			// Execute the statement
+			ResultSet rs = query.executeQuery();
+			
+			// Get the number of views
+			int n = rs.getInt("views");
+			n++;
+			
+			// Update the database
+			update.setInt(1, n);
+			update.setString(2, id);
+			
+			// Return the number of views
+			return n;
 		}
 
 }
