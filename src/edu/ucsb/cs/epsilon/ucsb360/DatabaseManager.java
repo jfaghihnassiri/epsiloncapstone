@@ -5,8 +5,8 @@ import java.sql.*;
 public class DatabaseManager {
 
 	// Member variables
-	private static final String strDriver = ""; // TODO fix
-	private static final String strConnection = "epsilondb.ccrbqzoyw7yg.us-east-1.rds.amazonaws.com:2013"; // TODO fix
+	private static final String strDriver = "com.mysql.jdbc.Driver";
+	private static final String strConnection = "jdbc:mysql://epsilondb.ccrbqzoyw7yg.us-east-1.rds.amazonaws.com:2013/epsilondb1";
 	private static final String strUsername = "epsilon";
 	private static final String strPassword = "epsilon2013";
 
@@ -15,22 +15,25 @@ public class DatabaseManager {
 	 * 
 	 * @author Max Hinson
 	 */
-	public static Connection Connect() throws SQLException{
+	public static Connection Connect() {
 		Connection connection = null;
 		
 		try {
 			Class.forName(strDriver);
 		} catch (ClassNotFoundException e) {
 			System.out.println(e.getMessage());
+			System.out.println("FOOLS CLASS NOT FOUND");
 		}
  
 		try {
 			connection = DriverManager.getConnection(strConnection, strUsername, strPassword);
-			return connection;
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
+			System.out.println("FOOLS CANT GET CONNECTION");
 		}
 		
+		if(connection == null)
+			System.out.println("ERROR FOOLS!");
 		return connection;
 	}
 
@@ -67,6 +70,9 @@ public class DatabaseManager {
 
 		// Execute the statement
 		statement.executeUpdate();
+		
+		// Close the connection
+		connection.close();
 	}
 
 	/**
@@ -105,6 +111,9 @@ public class DatabaseManager {
 
 		// Execute the statement
 		statement.executeUpdate();
+		
+		// Close the connection
+		connection.close();
 	}
 	
 	/**
@@ -139,6 +148,9 @@ public class DatabaseManager {
 		// Execute the query
 		ResultSet rs = query.executeQuery();
 
+		// Close the connection
+		connection.close();
+		
 		// Return the number of views
 		return rs.getString(column);
 	}
@@ -175,6 +187,9 @@ public class DatabaseManager {
 
 		// Execute the update
 		update.executeUpdate();
+		
+		// Close the connection
+		connection.close();
 	}
 
 	/**
@@ -227,6 +242,9 @@ public class DatabaseManager {
 
 		// Execute the update
 		update.executeUpdate();
+		
+		// Close the connection
+		connection.close();
 
 		// Return the number of views
 		return n;
@@ -275,5 +293,6 @@ public class DatabaseManager {
 	public static int incrementAugmentationsCreated(String username) throws SQLException {
 		return increment("Users", "numAugmentationsCreated", "username", username);
 	}
+	
 
 }
