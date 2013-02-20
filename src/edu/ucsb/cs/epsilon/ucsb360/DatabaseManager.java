@@ -2,6 +2,8 @@ package edu.ucsb.cs.epsilon.ucsb360;
 
 import java.sql.*;
 
+// TODO fix "DATE" type for database and input functions
+
 public class DatabaseManager {
 
 	// Member variables
@@ -21,19 +23,15 @@ public class DatabaseManager {
 		try {
 			Class.forName(strDriver);
 		} catch (ClassNotFoundException e) {
-			System.out.println(e.getMessage());
-			System.out.println("FOOLS CLASS NOT FOUND");
+			e.printStackTrace();
 		}
  
 		try {
 			connection = DriverManager.getConnection(strConnection, strUsername, strPassword);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-			System.out.println("FOOLS CANT GET CONNECTION");
+			e.printStackTrace();
 		}
 		
-		if(connection == null)
-			System.out.println("ERROR FOOLS!");
 		return connection;
 	}
 
@@ -54,12 +52,12 @@ public class DatabaseManager {
 		
 		// Initialize SQL statement
 		String s = "Insert Into Users"
-				+ "(username, name, birthday, gender, numTargetsSeen, numTargetsShared, numTargetsCreated)"
-				+ "(?, ?, ?, ?, 0, 0, 0)";
+				+ " Values (?, ?, ?, ?, 0, 0, 0)";
 
 		// Connect to the database
 		Connection connection = Connect();
 
+		// Prepare statement
 		statement = connection.prepareStatement(s);
 
 		// Insert input values
@@ -67,7 +65,7 @@ public class DatabaseManager {
 		statement.setString(2, name);
 		statement.setString(3, birthday);
 		statement.setString(4, gender);
-
+		
 		// Execute the statement
 		statement.executeUpdate();
 		
@@ -80,21 +78,22 @@ public class DatabaseManager {
 	 * 
 	 * @author Max Hinson
 	 * @param id target/augmentation identifier
+	 * @param name file name in the Vuforia cloud database
 	 * @param type type of target
 	 * @param bitmap path to the augmentation bitmap
 	 * @param location physical location of augmentation
+	 * @param date date target was created
 	 * @param creator username for the creator of the augmentation
 	 */
-	public static void initAugmentationData(String id, String type, String bitmap,
-			String location, String creator) throws SQLException {
+	public static void initAugmentationData(String id, String name, String type, String bitmap,
+			String location, String date, String creator) throws SQLException {
 		
 		// Create prepared statement variable
 		PreparedStatement statement = null;
 
 		// Initialize SQL statements
 		String s = "Insert Into Augmentations"
-				+ "(id, type, bitmap, location, creator, views)"
-				+ "(?, ?, ?, ?, ?, 0)";
+				+ " Values (?, ?, ?, ?, ?, ?, ?, 0)";
 
 		// Connect to the database
 		Connection connection = Connect();
@@ -104,10 +103,12 @@ public class DatabaseManager {
 
 		// Insert variables into statement
 		statement.setString(1, id);
-		statement.setString(2, type);
-		statement.setString(3, bitmap);
-		statement.setString(4, location);
-		statement.setString(5, creator);
+		statement.setString(2, name);
+		statement.setString(3, type);
+		statement.setString(4, bitmap);
+		statement.setString(5, location);
+		statement.setString(6, date);
+		statement.setString(7, creator);
 
 		// Execute the statement
 		statement.executeUpdate();
@@ -128,31 +129,33 @@ public class DatabaseManager {
 	 */
 	private static String get(String table, String column, String row, String id) throws SQLException {
 
+		// Initialize SQL statement
+		String q = "Select " + column
+				+ " From " + table
+				+ " Where " + row + " = ?";
+		
 		// Connect to the database
 		Connection connection = Connect();
-
-		// Initialize SQL statement
-		String q = "Select ?"
-				+ "From ?"
-				+ "Where ? = ?";
 
 		// Initialize prepared statement
 		PreparedStatement query = connection.prepareStatement(q);
 
 		// Insert variables into statement
-		query.setString(1, column);
-		query.setString(2, table);
-		query.setString(3, row);
-		query.setString(4, id);
+		query.setString(1, id);
 
 		// Execute the query
 		ResultSet rs = query.executeQuery();
 
+		// Get value
+		if(rs.first() == false)
+			System.out.println("RESULT SET IS EMPTY");
+		String ret = rs.getString(column);
+		
 		// Close the connection
 		connection.close();
 		
-		// Return the number of views
-		return rs.getString(column);
+		// Return the value
+		return ret;
 	}
 	
 	/**
@@ -168,22 +171,20 @@ public class DatabaseManager {
 	 */
 	private static void set(String table, String column, String row, String id, String value) throws SQLException {
 
+		// Initialize the SQL statement
+		String u = "Update " + table
+				+ " Set " + column + " = ?"
+				+ " Where " + row + " = ?";
+		
 		// Connect to the database
 		Connection connection = Connect();
-
-		String u = "Update ?"
-				+ "Set ? = ?"
-				+ "Where ? = ?";
 
 		// Initialize prepared statement
 		PreparedStatement update = connection.prepareStatement(u);
 
 		// Insert variables into statement
-		update.setString(1, table);
-		update.setString(2, column);
-		update.setString(3, value);
-		update.setString(4, row);
-		update.setString(5, id);
+		update.setString(1, value);
+		update.setString(2, id);
 
 		// Execute the update
 		update.executeUpdate();
@@ -204,41 +205,37 @@ public class DatabaseManager {
 	 */
 	private static int increment(String table, String column, String row, String id) throws SQLException {
 
+		// Initialize SQL statements
+		String q = "Select " + column
+				+ " From " + table
+				+ " Where " + row + " = ?";
+
+		String u = "Update " + table
+				+ " Set " + column + " = ?"
+				+ " Where " + row + " = ?";
+		
 		// Connect to the database
 		Connection connection = Connect();
-
-		// Initialize SQL statements
-		String q = "Select ?"
-				+ "From ?"
-				+ "Where ? = ?";
-
-		String u = "Update ?"
-				+ "Set ? = ?"
-				+ "Where ? = ?";
 
 		// Initialize prepared statements
 		PreparedStatement query = connection.prepareStatement(q);
 		PreparedStatement update = connection.prepareStatement(u);
 
 		// Insert variables into statement
-		query.setString(1, column);
-		query.setString(2, table);
-		query.setString(3, row);
-		query.setString(4, id);
+		query.setString(1, id);
 
 		// Execute the query
 		ResultSet rs = query.executeQuery();
 
 		// Get and increment the number of views
+		if(rs.first() == false)
+			System.out.println("RESULT SET IS EMPTY");
 		int n = rs.getInt(column);
 		n++;
 
 		// Insert variables into statement
-		update.setString(1, table);
-		update.setString(2, column);
-		update.setInt(3, n);
-		update.setString(4, row);
-		update.setString(5, id);
+		update.setInt(1, n);
+		update.setString(2, id);
 
 		// Execute the update
 		update.executeUpdate();
@@ -269,7 +266,7 @@ public class DatabaseManager {
 	 * @return number of views
 	 */
 	public static int incrementAugmentationsSeen(String username) throws SQLException {
-		return increment("Users", "numAugmentationsSeen", "username", username);
+		return increment("Users", "numTargetsSeen", "username", username);
 	}
 	
 	/**
@@ -280,7 +277,7 @@ public class DatabaseManager {
 	 * @return number of views
 	 */
 	public static int incrementAugmentationsShared(String username) throws SQLException {
-		return increment("Users", "numAugmentationsShared", "username", username);
+		return increment("Users", "numTargetsShared", "username", username);
 	}
 
 	/**
@@ -291,8 +288,18 @@ public class DatabaseManager {
 	 * @return number of views
 	 */
 	public static int incrementAugmentationsCreated(String username) throws SQLException {
-		return increment("Users", "numAugmentationsCreated", "username", username);
+		return increment("Users", "numTargetsCreated", "username", username);
 	}
 	
-
+	/**
+	 * Wrapper function for getting the bitmap for an augmentation
+	 * 
+	 * @author Max Hinson
+	 * @param username user identifier to increment views for
+	 * @return bitmap
+	 */
+	public static String getBitmap(String id) throws SQLException {
+		return get("Augmentations", "bitmap", "id", id);
+	}
+	
 }
