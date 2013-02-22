@@ -17,7 +17,7 @@ public class DatabaseManager {
 	 * 
 	 * @author Max Hinson
 	 */
-	public static Connection Connect() {
+	private static Connection Connect() {
 		Connection connection = null;
 		
 		try {
