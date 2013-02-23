@@ -2,9 +2,7 @@ package edu.ucsb.cs.epsilon.ucsb360;
 
 import java.sql.*;
 
-// TODO fix "DATE" type for database and input functions
-
-public class DatabaseManager {
+public final class DatabaseManager {
 
 	// Member variables
 	private static final String strDriver = "com.mysql.jdbc.Driver";
@@ -18,14 +16,18 @@ public class DatabaseManager {
 	 * @author Max Hinson
 	 */
 	private static Connection Connect() {
+		
+		// Initialize connection to null
 		Connection connection = null;
 		
+		// Check to see if we can find the driver
 		try {
 			Class.forName(strDriver);
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
  
+		// Try opening a connection to the database
 		try {
 			connection = DriverManager.getConnection(strConnection, strUsername, strPassword);
 		} catch (SQLException e) {
@@ -44,21 +46,18 @@ public class DatabaseManager {
 	 * @param birthday birthday
 	 * @param gender gender
 	 */
-	public static void initUserData(String username, String name,
+	public static void createUser(String username, String name,
 			String birthday, String gender) throws SQLException {
-
-		// Set up SQL variables
-		PreparedStatement statement = null;
 		
 		// Initialize SQL statement
-		String s = "Insert Into Users"
-				+ " Values (?, ?, ?, ?, 0, 0, 0)";
+		String s = "INSERT INTO Users"
+				+ " VALUES (?, ?, ?, ?, 0, 0, 0)";
 
 		// Connect to the database
 		Connection connection = Connect();
 
 		// Prepare statement
-		statement = connection.prepareStatement(s);
+		PreparedStatement statement = connection.prepareStatement(s);
 
 		// Insert input values
 		statement.setString(1, username);
@@ -69,7 +68,79 @@ public class DatabaseManager {
 		// Execute the statement
 		statement.executeUpdate();
 		
-		// Close the connection
+		// Clean up
+		statement.close();
+		connection.close();
+	}
+	
+	/**
+	 * Get a user's information
+	 * 
+	 * @author Max Hinson
+	 * @param username user identifier
+	 * @return array of user data
+	 */
+	public static String[] getUser(String username) throws SQLException {
+		
+		// Initialize SQL statement
+		String s = "SELECT *"
+				+ " FROM Users"
+				+ " WHERE username = ?";
+
+		// Connect to the database
+		Connection connection = Connect();
+
+		// Prepare statement
+		PreparedStatement statement = connection.prepareStatement(s);
+
+		// Insert input values
+		statement.setString(1, username);
+
+		// Execute the statement
+		ResultSet rs = statement.executeQuery();
+
+		// Read user info into array
+		if(rs.first() == false)
+			System.out.println("RESULT SET IS EMPTY");
+		int cols = rs.getMetaData().getColumnCount();
+		String[] ret = new String[cols];
+		for(int i = 0; i < cols; i++)
+			ret[i] = rs.getString(i+1);
+		
+		// Clean up
+		statement.close();
+		rs.close();
+		connection.close();
+		
+		return ret;
+	}
+	
+	/**
+	 * Delete a user
+	 * 
+	 * @author Max Hinson
+	 * @param username user identifier
+	 */
+	public static void deleteUser(String username) throws SQLException {
+		
+		// Initialize SQL statement
+		String s = "DELETE FROM Users"
+				+ " WHERE username = ?";
+		
+		// Connect to the database
+		Connection connection = Connect();
+
+		// Prepare statement
+		PreparedStatement statement = connection.prepareStatement(s);
+		
+		// Insert input values
+		statement.setString(1, username);
+		
+		// Execute the statement
+		statement.executeUpdate();
+		
+		// Clean up
+		statement.close();
 		connection.close();
 	}
 
@@ -85,21 +156,18 @@ public class DatabaseManager {
 	 * @param date date target was created
 	 * @param creator username for the creator of the augmentation
 	 */
-	public static void initAugmentationData(String id, String name, String type, String bitmap,
+	public static void createTarget(String id, String name, String type, String bitmap,
 			String location, String date, String creator) throws SQLException {
-		
-		// Create prepared statement variable
-		PreparedStatement statement = null;
 
 		// Initialize SQL statements
-		String s = "Insert Into Augmentations"
-				+ " Values (?, ?, ?, ?, ?, ?, ?, 0)";
+		String s = "INSERT INTO Targets"
+				+ " VALUES (?, ?, ?, ?, ?, ?, ?, 0)";
 
 		// Connect to the database
 		Connection connection = Connect();
 			
 		// Initialize prepared statement
-		statement = connection.prepareStatement(s);
+		PreparedStatement statement = connection.prepareStatement(s);
 
 		// Insert variables into statement
 		statement.setString(1, id);
@@ -113,7 +181,79 @@ public class DatabaseManager {
 		// Execute the statement
 		statement.executeUpdate();
 		
-		// Close the connection
+		// Clean up
+		statement.close();
+		connection.close();
+	}
+	
+	/**
+	 * Get a target's information
+	 * 
+	 * @author Max Hinson
+	 * @param id target identifier
+	 * @return array of target data
+	 */
+	public static String[] getTarget(String id) throws SQLException {
+		
+		// Initialize SQL statement
+		String s = "SELECT *"
+				+ " FROM Targets"
+				+ " WHERE id = ?";
+
+		// Connect to the database
+		Connection connection = Connect();
+
+		// Prepare statement
+		PreparedStatement statement = connection.prepareStatement(s);
+
+		// Insert input values
+		statement.setString(1, id);
+
+		// Execute the statement
+		ResultSet rs = statement.executeQuery();
+
+		// Read user info into array
+		if(rs.first() == false)
+			System.out.println("RESULT SET IS EMPTY");
+		int cols = rs.getMetaData().getColumnCount();
+		String[] ret = new String[cols];
+		for(int i = 0; i < cols; i++)
+			ret[i] = rs.getString(i+1);
+		
+		// Clean up
+		statement.close();
+		rs.close();
+		connection.close();
+		
+		return ret;
+	}
+	
+	/**
+	 * Delete a target from the database
+	 * 
+	 * @author Max Hinson
+	 * @param id the target's id number
+	 */
+	public static void deleteTarget(String id) throws SQLException {
+
+		// Initialize SQL statement
+		String s = "DELETE FROM Targets"
+				+ " WHERE id = ?";
+
+		// Connect to the database
+		Connection connection = Connect();
+
+		// Prepare statement
+		PreparedStatement statement = connection.prepareStatement(s);
+
+		// Insert input values
+		statement.setString(1, id);
+
+		// Execute the statement
+		statement.executeUpdate();
+
+		// Clean up
+		statement.close();
 		connection.close();
 	}
 	
@@ -130,10 +270,10 @@ public class DatabaseManager {
 	private static String get(String table, String column, String row, String id) throws SQLException {
 
 		// Initialize SQL statement
-		String q = "Select " + column
-				+ " From " + table
-				+ " Where " + row + " = ?";
-		
+		String q = "SELECT " + column
+				+ " FROM " + table
+				+ " WHERE " + row + " = ?";
+
 		// Connect to the database
 		Connection connection = Connect();
 
@@ -151,10 +291,11 @@ public class DatabaseManager {
 			System.out.println("RESULT SET IS EMPTY");
 		String ret = rs.getString(column);
 		
-		// Close the connection
+		// Clean up
+		query.close();
+		rs.close();
 		connection.close();
 		
-		// Return the value
 		return ret;
 	}
 	
@@ -189,7 +330,8 @@ public class DatabaseManager {
 		// Execute the update
 		update.executeUpdate();
 		
-		// Close the connection
+		// Clean up
+		update.close();
 		connection.close();
 	}
 
@@ -240,10 +382,12 @@ public class DatabaseManager {
 		// Execute the update
 		update.executeUpdate();
 		
-		// Close the connection
+		// Clean up
+		query.close();
+		rs.close();
+		update.close();
 		connection.close();
 
-		// Return the number of views
 		return n;
 	}
 
@@ -255,7 +399,7 @@ public class DatabaseManager {
 	 * @return number of views
 	 */
 	public static int incrementViews(String id) throws SQLException {
-		return increment("Augmentations", "views", "id", id);
+		return increment("Targets", "views", "id", id);
 	}
 	
 	/**
@@ -265,7 +409,7 @@ public class DatabaseManager {
 	 * @param username user identifier to increment views for
 	 * @return number of views
 	 */
-	public static int incrementAugmentationsSeen(String username) throws SQLException {
+	public static int incrementTargetsSeen(String username) throws SQLException {
 		return increment("Users", "numTargetsSeen", "username", username);
 	}
 	
@@ -276,7 +420,7 @@ public class DatabaseManager {
 	 * @param username user identifier to increment views for
 	 * @return number of views
 	 */
-	public static int incrementAugmentationsShared(String username) throws SQLException {
+	public static int incrementTargetsShared(String username) throws SQLException {
 		return increment("Users", "numTargetsShared", "username", username);
 	}
 
@@ -287,7 +431,7 @@ public class DatabaseManager {
 	 * @param username user identifier to increment views for
 	 * @return number of views
 	 */
-	public static int incrementAugmentationsCreated(String username) throws SQLException {
+	public static int incrementTargetsCreated(String username) throws SQLException {
 		return increment("Users", "numTargetsCreated", "username", username);
 	}
 	
@@ -299,7 +443,7 @@ public class DatabaseManager {
 	 * @return bitmap
 	 */
 	public static String getBitmap(String id) throws SQLException {
-		return get("Augmentations", "bitmap", "id", id);
+		return get("Targets", "bitmap", "id", id);
 	}
 	
 }
