@@ -1,9 +1,5 @@
 package edu.ucsb.cs.epsilon.ucsb360;
 
-import java.io.IOException;
-import java.net.*;
-import java.awt.image.*;
-import javax.imageio.*;
 import java.sql.*;
 
 /**
@@ -20,8 +16,7 @@ public final class Target {
 	private String date;
 	private String creator;
 	private int views;
-	private URL augUrl;
-	private BufferedImage augmentation;
+	private String augUrl;
 	
 	/**
 	 * Constructor for Target class
@@ -35,6 +30,7 @@ public final class Target {
 		try {
 			String[] target = DatabaseManager.getTarget(tId);
 			id = target[0];
+			augUrl = url + id + ext;
 			name = target[1];
 			type = target[2];
 			location = target[4];
@@ -44,30 +40,17 @@ public final class Target {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
-		// Create URL object for augmentation location
-		try {
-			augUrl = new URL(url + id + ext);
-		} catch (MalformedURLException e) {
-			System.out.println(e.getMessage());
-		}
-		
-		// Read image from URL into BufferedImage
-		try {
-			augmentation = ImageIO.read(augUrl);
-		} catch (IOException e) {
-			System.out.println(e.getMessage());
-		}
+
 	}
 	
 	/**
-	 * Getter for augmentation
+	 * Getter for augmentation URL
 	 * 
 	 * @author Max Hinson
-	 * @return Augmentation as BufferedStream
+	 * @return Augmentation URL
 	 */
-	public BufferedImage getAugmentation() {
-		return augmentation;
+	public String getAugUrl() {
+		return augUrl;
 	}
 
 }
