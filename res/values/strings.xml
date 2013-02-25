@@ -7,7 +7,7 @@
     <string name="LOGO">UCSB360</string>
     <string name="hello_world">Hello world!</string>
     <string name="menu_settings">Settings</string>
-    <string name="Welcome">Login with Facebook!</string>
+    <string name="Welcome">To get started, log in with Facebook!</string>
     <string name="login_hint">Email</string>
     <string name="password_hint">Password</string>
     <string name="login">Login</string>
