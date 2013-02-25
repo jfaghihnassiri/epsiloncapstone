@@ -156,12 +156,12 @@ public final class DatabaseManager {
 	 * @param date date target was created
 	 * @param creator username for the creator of the augmentation
 	 */
-	public static void createTarget(String id, String name, String type, String bitmap,
-			String location, String date, String creator) throws SQLException {
+	public static void createTarget(String id, String type,
+			String date, String creator, String message) throws SQLException {
 
 		// Initialize SQL statements
 		String s = "INSERT INTO Targets"
-				+ " VALUES (?, ?, ?, ?, ?, ?, ?, 0)";
+				+ " VALUES (?, ?, ?, ?, ?, 0)";
 
 		// Connect to the database
 		Connection connection = Connect();
@@ -171,12 +171,10 @@ public final class DatabaseManager {
 
 		// Insert variables into statement
 		statement.setString(1, id);
-		statement.setString(2, name);
-		statement.setString(3, type);
-		statement.setString(4, bitmap);
-		statement.setString(5, location);
-		statement.setString(6, date);
-		statement.setString(7, creator);
+		statement.setString(2, type);
+		statement.setString(3, date);
+		statement.setString(4, creator);
+		statement.setString(5, message);
 
 		// Execute the statement
 		statement.executeUpdate();
@@ -433,17 +431,6 @@ public final class DatabaseManager {
 	 */
 	public static int incrementTargetsCreated(String username) throws SQLException {
 		return increment("Users", "numTargetsCreated", "username", username);
-	}
-	
-	/**
-	 * Wrapper function for getting the bitmap for an augmentation
-	 * 
-	 * @author Max Hinson
-	 * @param username user identifier to increment views for
-	 * @return bitmap
-	 */
-	public static String getBitmap(String id) throws SQLException {
-		return get("Targets", "bitmap", "id", id);
 	}
 	
 }
