@@ -12,9 +12,9 @@ import org.junit.Test;
 public class DatabaseManagerTest {
 
 	private static final int userCols = 7;
-	private static final int targetCols = 8;
+	private static final int targetCols = 6;
 	private static String[] user = {"tuser", "Test McTest", "12/31/1999", "Male", "0", "0", "0"};
-	private static String[] target = {"tid", "TEST_IMG", "ttype", "/dev/null", "nowhere", "1/1/0000", "tuser", "0"};
+	private static String[] target = {"tid", "ttype", "1/1/0000", "tuser", "this is a message", "0"};
 
 	/**
 	 * @throws java.lang.Exception
@@ -22,7 +22,7 @@ public class DatabaseManagerTest {
 	@Before
 	public void setUp() throws Exception {
 		DatabaseManager.createUser(user[0], user[1], user[2], user[3]);
-		DatabaseManager.createTarget(target[0], target[1], target[2], target[3], target[4], target[5], target[6]);
+		DatabaseManager.createTarget(target[0], target[1], target[2], target[3], target[4]);
 	}
 	
 	/**
@@ -75,14 +75,14 @@ public class DatabaseManagerTest {
 		int views = -1;
 		try {
 			t = DatabaseManager.getTarget(target[0]);
-			views = Integer.parseInt(t[7]);
+			views = Integer.parseInt(t[5]);
 			DatabaseManager.incrementViews(target[0]);
 			t = DatabaseManager.getTarget(target[0]);
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
 		}
-		assertEquals(views+1, Integer.parseInt(t[7]));
+		assertEquals(views+1, Integer.parseInt(t[5]));
 	}
 
 	/**
@@ -140,24 +140,6 @@ public class DatabaseManagerTest {
 			fail(e.getMessage());
 		}
 		assertEquals(created+1, Integer.parseInt(t[6]));
-	}
-
-	/**
-	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.DatabaseManager#getBitmap(java.lang.String)}.
-	 * 
-	 * Get bitmap for SAMPLE_CHIPS
-	 */
-	@Test
-	public void testGetBitmap() {
-		String bm = "";
-		try {
-		bm = DatabaseManager.getBitmap("93d72b317fb64655a17ac3b0c7d9bd55");
-		}
-		catch (SQLException e)
-		{
-			fail(e.getMessage());
-		}
-		assertEquals(bm, "Just some nice wood chips...");
 	}
 
 }
