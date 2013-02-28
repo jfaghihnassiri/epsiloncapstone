@@ -3,8 +3,7 @@ package edu.ucsb.cs.epsilon.ucsb360.test;
 import edu.ucsb.cs.epsilon.ucsb360.DatabaseManager;
 import java.sql.*;
 import static org.junit.Assert.*;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.*;
 
 /**
  * @author Max Hinson
@@ -19,8 +18,8 @@ public class DatabaseManagerTest {
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@Before
-	public void setUp() throws Exception {
+	@BeforeClass
+	public static void setUp() throws Exception {
 		DatabaseManager.createUser(user[0], user[1], user[2], user[3]);
 		DatabaseManager.createTarget(target[0], target[1], target[2], target[3], target[4]);
 	}
@@ -28,8 +27,8 @@ public class DatabaseManagerTest {
 	/**
 	 * @throws java.lang.Exception
 	 */
-	@Before
-	public void tearDown() throws Exception {
+	@AfterClass
+	public static void tearDown() throws Exception {
 		DatabaseManager.deleteTarget(target[0]);
 		DatabaseManager.deleteUser(user[0]);
 	}
