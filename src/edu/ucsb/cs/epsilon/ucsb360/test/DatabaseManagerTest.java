@@ -19,7 +19,7 @@ public class DatabaseManagerTest {
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
-	public static void setUp() throws Exception {
+	public static void setUpBeforeClass() throws Exception {
 		DatabaseManager.createUser(user[0], user[1], user[2], user[3]);
 		DatabaseManager.createTarget(target[0], target[1], target[2], target[3], target[4]);
 	}
@@ -28,7 +28,7 @@ public class DatabaseManagerTest {
 	 * @throws java.lang.Exception
 	 */
 	@AfterClass
-	public static void tearDown() throws Exception {
+	public static void tearDownAfterClass() throws Exception {
 		DatabaseManager.deleteTarget(target[0]);
 		DatabaseManager.deleteUser(user[0]);
 	}
