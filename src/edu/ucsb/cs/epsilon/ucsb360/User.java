@@ -6,6 +6,8 @@ import java.sql.SQLException;
  * Class to keep track of user information
  * 
  * 
+ * 
+ * 
  * @author Max Hinson
  */
 public final class User {
