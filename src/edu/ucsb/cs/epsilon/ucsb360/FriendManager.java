@@ -19,7 +19,7 @@ public final class FriendManager {
 	 * @author Jhon Nassiri
 	 * @param username User identifier
 	 */
-	public static void populateFriends(String username) {
+	public static void populateFriends() {
 		// TODO
 	}
 	

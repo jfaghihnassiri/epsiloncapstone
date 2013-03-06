@@ -5,8 +5,6 @@ import org.junit.Test;
 
 import edu.ucsb.cs.epsilon.ucsb360.Friend;
 
-
-
 /**
  * Test class for the Friend class
  * 
@@ -14,14 +12,15 @@ import edu.ucsb.cs.epsilon.ucsb360.Friend;
  */
 public class FriendTest {
 
-	Friend friend = new Friend("username");
+	private String[] f = {"username", "Test McTest", "0"};
+	Friend friend = new Friend(f[0], f[1], Integer.parseInt(f[2]));
 	
 	/**
 	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.Friend#getUsername()}.
 	 */
 	@Test
 	public void testGetUsername() {
-		fail("Not yet implemented");
+		assertEquals(f[0], friend.getUsername());
 	}
 
 	/**
@@ -29,7 +28,7 @@ public class FriendTest {
 	 */
 	@Test
 	public void testGetName() {
-		fail("Not yet implemented");
+		assertEquals(f[1], friend.getName());
 	}
 
 	/**
@@ -37,7 +36,15 @@ public class FriendTest {
 	 */
 	@Test
 	public void testGetNumShares() {
-		fail("Not yet implemented");
+		assertEquals(f[2], friend.getNumShares());
+	}
+	
+	/**
+	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.Friend#getNumShares()}.
+	 */
+	@Test
+	public void testIncNumShares() {
+		assertEquals(Integer.parseInt(f[2]) + 1, friend.incNumShares());
 	}
 
 }
