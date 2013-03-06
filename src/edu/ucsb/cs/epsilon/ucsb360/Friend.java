@@ -15,18 +15,21 @@ public final class Friend {
 	 * Constructor for Friend class
 	 * 
 	 * @author Max Hinson
+	 * @author Jhon Nassiri
 	 * @param username Friend identifier
+	 * @param name Friend full name
+	 * @param numShares number of shares between User and Friend
 	 */
-	public Friend(String username) {
-		name = "";
-		numShares = 0;
+	public Friend(String username, String name, int numShares) {
+		// DEPR name = "";
+		// DEPR numShares = 0;
+		// TODO is this finished? I don't know java that well - Jhon
 	}
 	
 	/**
 	 * Get username for Friend
 	 * 
 	 * @author Max Hinson
-	 * @param username Friend identifier
 	 * @return Friend username
 	 */
 	public String getUsername() {
@@ -37,7 +40,6 @@ public final class Friend {
 	 * Get name for Friend
 	 * 
 	 * @author Max Hinson
-	 * @param username Friend identifier
 	 * @return Friend name
 	 */
 	public String getName() {
@@ -48,11 +50,20 @@ public final class Friend {
 	 * Get shares for Friend
 	 * 
 	 * @author Max Hinson
-	 * @param username Friend identifier
 	 * @return Friend shares
 	 */
 	public int getNumShares() {
 		return numShares;
 	}
-	
+
+	/**
+	 * Increment shares for Friend
+	 * 
+	 * @author Jhon Nassiri
+	 * @return Friend shares
+	 */
+	public int incNumShares() {
+		numShares++;
+		return numShares;
+	}
 }
