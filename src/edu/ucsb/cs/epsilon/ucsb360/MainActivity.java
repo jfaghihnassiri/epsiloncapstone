@@ -5,7 +5,10 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.Settings;
 import com.facebook.Session.StatusCallback;
+
 import com.facebook.android.Facebook;
+import com.qualcomm.QCARSamples.CloudRecognition.CloudReco;
+
 
 
 import android.os.Bundle;
@@ -140,9 +143,13 @@ public class MainActivity extends Activity implements OnClickListener {
     		//button for no log in view
     		case R.id.btnViewNoLogin : 
     		{
-    			Intent i = new Intent(this, CameraView.class);
+    			/*Intent i = new Intent(this, CameraView.class);
     			startActivity(i);
-    			break;
+    			break;*/
+    			
+    	        Intent i = new Intent(this, com.qualcomm.QCARSamples.CloudRecognition.CloudReco.class);
+    	        startActivity(i);
+    	        break;
     		}
     		//button for FB log in
     		case R.id.authButton:

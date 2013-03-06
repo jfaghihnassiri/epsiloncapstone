@@ -3,5 +3,7 @@
     <color name="black_overlay">#66000000</color>
     <color name="ucsb_blue">#006CE3</color>
     <color name="ucsb_gold">#F2B93A</color>
+    <color name="semi_transparent_black">#C8000000</color>
+    <color name="white">#FFFFFF</color>
 
 </resources>
