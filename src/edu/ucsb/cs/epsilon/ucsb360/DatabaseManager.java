@@ -51,7 +51,7 @@ public final class DatabaseManager {
 		
 		// Initialize SQL statement
 		String s = "INSERT INTO Users"
-				+ " VALUES (?, ?, ?, ?, 0, 0, 0)";
+				+ " VALUES (?, ?, ?, ?, 0, 0)";
 
 		// Connect to the database
 		Connection connection = Connect();
@@ -401,25 +401,14 @@ public final class DatabaseManager {
 	}
 	
 	/**
-	 * Wrapper function for incrementing the number of augmentations a user has viewed
-	 * 
-	 * @author Max Hinson
-	 * @param username user identifier to increment views for
-	 * @return number of views
-	 */
-	public static int incrementTargetsSeen(String username) throws SQLException {
-		return increment("Users", "numTargetsSeen", "username", username);
-	}
-	
-	/**
 	 * Wrapper function for incrementing the number of augmentations a user has shared
 	 * 
 	 * @author Max Hinson
 	 * @param username user identifier to increment views for
 	 * @return number of views
 	 */
-	public static int incrementTargetsShared(String username) throws SQLException {
-		return increment("Users", "numTargetsShared", "username", username);
+	public static int incrementAugsShared(String username) throws SQLException {
+		return increment("Users", "numAugsShared", "username", username);
 	}
 
 	/**
@@ -429,8 +418,8 @@ public final class DatabaseManager {
 	 * @param username user identifier to increment views for
 	 * @return number of views
 	 */
-	public static int incrementTargetsCreated(String username) throws SQLException {
-		return increment("Users", "numTargetsCreated", "username", username);
+	public static int incrementAugsCreated(String username) throws SQLException {
+		return increment("Users", "numAugsCreated", "username", username);
 	}
 	
 }

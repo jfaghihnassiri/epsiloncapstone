@@ -2,8 +2,11 @@ package edu.ucsb.cs.epsilon.ucsb360.test;
 
 import static org.junit.Assert.*;
 
+import org.junit.BeforeClass;
+import org.junit.AfterClass;
 import org.junit.Test;
 
+import edu.ucsb.cs.epsilon.ucsb360.DatabaseManager;
 import edu.ucsb.cs.epsilon.ucsb360.User;
 
 /**
@@ -12,7 +15,27 @@ import edu.ucsb.cs.epsilon.ucsb360.User;
  * @author Max Hinson
  */
 public class UserTest {
-
+	
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@BeforeClass
+	public static void setUpBeforeClass() throws Exception {
+		DatabaseManager.createUser("testUser", "Test McTest", "11/11/1111", "Male");
+		assertFalse(User.isLoggedIn());
+		assertTrue(User.logIn("testUser"));
+	}
+	
+	/**
+	 * @throws java.lang.Exception
+	 */
+	@AfterClass
+	public static void tearDownAfterClass() throws Exception {
+		User.logOut();
+		assertFalse(User.isLoggedIn());
+		DatabaseManager.deleteUser("testUser");
+	}
+	
 	/**
 	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#logIn()}.
 	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#logOut()}.
@@ -20,82 +43,56 @@ public class UserTest {
 	 */
 	@Test
 	public void testLoggedInStatus() {
-		assertFalse(User.isLoggedIn());
-		User.logIn();
 		assertTrue(User.isLoggedIn());
-		User.logOut();
-		assertFalse(User.isLoggedIn());
+
 	}
 
 	/**
 	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#getUsername()}.
-	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#setUsername(java.lang.String)}.
 	 */
 	@Test
 	public void testUsername() {
-		User.setUsername("user");
-		assertEquals("user", User.getUsername());
+		assertEquals("testUser", User.getUsername());
 	}
 
 	/**
 	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#getName()}.
-	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#setName(java.lang.String)}.
 	 */
 	@Test
 	public void testName() {
-		User.setName("name");
-		assertEquals("name", User.getName());
+		assertEquals("Test McTest", User.getName());
 	}
 
 	/**
 	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#getBirthday()}.
-	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#setBirthday(java.lang.String)}.
 	 */
 	@Test
 	public void testBirthday() {
-		User.setBirthday("birthday");
-		assertEquals("birthday", User.getBirthday());
+		assertEquals("11/11/1111", User.getBirthday());
 	}
 
 	/**
 	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#getGender()}.
-	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#setGender(java.lang.String)}.
 	 */
 	@Test
 	public void testGender() {
-		User.setGender("gender");
-		assertEquals("gender", User.getGender());
+		assertEquals("Male", User.getGender());
 	}
 
 	/**
-	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#getNumTargetsSeen()}.
-	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#setNumTargetsSeen(int)}.
+	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#getnumAugsCreated()}.
 	 */
 	@Test
-	public void testNumTargetsSeen() {
-		User.setNumTargetsSeen(1);
-		assertEquals(1, User.getNumTargetsSeen());
-	}
-
-
-	/**
-	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#getNumTargetsCreated()}.
-	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#setNumTargetsCreated(int)}.
-	 */
-	@Test
-	public void testNumTargetsCreated() {
-		User.setNumTargetsCreated(1);
-		assertEquals(1, User.getNumTargetsCreated());
+	public void testnumAugsCreated() {
+		assertEquals(0, User.getNumAugsCreated());
 	}
 
 	/**
-	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#getNumTargetsShared()}.
-	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#setNumTargetsShared(int)}.
+	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.User#getnumAugsShared()}.
 	 */
 	@Test
-	public void testNumTargetsShared() {
-		User.setNumTargetsShared(1);
-		assertEquals(1, User.getNumTargetsShared());
+	public void testnumAugsShared() {
+		assertEquals(0, User.getNumAugsShared());
 	}
 
 }
