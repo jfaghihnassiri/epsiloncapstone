@@ -1,8 +1,6 @@
 package edu.ucsb.cs.epsilon.ucsb360.test;
 
 import static org.junit.Assert.*;
-
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import edu.ucsb.cs.epsilon.ucsb360.Augmentation;
@@ -16,13 +14,6 @@ public class AugmentationTest {
 
 	private Augmentation augmentation = new Augmentation(1, "11/11/1111", "maxwellhinson",
 			"hello world", 100, 100, 10, 10, 200, "qualcomm.com");
-	
-	/**
-	 * @throws java.lang.Exception
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
 
 	/**
 	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.Augmentation#getId()}.
