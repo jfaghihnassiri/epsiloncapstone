@@ -10,9 +10,9 @@ import org.junit.*;
  */
 public class DatabaseManagerTest {
 
-	private static final int userCols = 7;
+	private static final int userCols = 6;
 	private static final int targetCols = 6;
-	private static String[] user = {"tuser", "Test McTest", "12/31/1999", "Male", "0", "0", "0"};
+	private static String[] user = {"tuser", "Test McTest", "12/31/1999", "Male", "0", "0"};
 	private static String[] target = {"tid", "ttype", "1/1/0000", "tuser", "this is a message", "0"};
 
 	/**
@@ -85,25 +85,6 @@ public class DatabaseManagerTest {
 	}
 
 	/**
-	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.DatabaseManager#incrementAugmentationsSeen(java.lang.String)}.
-	 */
-	@Test
-	public void testIncrementTargetsSeen() {
-		String[] t = new String[userCols];
-		int seen = -1;
-		try {
-			t = DatabaseManager.getUser(user[0]);
-			seen = Integer.parseInt(t[4]);
-			DatabaseManager.incrementTargetsSeen(user[0]);
-			t = DatabaseManager.getUser(user[0]);
-		}
-		catch (SQLException e) {
-			fail(e.getMessage());
-		}
-		assertEquals(seen+1, Integer.parseInt(t[4]));
-	}
-
-	/**
 	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.DatabaseManager#incrementAugmentationsShared(java.lang.String)}.
 	 */
 	@Test
@@ -112,14 +93,14 @@ public class DatabaseManagerTest {
 		int shared = -1;
 		try {
 			t = DatabaseManager.getUser(user[0]);
-			shared = Integer.parseInt(t[5]);
-			DatabaseManager.incrementTargetsShared(user[0]);
+			shared = Integer.parseInt(t[4]);
+			DatabaseManager.incrementAugsShared(user[0]);
 			t = DatabaseManager.getUser(user[0]);
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
 		}
-		assertEquals(shared+1, Integer.parseInt(t[5]));
+		assertEquals(shared+1, Integer.parseInt(t[4]));
 	}
 
 	/**
@@ -131,14 +112,14 @@ public class DatabaseManagerTest {
 		int created = -1;
 		try {
 			t = DatabaseManager.getUser(user[0]);
-			created = Integer.parseInt(t[6]);
-			DatabaseManager.incrementTargetsCreated(user[0]);
+			created = Integer.parseInt(t[5]);
+			DatabaseManager.incrementAugsCreated(user[0]);
 			t = DatabaseManager.getUser(user[0]);
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
 		}
-		assertEquals(created+1, Integer.parseInt(t[6]));
+		assertEquals(created+1, Integer.parseInt(t[5]));
 	}
 
 }
