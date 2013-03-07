@@ -15,7 +15,7 @@ public final class Augmentation {
 	private int likes;
 	private int xPos;
 	private int yPos;
-	private int size;
+	private double size;
 	private String url;
 	
 	/**
@@ -34,7 +34,7 @@ public final class Augmentation {
 	 * @param url URL to get the augmentation image
 	 */
 	public Augmentation(int id, String date, String creator, String message,
-			int views, int likes, int xPos, int yPos, int size, String url) {
+			int views, int likes, int xPos, int yPos, double size, String url) {
 		this.id = id;
 		this.date = date;
 		this.creator = creator;
@@ -115,7 +115,7 @@ public final class Augmentation {
 	 * @author Max Hinson
 	 * @return the size
 	 */
-	public int getSize() {
+	public double getSize() {
 		return size;
 	}
 
@@ -125,6 +125,24 @@ public final class Augmentation {
 	 */
 	public String getUrl() {
 		return url;
+	}
+	
+	/**
+	 * @author Jhon Nassiri
+	 * @return the views
+	 */
+	public int incViews() {
+		views = views + 1;
+		return views;
+	}
+	
+	/**
+	 * @author Jhon Nassiri
+	 * @return the likes
+	 */
+	public int incLikes() {
+		likes = likes + 1;
+		return likes;
 	}
 
 }
