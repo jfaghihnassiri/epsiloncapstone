@@ -9,6 +9,7 @@ import edu.ucsb.cs.epsilon.ucsb360.Augmentation;
  * Test class for the Augmentation class
  * 
  * @author Max Hinson
+ * @see Augmentation
  */
 public class AugmentationTest {
 
@@ -67,7 +68,7 @@ public class AugmentationTest {
 	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.Augmentation#getxPos()}.
 	 */
 	@Test
-	public void testGetxPos() {
+	public void testGetXPos() {
 		assertEquals(10, augmentation.getxPos());
 	}
 
@@ -75,7 +76,7 @@ public class AugmentationTest {
 	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.Augmentation#getyPos()}.
 	 */
 	@Test
-	public void testGetyPos() {
+	public void testGetYPos() {
 		assertEquals(10, augmentation.getyPos());
 	}
 
@@ -93,6 +94,22 @@ public class AugmentationTest {
 	@Test
 	public void testGetUrl() {
 		assertEquals("qualcomm.com", augmentation.getUrl());
+	}
+	
+	/**
+	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.Augmentation#incViews()}.
+	 */
+	@Test
+	public void testIncViews() {
+		assertEquals(augmentation.getViews() + 1, augmentation.incViews());
+	}
+	
+	/**
+	 * Test method for {@link edu.ucsb.cs.epsilon.ucsb360.Augmentation#incLikes()}.
+	 */
+	@Test
+	public void testIncLikes() {
+		assertEquals(augmentation.getLikes() + 1, augmentation.incLikes());
 	}
 
 }
