@@ -138,10 +138,7 @@ public class MainActivity extends Activity implements OnClickListener {
      * 
      */
     public void onClick(View v) {
-    	switch(v.getId())
-    	{
-    		//button for no log in view
-    		case R.id.btnViewNoLogin : 
+    	if(v.getId()==  R.id.btnViewNoLogin ) 
     		{
     			/*Intent i = new Intent(this, CameraView.class);
     			startActivity(i);
@@ -149,10 +146,9 @@ public class MainActivity extends Activity implements OnClickListener {
     			
     	        Intent i = new Intent(this, com.qualcomm.QCARSamples.CloudRecognition.CloudReco.class);
     	        startActivity(i);
-    	        break;
     		}
     		//button for FB log in
-    		case R.id.authButton:
+    	else if(v.getId() == R.id.authButton)
     		{
     			if(this.session.isOpened())
     			{
@@ -183,12 +179,11 @@ public class MainActivity extends Activity implements OnClickListener {
                 this.session.openForRead(new Session.OpenRequest(this).setCallback(callback));
     			
     			}
-    			break;
     			 
     		}
-    	}
     }
+}
     
     
    
-}
+
