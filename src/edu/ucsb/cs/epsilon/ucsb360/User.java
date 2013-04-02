@@ -5,9 +5,6 @@ import java.sql.SQLException;
 /**
  * Class to keep track of user information
  * 
- * 
- * 
- * 
  * @author Max Hinson
  */
 public final class User {
@@ -27,7 +24,7 @@ public final class User {
 	 */
 	public static Boolean logIn(String username) {
 		try {
-			String[] user = DatabaseManager.getUser(username);
+			String[] user = DatabaseManager.getUsr(username);
 			
 			// Populate the private members from database results
 			User.loggedIn = true;
@@ -122,7 +119,7 @@ public final class User {
 	 */
 	public static int incNumAugsCreated() {
 		try {
-			numAugsCreated = DatabaseManager.incrementAugsCreated(username);
+			numAugsCreated = DatabaseManager.incUsrAugsCreated();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -147,7 +144,7 @@ public final class User {
 	 */
 	public static int incNumAugsShared() {
 		try {
-			numAugsShared = DatabaseManager.incrementAugsShared(username);
+			numAugsShared = DatabaseManager.incUsrAugsShared();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

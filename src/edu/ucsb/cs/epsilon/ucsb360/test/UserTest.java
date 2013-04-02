@@ -21,7 +21,7 @@ public class UserTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		DatabaseManager.createUser("testUser", "Test McTest", "11/11/1111", "Male");
+		DatabaseManager.createUsr("testUser", "Test McTest", "11/11/1111", "Male");
 		assertFalse(User.isLoggedIn());
 		assertTrue(User.logIn("testUser"));
 	}
@@ -33,7 +33,7 @@ public class UserTest {
 	public static void tearDownAfterClass() throws Exception {
 		User.logOut();
 		assertFalse(User.isLoggedIn());
-		DatabaseManager.deleteUser("testUser");
+		DatabaseManager.deleteUsr("testUser");
 	}
 	
 	/**
@@ -44,7 +44,6 @@ public class UserTest {
 	@Test
 	public void testLoggedInStatus() {
 		assertTrue(User.isLoggedIn());
-
 	}
 
 	/**
@@ -85,6 +84,8 @@ public class UserTest {
 	@Test
 	public void testnumAugsCreated() {
 		assertEquals(0, User.getNumAugsCreated());
+		User.incNumAugsCreated();
+		assertEquals(1, User.getNumAugsCreated());
 	}
 
 	/**
@@ -93,6 +94,9 @@ public class UserTest {
 	@Test
 	public void testnumAugsShared() {
 		assertEquals(0, User.getNumAugsShared());
+		User.incNumAugsShared();
+		User.incNumAugsShared();
+		assertEquals(2, User.getNumAugsShared());
 	}
 
 }
