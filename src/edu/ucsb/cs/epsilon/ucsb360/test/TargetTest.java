@@ -27,7 +27,7 @@ public class TargetTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		DatabaseManager.createTarget(target[0], target[1], target[2], target[3], target[4]);
+		DatabaseManager.createTar(target[0], target[1], target[2]);
 		t = new Target(target[0]);
 	}
 
@@ -36,7 +36,7 @@ public class TargetTest {
 	 */
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
-		DatabaseManager.deleteTarget(target[0]);
+		DatabaseManager.deleteTar(target[0]);
 	}
 
 	/**
@@ -156,7 +156,7 @@ public class TargetTest {
 	 */
 	@Test
 	public void testIncAugViews() {
-		assertEquals(1, t.getIncAugViews(0));
+		assertEquals(1, t.incAugViews(0));
 	}
 	
 	/**
@@ -164,7 +164,7 @@ public class TargetTest {
 	 */
 	@Test
 	public void testIncAugLikes() {
-		assertEquals(1, t.getIncAugLikes(0));
+		assertEquals(1, t.incAugLikes(0));
 	}
 	
 }

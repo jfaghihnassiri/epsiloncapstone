@@ -1,7 +1,7 @@
 package edu.ucsb.cs.epsilon.ucsb360;
 
 import java.sql.*;
-import java.util.HashMap;
+import java.util.ArrayList;
 
 /**
  * Simple container for target attributes
@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public final class Target {
 
-	private static HashMap<String, Augmentation> augmentations = new HashMap<String, Augmentation>();
+	private static ArrayList<Augmentation> augmentations = new ArrayList<Augmentation>();
 	private String id;
 	private String date;
 	private String creator;
@@ -25,7 +25,7 @@ public final class Target {
 		
 		try {
 			// Get target information from database
-			String[] targetInfo = DatabaseManager.getTarget(targetId);
+			String[] targetInfo = DatabaseManager.getTar(targetId);
 			
 			// Store database fields in local variables
 			id = targetInfo[0];
@@ -43,8 +43,22 @@ public final class Target {
 	 * @author Max Hinson
 	 * @param targetId Target identifier
 	 */
-	public Target(String targetId, String date, String Creator) {
-		// TODO
+	public Target(String targetId, String date) {
+		try {
+			DatabaseManager.createTar(targetId, date, User.getUsername());
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	/**
+	 * Get the target's identifier
+	 * 
+	 * @author Max Hinson
+	 * @return Target identifier
+	 */
+	public String getId() {
+		return id;
 	}
 	
 	/**
@@ -74,8 +88,14 @@ public final class Target {
 	 * @return Number of views
 	 */
 	public int getViews() {
-		// TODO
-		return -1;
+		
+		int views = 0;
+		
+		for(int i = 0; i < augmentations.size(); i++)
+			views += augmentations.get(i).getViews();
+		
+		return views;
+		
 	}
 	
 	/**
@@ -85,8 +105,7 @@ public final class Target {
 	 * @return Number of augmentations
 	 */
 	public int getNumAugs() {
-		// TODO
-		return -1;
+		return augmentations.size();
 	}
 	
 	/**
@@ -106,148 +125,144 @@ public final class Target {
 	 * Get augmentation identifier
 	 * 
 	 * @author Jhon Nassiri
-	 * @param augIndex the index of an augmentation into the hashmap
+	 * @author Max Hinson
+	 * @param augIndex the index of an augmentation into the ArrayList
 	 * @return augmentation identifier
 	 */
 	public int getAugId(int augIndex) {
-		// TODO
-		return -1;
+		return augmentations.get(augIndex).getId();
 	}
 	
 	/**
 	 * Get augmentation date
 	 * 
 	 * @author Jhon Nassiri
-	 * @param augIndex the index of an augmentation into the hashmap
+	 * @author Max Hinson
+	 * @param augIndex the index of an augmentation into the ArrayList
 	 * @return augmentation date
 	 */
 	public String getAugDate(int augIndex) {
-		// TODO
-		return "stub";
+		return augmentations.get(augIndex).getDate();
 	}
 	
 	/**
 	 * Get augmentation creator
 	 * 
 	 * @author Jhon Nassiri
-	 * @param augIndex the index of an augmentation into the hashmap
+	 * @author Max Hinson
+	 * @param augIndex the index of an augmentation into the ArrayList
 	 * @return augmentation creator
 	 */
 	public String getAugCreator(int augIndex) {
-		// TODO
-		return "stub";
+		return augmentations.get(augIndex).getCreator();
 	}
 	
 	/**
 	 * Get augmentation message
 	 * 
 	 * @author Jhon Nassiri
-	 * @param augIndex the index of an augmentation into the hashmap
+	 * @author Max Hinson
+	 * @param augIndex the index of an augmentation into the ArrayList
 	 * @return augmentation message
 	 */
 	public String getAugMessage(int augIndex) {
-		// TODO
-		return "stub";
+		return augmentations.get(augIndex).getMessage();
 	}
 	
 	/**
 	 * Get augmentation views
 	 * 
 	 * @author Jhon Nassiri
-	 * @param augIndex the index of an augmentation into the hashmap
+	 * @author Max Hinson
+	 * @param augIndex the index of an augmentation into the ArrayList
 	 * @return augmentation views
 	 */
 	public int getAugViews(int augIndex) {
-		// TODO
-		return -1;
+		return augmentations.get(augIndex).getViews();
 	}
 	
 	/**
 	 * Get augmentation likes
 	 * 
 	 * @author Jhon Nassiri
-	 * @param augIndex the index of an augmentation into the hashmap
+	 * @author Max Hinson
+	 * @param augIndex the index of an augmentation into the ArrayList
 	 * @return augmentation likes
 	 */
 	public int getAugLikes(int augIndex) {
-		// TODO
-		return -1;
+		return augmentations.get(augIndex).getLikes();
 	}
 	
 	/**
 	 * Get augmentation x position
 	 * 
 	 * @author Jhon Nassiri
-	 * @param augIndex the index of an augmentation into the hashmap
+	 * @author Max Hinson
+	 * @param augIndex the index of an augmentation into the ArrayList
 	 * @return augmentation x position
 	 */
 	public int getAugXPos(int augIndex) {
-		// TODO
-		return -1;
+		return augmentations.get(augIndex).getxPos();
 	}
 	
 	/**
 	 * Get augmentation y position
 	 * 
 	 * @author Jhon Nassiri
-	 * @param augIndex the index of an augmentation into the hashmap
+	 * @author Max Hinson 
+	 * @param augIndex the index of an augmentation into the ArrayList
 	 * @return augmentation x position
 	 */
 	public int getAugYPos(int augIndex) {
-		// TODO
-		return -1;
+		return augmentations.get(augIndex).getyPos();
 	}
 	
 	/**
 	 * Get augmentation size
 	 * 
 	 * @author Jhon Nassiri
-	 * @param augIndex the index of an augmentation into the hashmap
+	 * @author Max Hinson
+	 * @param augIndex the index of an augmentation into the ArrayList
 	 * @return augmentation size
 	 */
-	public int getAugSize(int augIndex) {
-		// TODO
-		return -1;
+	public double getAugSize(int augIndex) {
+		return augmentations.get(augIndex).getSize();
 	}
 	
 	/**
 	 * Get augmentation url
 	 * 
 	 * @author Jhon Nassiri
-	 * @param augIndex the index of an augmentation into the hashmap
+	 * @author Max Hinson
+	 * @param augIndex the index of an augmentation into the ArrayList
 	 * @return augmentation url
 	 */
 	public String getAugUrl(int augIndex) {
-		// TODO
-		return "stub";
+		return augmentations.get(augIndex).getUrl();
 	}
 	
 	/**
 	 * Increment augmentation views
 	 * 
 	 * @author Jhon Nassiri
-	 * @param augIndex the index of an augmentation into the hashmap
+	 * @author Max Hinson
+	 * @param augIndex the index of an augmentation into the ArrayList
 	 * @return augmentation views
 	 */
 	public int incAugViews(int augIndex) {
-		// TODO
-		return -1;
+		return augmentations.get(augIndex).incViews();
 	}
 	
 	/**
 	 * Increment augmentation likes
 	 * 
 	 * @author Jhon Nassiri
+	 * @author Max Hinson
 	 * @param augIndex the index of an augmentation into the hashmap
 	 * @return augmentation likes
 	 */
 	public int incAugLikes(int augIndex) {
-		// TODO
-		return -1;
+		return augmentations.get(augIndex).incLikes();
 	}
-	
-	
-	// JFN HERE
-
 
 }
