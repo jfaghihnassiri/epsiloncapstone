@@ -117,8 +117,9 @@ public final class Target {
 	 * @param yPos the y postiion of the augmentation in reference to the target
 	 * @param size the size of the augmentation in reference to the target
 	 */
-	public void createAug(String message, int xPos, int yPos, double size) {
-		// TODO
+	public void createAug( int aug_id, String aug_date, String username, String message, int views, int likes, int xPos, int yPos, double size, String url) {
+		Augmentation to_add = new Augmentation( aug_id, aug_date, username, message, views, likes, xPos, yPos, size, url);
+		augmentations.add(to_add);
 	}
 	
 	/**
