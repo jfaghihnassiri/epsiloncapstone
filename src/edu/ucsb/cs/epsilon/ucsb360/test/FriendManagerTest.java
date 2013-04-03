@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import android.database.SQLException;
+
 import edu.ucsb.cs.epsilon.ucsb360.DatabaseManager;
 import edu.ucsb.cs.epsilon.ucsb360.FriendManager;
 import edu.ucsb.cs.epsilon.ucsb360.User;
@@ -43,9 +45,14 @@ public class FriendManagerTest {
 	public void mainTest() {
 
 		// Add a test friend to the database first, then pull friends
-		DatabaseManager.addFriend("friend1");
+		try {
+			DatabaseManager.addFriend("friend1");
+		} catch (java.sql.SQLException e) {
+			e.printStackTrace();
+		}
+
 		FriendManager.populateFriends();
-		
+
 		assertEquals(1, FriendManager.getNumFriends());
 		assertEquals(1, FriendManager.incNumShares("friend1"));
 

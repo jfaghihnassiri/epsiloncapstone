@@ -33,11 +33,11 @@ public class DatabaseManagerTest {
 	public static void setUpBeforeClass() throws Exception {
 		
 		// Create dummy data sets
-		DatabaseManager.createUser(user[0], user[1], user[2], user[3]);
+		DatabaseManager.createUsr(user[0], user[1], user[2], user[3]);
 		User.logIn(user[0]);
 		DatabaseManager.addFriend(friend[1]);
-		DatabaseManager.createTarget(target[0], target[1], target[2]);
-		DatabaseManager.createAug(target[0], aug[2], Integer.parseInt(aug[7]),
+		DatabaseManager.createTar(target[0], target[1], target[2]);
+		DatabaseManager.createAug(target[0], aug[2], aug[3], Integer.parseInt(aug[7]),
 				Integer.parseInt(aug[8]), Double.parseDouble(aug[9]));
 		
 	}
@@ -50,8 +50,8 @@ public class DatabaseManagerTest {
 		
 		// Delete dummy data sets
 		DatabaseManager.deleteAug(target[0], Integer.parseInt(aug[1]));
-		DatabaseManager.deleteTarget(target[0]);
-		DatabaseManager.deleteFriend(friend[1]);
+		DatabaseManager.deleteTar(target[0]);
+		DatabaseManager.delFriend(friend[1]);
 		DatabaseManager.deleteUsr(user[0]);
 		
 	}
@@ -64,7 +64,7 @@ public class DatabaseManagerTest {
 	public void testCreateUser() {
 		String[] u = new String[userCols];
 		try {
-			u = DatabaseManager.getUser(user[0]);
+			u = DatabaseManager.getUsr(user[0]);
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
@@ -81,10 +81,10 @@ public class DatabaseManagerTest {
 		String[] u = new String[userCols];
 		int views = -1;
 		try {
-			u = DatabaseManager.getUser(user[0]);
+			u = DatabaseManager.getUsr(user[0]);
 			views = Integer.parseInt(u[4]);
-			DatabaseManager.incUserAugsShared();
-			u = DatabaseManager.getUser(user[0]);
+			DatabaseManager.incUsrAugsShared();
+			u = DatabaseManager.getUsr(user[0]);
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
@@ -100,10 +100,10 @@ public class DatabaseManagerTest {
 		String[] u = new String[userCols];
 		int created = -1;
 		try {
-			u = DatabaseManager.getUser(user[0]);
+			u = DatabaseManager.getUsr(user[0]);
 			created = Integer.parseInt(u[5]);
-			DatabaseManager.incUserAugsCreated();
-			u = DatabaseManager.getUser(user[0]);
+			DatabaseManager.incUsrAugsCreated();
+			u = DatabaseManager.getUsr(user[0]);
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
@@ -119,7 +119,7 @@ public class DatabaseManagerTest {
 	public void testCreateTarget() {
 		String[] t = new String[targetCols];
 		try {
-			t = DatabaseManager.getTarget(target[0]);
+			t = DatabaseManager.getTar(target[0]);
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
@@ -134,15 +134,26 @@ public class DatabaseManagerTest {
 	 */
 	@Test
 	public void testCreateAug() {
-		String[] a = new String[augCols];
+		
 		try {
-			a = DatabaseManager.getAugs(target[0], aug[1]);
+			ResultSet rs = DatabaseManager.getAugs(target[0]);
+			rs.next();
+			assertEquals(aug[0], rs.getString(1));
+			assertEquals(aug[1], rs.getString(2));
+			assertEquals(aug[2], rs.getString(3));
+			assertEquals(aug[3], rs.getString(4));
+			assertEquals(aug[4], rs.getString(5));
+			assertEquals(aug[5], rs.getInt(6));
+			assertEquals(aug[6], rs.getInt(7));
+			assertEquals(aug[7], rs.getInt(8));
+			assertEquals(aug[8], rs.getInt(9));
+			assertEquals(aug[9], rs.getDouble(10));
+			rs.close();
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
 		}
-		for(int i = 0; i < augCols; i++)
-			assertEquals(a[i], aug[i]);
+		
 	}
 
 	/**
@@ -150,18 +161,20 @@ public class DatabaseManagerTest {
 	 */
 	@Test
 	public void testIncAugViews() {
-		String[] a = new String[augCols];
+		
 		int views = -1;
 		try {
-			a = DatabaseManager.getAug(target[0], aug[1]);
-			views = Integer.parseInt(a[5]);
-			DatabaseManager.incAugViews(target[0], aug[1]);
-			a = DatabaseManager.getAug(target[0], aug[1]);
+			ResultSet rs = DatabaseManager.getAugs(target[0]);
+			views = rs.getInt(6);
+			DatabaseManager.incAugViews(target[0], Integer.parseInt(aug[1]));
+			rs = DatabaseManager.getAugs(target[0]);
+			assertEquals(views+1, rs.getInt(6));
+			rs.close();
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
 		}
-		assertEquals(views+1, Integer.parseInt(a[5]));
+		
 	}
 
 	/**
@@ -169,18 +182,20 @@ public class DatabaseManagerTest {
 	 */
 	@Test
 	public void testIncAugLikes() {
-		String[] a = new String[augCols];
+		
 		int likes = -1;
 		try {
-			a = DatabaseManager.getAug(target[0], aug[1]);
-			likes = Integer.parseInt(a[6]);
-			DatabaseManager.incAugViews(target[0], aug[1]);
-			a = DatabaseManager.getAug(target[0], aug[1]);
+			ResultSet rs = DatabaseManager.getAugs(target[0]);
+			likes = rs.getInt(7);
+			DatabaseManager.incAugLikes(target[0], Integer.parseInt(aug[1]));
+			rs = DatabaseManager.getAugs(target[0]);
+			assertEquals(likes+1, rs.getInt(7));
+			rs.close();
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
 		}
-		assertEquals(likes+1, Integer.parseInt(a[6]));
+		
 	}
 	
 	/**
@@ -189,15 +204,19 @@ public class DatabaseManagerTest {
 	 */
 	@Test
 	public void testCreateFriend() {
-		String[] f = new String[friendCols];
+
 		try {
-			f = DatabaseManager.getFriend(friend[1]);
+			ResultSet rs = DatabaseManager.getFriends();
+			rs.next();
+			assertEquals(friend[0], rs.getString(1));
+			assertEquals(friend[1], rs.getString(2));
+			assertEquals(friend[2], rs.getString(3));
+			rs.close();
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
 		}
-		for(int i = 0; i < friendCols; i++)
-			assertEquals(f[i], user[i]);
+		
 	}
 	
 	/**
@@ -205,18 +224,20 @@ public class DatabaseManagerTest {
 	 */
 	@Test
 	public void testIncFriendNumShares() {
-		String[] f = new String[friendCols];
+
 		int shares = -1;
 		try {
-			f = DatabaseManager.getFriend(friend[1]);
-			shares = Integer.parseInt(f[2]);
+			ResultSet rs = DatabaseManager.getFriends();
+			shares = rs.getInt(3);
 			DatabaseManager.incFriendNumShares(friend[1]);
-			f = DatabaseManager.getAug(friend[1]);
+			rs = DatabaseManager.getFriends();
+			assertEquals(shares+1, rs.getInt(3));
+			rs.close();
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
 		}
-		assertEquals(shares+1, Integer.parseInt(f[2]));
+		
 	}
 	
 }
