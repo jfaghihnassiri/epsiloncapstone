@@ -1,6 +1,7 @@
 package edu.ucsb.cs.epsilon.ucsb360;
 
-import java.util.HashMap;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -20,7 +21,22 @@ public final class FriendManager {
 	 * @param username User identifier
 	 */
 	public static void populateFriends() {
-		// TODO
+		Friend to_add;
+		try
+		{
+			ResultSet sql_flist = DatabaseManager.getFriends();
+			while( sql_flist.next() )
+			{
+				//to_add = new Friend(sql_augs.getInt(2),"their name here",sql_augs.getInt(3));
+				//friends.add(to_add); 
+				// TODO issues with code above, needs to be fixed and need a method for looking up their name based on their username
+			}
+		}
+		catch (SQLException e)
+		{
+			System.out.println(e.getMessage());
+		}
+			// TODO
 	}
 	
 	/**
