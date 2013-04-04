@@ -21,9 +21,9 @@ public final class Friend {
 	 * @param numShares number of shares between User and Friend
 	 */
 	public Friend(String username, String name, int numShares) {
-		// DEPR name = "";
-		// DEPR numShares = 0;
-		// TODO is this finished? I don't know java that well - Jhon
+		this.username = username;
+		this.name = name;
+		this.numShares = numShares; 
 	}
 	
 	/**
