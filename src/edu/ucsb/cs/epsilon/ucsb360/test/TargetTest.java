@@ -17,8 +17,8 @@ import edu.ucsb.cs.epsilon.ucsb360.Target;
  */
 public class TargetTest {
 
-	private static Object[] augmentation = {"testUser", "11/11/1111", "teamepsilon",
-		"hello world", 100, 100, 10, 10, 200, "qualcomm.com"};
+	private static String[] aug = {"testUser", "11/11/1111", "teamepsilon",
+		"hello world", "100", "100", "10", "10", "200", "qualcomm.com"};
 	private static String[] target = {"tid", "1/1/0000", "teamepsilon"};
 	private static Target t;
 	
@@ -27,8 +27,11 @@ public class TargetTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		DatabaseManager.Connect();
 		DatabaseManager.createTar(target[0], target[1], target[2]);
 		t = new Target(target[0]);
+		t.createAug(99, aug[1], aug[2], aug[3], Integer.parseInt(aug[4]), Integer.parseInt(aug[5]),
+				Integer.parseInt(aug[6]), Integer.parseInt(aug[7]), Double.parseDouble(aug[8]), aug[9]);
 	}
 
 	/**
@@ -37,6 +40,7 @@ public class TargetTest {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 		DatabaseManager.deleteTar(target[0]);
+		DatabaseManager.Disconnect();
 	}
 
 	/**
@@ -76,7 +80,7 @@ public class TargetTest {
 	 */
 	@Test
 	public void testAugId() {
-		assertEquals(1, t.getAugId(0));
+		assertEquals(99, t.getAugId(0));
 	}
 	
 	/**
@@ -84,7 +88,7 @@ public class TargetTest {
 	 */
 	@Test
 	public void testAugDate() {
-		assertEquals(1, t.getAugDate(0));
+		assertEquals(aug[1], t.getAugDate(0));
 	}
 	
 	/**
@@ -92,7 +96,7 @@ public class TargetTest {
 	 */
 	@Test
 	public void testAugCreator() {
-		assertEquals(1, t.getAugCreator(0));
+		assertEquals(aug[2], t.getAugCreator(0));
 	}
 	
 	/**
@@ -100,7 +104,7 @@ public class TargetTest {
 	 */
 	@Test
 	public void testAugMessage() {
-		assertEquals(1, t.getAugMessage(0));
+		assertEquals(aug[3], t.getAugMessage(0));
 	}
 	
 	/**
@@ -108,7 +112,7 @@ public class TargetTest {
 	 */
 	@Test
 	public void testAugViews() {
-		assertEquals(1, t.getAugViews(0));
+		assertEquals(Integer.parseInt(aug[4]), t.getAugViews(0));
 	}
 	
 	/**
@@ -116,7 +120,7 @@ public class TargetTest {
 	 */
 	@Test
 	public void testAugLikes() {
-		assertEquals(1, t.getAugLikes(0));
+		assertEquals(Integer.parseInt(aug[5]), t.getAugLikes(0));
 	}
 	
 	/**
@@ -124,7 +128,7 @@ public class TargetTest {
 	 */
 	@Test
 	public void testAugXPos() {
-		assertEquals(1, t.getAugXPos(0));
+		assertEquals(Integer.parseInt(aug[6]), t.getAugXPos(0));
 	}
 	
 	/**
@@ -132,7 +136,7 @@ public class TargetTest {
 	 */
 	@Test
 	public void testAugYPos() {
-		assertEquals(1, t.getAugYPos(0));
+		assertEquals(Integer.parseInt(aug[7]), t.getAugYPos(0));
 	}
 	
 	/**
@@ -140,7 +144,7 @@ public class TargetTest {
 	 */
 	@Test
 	public void testAugSize() {
-		assertEquals(1, t.getAugSize(0));
+		assertEquals(Double.parseDouble(aug[8]), t.getAugSize(0), .01);
 	}
 	
 	/**
@@ -148,7 +152,7 @@ public class TargetTest {
 	 */
 	@Test
 	public void testAugUrl() {
-		assertEquals(1, t.getAugUrl(0));
+		assertEquals(aug[9], t.getAugUrl(0));
 	}
 	
 	/**
@@ -156,7 +160,8 @@ public class TargetTest {
 	 */
 	@Test
 	public void testIncAugViews() {
-		assertEquals(1, t.incAugViews(0));
+		int views = t.getAugViews(0);
+		assertEquals(views+1, t.incAugViews(0));
 	}
 	
 	/**
@@ -164,7 +169,8 @@ public class TargetTest {
 	 */
 	@Test
 	public void testIncAugLikes() {
-		assertEquals(1, t.incAugLikes(0));
+		int likes = t.getAugLikes(0);
+		assertEquals(likes+1, t.incAugLikes(0));
 	}
 	
 }

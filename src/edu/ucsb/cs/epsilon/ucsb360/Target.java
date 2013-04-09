@@ -29,8 +29,8 @@ public final class Target {
 			
 			// Store database fields in local variables
 			id = targetInfo[0];
-			date = targetInfo[2];
-			creator = targetInfo[3];
+			date = targetInfo[1];
+			creator = targetInfo[2];
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}

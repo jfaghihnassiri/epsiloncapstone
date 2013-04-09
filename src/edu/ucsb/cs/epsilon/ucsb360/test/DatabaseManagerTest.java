@@ -87,13 +87,12 @@ public class DatabaseManagerTest {
 		try {
 			String[] u = DatabaseManager.getUsr(user[0]);
 			int views = Integer.parseInt(u[5]);
-			
+
 			DatabaseManager.incUsrAugsShared();
 			
 			u = DatabaseManager.getUsr(user[0]);
 			assertEquals(views+1, Integer.parseInt(u[5]));
-		}
-		catch (SQLException e) {
+		} catch (SQLException e) {
 			fail(e.getMessage());
 		}
 		
@@ -222,7 +221,7 @@ public class DatabaseManagerTest {
 			CachedRowSet crs = DatabaseManager.getFriends();
 			crs.next();
 			assertEquals(friend[0], crs.getString(1));
-			assertEquals(friend[1], crs.getString(2));
+			assertEquals(user[1], crs.getString(2));
 			assertEquals(friend[2], crs.getString(3));
 		}
 		catch (SQLException e) {

@@ -85,7 +85,7 @@ public class AugmentationTest {
 	 */
 	@Test
 	public void testGetSize() {
-		assertEquals(200, augmentation.getSize());
+		assertEquals(200, augmentation.getSize(), .01);
 	}
 
 	/**

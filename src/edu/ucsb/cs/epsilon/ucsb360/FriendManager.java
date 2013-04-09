@@ -1,8 +1,9 @@
 package edu.ucsb.cs.epsilon.ucsb360;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
+
+import javax.sql.rowset.CachedRowSet;
 
 /**
  * Manager for Friend objects
@@ -17,26 +18,22 @@ public final class FriendManager {
 	/**
 	 * Fetch Friend list field from SQL User database and use it to populate the HashMap
 	 * 
+	 * @author Max Hinson
 	 * @author Jhon Nassiri
 	 * @param username User identifier
 	 */
 	public static void populateFriends() {
-		Friend to_add;
+
 		try
 		{
-			ResultSet sql_flist = DatabaseManager.getFriends();
-			while( sql_flist.next() )
-			{
-				//to_add = new Friend(sql_augs.getInt(2),"their name here",sql_augs.getInt(3));
-				//friends.add(to_add); 
-				// TODO issues with code above, needs to be fixed and need a method for looking up their name based on their username
-			}
+			CachedRowSet crs = DatabaseManager.getFriends();
+			while(crs.next())
+				friends.put(crs.getString(1), new Friend(crs.getString(1), crs.getString(2), crs.getInt(3))); 
 		}
-		catch (SQLException e)
-		{
-			System.out.println(e.getMessage());
+		catch (SQLException e) {
+			e.printStackTrace();
 		}
-			// TODO
+		
 	}
 	
 	/**
@@ -45,31 +42,44 @@ public final class FriendManager {
 	 * @author Max Hinson
 	 * @param username Friend identifier
 	 */
-	public static void addFriend(String username) {
-		// DEPR friends.put(username, new Friend(username));
-		// TODO
+	public static void addFriend(String username, String name) {
+		
+		try {
+			DatabaseManager.addFriend(username);
+			friends.put(username, new Friend(username, name, 0));
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**
 	 * Delete a Friend from the Friend list field of the SQL User database and from the local HashMap
 	 * 
+	 * @author Max Hinson
 	 * @author Jhon Nassiri
 	 * @param username Friend identifier
 	 */
 	public static void deleteFriend(String username) {
-		// TODO
+		
+		try {
+			DatabaseManager.delFriend(username);
+			friends.remove(username);
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**
 	 * Get the entire collection of Friends from the HashMap
 	 * 
+	 * @author Max Hinson
 	 * @author Jhon Nassiri
 	 * @return a list containing the Friend objects in the HashMap
 	 */
 	public static Collection<Friend> getFriends() {
-		Collection<Friend> friend_list = new ArrayList<Friend>();
-		// TODO
-		return friend_list;
+		return friends.values();
 	}
 	
 	/**
@@ -112,8 +122,17 @@ public final class FriendManager {
 	 * @return number of items shared
 	 */
 	public static int incNumShares(String username) {
-		// TODO
-		return -1;
+		
+		try {
+			if(DatabaseManager.incFriendNumShares(username))
+				return friends.get(username).incNumShares();
+			else
+				return friends.get(username).getNumShares();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return -1;
+		}
+		
 	}
 	
 }
