@@ -21,6 +21,7 @@ public class UserTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
+		DatabaseManager.Connect();
 		DatabaseManager.createUsr("testUser", "Test McTest", "11/11/1111", "Male");
 		assertFalse(User.isLoggedIn());
 		assertTrue(User.logIn("testUser"));
@@ -34,6 +35,7 @@ public class UserTest {
 		User.logOut();
 		assertFalse(User.isLoggedIn());
 		DatabaseManager.deleteUsr("testUser");
+		DatabaseManager.Disconnect();
 	}
 	
 	/**

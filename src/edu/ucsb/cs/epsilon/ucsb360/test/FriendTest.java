@@ -36,7 +36,7 @@ public class FriendTest {
 	 */
 	@Test
 	public void testGetNumShares() {
-		assertEquals(f[2], friend.getNumShares());
+		assertEquals(Integer.parseInt(f[2]), friend.getNumShares());
 	}
 	
 	/**
