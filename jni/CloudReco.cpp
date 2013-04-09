@@ -58,7 +58,12 @@ class CloudReco_UpdateCallback : public QCAR::UpdateCallback
                         // Checks if the targets has changed
                         LOG( "Comparing Strings. currentTargetId: %s  lastTargetId: %s",
                                 result->getUniqueTargetId(), lastTargetId);
-
+								
+						//Jicheng
+						//pass the TargetID to Java class
+						//provides access to MySQL database
+						passTargetID(result->getUniqueTargetId());
+						LOG( "After first call of passTargetID %s  ",result->getUniqueTargetId());
                         if (strcmp(result->getUniqueTargetId(), lastTargetId) != 0)
                         {
                             // If the target has changed then regenerate the texture
@@ -392,6 +397,8 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_initApplicationNative(
     //hideStatusBarID = env->GetMethodID(activityClass, "hideStatusBar", "()V");
     //setStatusBarTextID = env->GetMethodID(activityClass, "setStatusBarText", "(Ljava/lang/String;)V");
     //enterContentModeID = env->GetMethodID(activityClass,"enterContentMode", "()V");
+		//jicheng
+	passTargetIDID = env->GetMethodID(activityClass, "passTargetID", "(Ljava/lang/String;)V");
 
     activityObj = env->NewGlobalRef(obj);
 
@@ -744,6 +751,25 @@ showErrorMessage(int statusCode, double frameTime)
             lastErrorMessageTime = frameTime;
             lastErrorCode = statusCode;
         }
+    }
+}
+
+// ----------------------------------------------------------------------------
+/** Functions Added by Jicheng
+/** Call the function in CloudReco.java
+/** to pass the targetID parameter to the java file*/
+// ----------------------------------------------------------------------------
+void
+passTargetID(const char* theCurrentTarget)
+{
+	JNIEnv* env = 0;
+	
+	if (javaVM != 0 && passTargetIDID != 0 && activityObj != 0
+            && javaVM->GetEnv((void**)&env, JNI_VERSION_1_4) == JNI_OK)
+    {
+
+        env->CallVoidMethod(activityObj, passTargetIDID, env->NewStringUTF(theCurrentTarget));
+
     }
 }
 

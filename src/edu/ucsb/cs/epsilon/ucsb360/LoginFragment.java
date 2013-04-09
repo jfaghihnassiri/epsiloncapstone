@@ -48,6 +48,7 @@ public class LoginFragment extends Fragment{
 	    	{
 	    		Log.d(TAG, "clickon that not button");
 	    	    		Intent i = new Intent(getActivity(), com.qualcomm.QCARSamples.CloudRecognition.CloudReco.class);
+	    	    		//Intent i = new Intent(getActivity(), SplashScreen.class);
 	    	  	        getActivity().startActivity(i);
 	    		
 	    	}
