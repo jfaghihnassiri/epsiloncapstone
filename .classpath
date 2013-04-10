@@ -6,7 +6,7 @@
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Development/vuforia-sdk-android-2-0-30/build/java/QCAR/QCAR.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Development/vuforia-sdk-android-2-0-30/build/java/QCAR/QCAR.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/FacebookSDK"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
