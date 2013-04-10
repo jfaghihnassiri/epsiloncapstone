@@ -62,6 +62,9 @@ class CloudReco_UpdateCallback : public QCAR::UpdateCallback
 						//Jicheng
 						//pass the TargetID to Java class
 						//provides access to MySQL database
+						LOG( "copying targetID to the theCurrentTarget");
+						snprintf(theCurrentTarget, CONTENT_MAX, "%s", result->getUniqueTargetId());
+						LOG( "passing targetID to function");
 						passTargetID(result->getUniqueTargetId());
 						LOG( "After first call of passTargetID %s  ",result->getUniqueTargetId());
                         if (strcmp(result->getUniqueTargetId(), lastTargetId) != 0)
