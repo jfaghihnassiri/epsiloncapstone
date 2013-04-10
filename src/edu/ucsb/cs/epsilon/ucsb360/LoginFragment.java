@@ -25,9 +25,19 @@ public class LoginFragment extends Fragment{
 	private Button btnViewNoLogin;
 	private Session activeSession;
 	private static boolean isLoggedIn;
+	private String userId;
+	private String userName;
+	private String userBirthday;
+	private String userLocation;
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
+	   /* if(!DatabaseManager.isConnected())
+	    {
+	    	DatabaseManager.Connect();
+	    }*/
+	    DatabaseManager.Connect();
 	    uiHelper = new UiLifecycleHelper(getActivity(), callback);
 	    uiHelper.onCreate(savedInstanceState);
 	}
@@ -39,6 +49,7 @@ public class LoginFragment extends Fragment{
 	    View view = inflater.inflate(R.layout.activity_main, container, false);
 	    LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
 	    authButton.setFragment(this);
+	    
 	    btnViewNoLogin = (Button)view.findViewById(R.id.btnViewNoLogin);
 	    btnViewNoLogin.setOnClickListener(new OnClickListener()
 	    
@@ -116,11 +127,26 @@ public class LoginFragment extends Fragment{
 			public void onCompleted(GraphUser user, Response response) {
 				// TODO Auto-generated method stub
 				Log.d(TAG, user.getBirthday() + " "+ user.getId() + user.getUsername()+" "+user.getName());
-				
+				userId = user.getId();
+				userName= user.getName();
+				userBirthday = user.getBirthday();
+				getInfo(userId, userName, userBirthday);
 			}
 		});
 	}
 
+	/*
+	 * Used to log facebook user info to SQL
+	 */
+	public void getInfo(String uId, String uName, String uBday)
+	{
+		boolean isUserRegistered = User.logIn(uId);
+		if(!isUserRegistered)
+		{
+			User.createUser(uId, uName, uBday);
+		}
+		Log.i(TAG,"USERINFO");
+	}
 	@Override
 	public void onPause() {
 	    super.onPause();

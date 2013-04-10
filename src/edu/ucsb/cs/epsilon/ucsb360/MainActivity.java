@@ -37,7 +37,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-
+	    
 	    if (savedInstanceState == null) {
 	        // Add the fragment on initial activity setup
 	        loginFragment = new LoginFragment();
