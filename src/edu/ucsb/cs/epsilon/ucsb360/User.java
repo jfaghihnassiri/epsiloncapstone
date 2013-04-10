@@ -27,15 +27,20 @@ public final class User {
 			String[] user = DatabaseManager.getUsr(username);
 			
 			// Populate the private members from database results
-			User.loggedIn = true;
-			User.username = user[0];
-			User.name = user[1];
-			User.birthday = user[2];
-			User.gender = user[3];
-			User.numAugsCreated = Integer.parseInt(user[4]);
-			User.numAugsShared = Integer.parseInt(user[5]);
-			
-			return true;
+			if(user != null)
+			{
+				User.loggedIn = true;
+				User.username = user[0];
+				User.name = user[1];
+				User.birthday = user[2];
+				User.gender = user[3];
+				User.numAugsCreated = Integer.parseInt(user[4]);
+				User.numAugsShared = Integer.parseInt(user[5]);
+				return true;
+			}
+			else
+				return false;
+
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return false;
@@ -59,6 +64,29 @@ public final class User {
 	 */
 	public static Boolean isLoggedIn() {
 		return loggedIn;
+	}
+	
+	/**
+	 * Create a new user in the database
+	 * 
+	 * @author Max Hinson
+	 */
+	public static void createUser(String username, String name, String birthday) {
+		
+		try {
+			DatabaseManager.createUsr(username, name, birthday, "");
+			
+			User.loggedIn = true;
+			User.username = username;
+			User.name = name;
+			User.birthday = birthday;
+			User.gender = "";
+			User.numAugsCreated = 0;
+			User.numAugsShared = 0;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 	
 	/**
