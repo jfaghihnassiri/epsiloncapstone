@@ -88,7 +88,7 @@ public class DatabaseManagerTest {
 			String[] u = DatabaseManager.getUsr(user[0]);
 			int views = Integer.parseInt(u[5]);
 
-			DatabaseManager.incUsrAugsShared();
+			assertTrue(DatabaseManager.incUsrAugsShared());
 			
 			u = DatabaseManager.getUsr(user[0]);
 			assertEquals(views+1, Integer.parseInt(u[5]));
@@ -108,7 +108,7 @@ public class DatabaseManagerTest {
 			String[] u = DatabaseManager.getUsr(user[0]);
 			int created = Integer.parseInt(u[4]);
 			
-			DatabaseManager.incUsrAugsCreated();
+			assertTrue(DatabaseManager.incUsrAugsCreated());
 			
 			u = DatabaseManager.getUsr(user[0]);
 			assertEquals(created+1, Integer.parseInt(u[4]));
@@ -170,7 +170,7 @@ public class DatabaseManagerTest {
 			ArrayList<ArrayList<String>> list = DatabaseManager.getAugs(target[0]);
 			int views = Integer.parseInt(list.get(0).get(5));
 			
-			DatabaseManager.incAugViews(target[0], Integer.parseInt(aug[1]));
+			assertTrue(DatabaseManager.incAugViews(target[0], Integer.parseInt(aug[1])));
 
 			list = DatabaseManager.getAugs(target[0]);
 			assertEquals(views+1, Integer.parseInt(list.get(0).get(5)));
@@ -191,7 +191,7 @@ public class DatabaseManagerTest {
 			ArrayList<ArrayList<String>> list = DatabaseManager.getAugs(target[0]);
 			int likes = Integer.parseInt(list.get(0).get(6));
 			
-			DatabaseManager.incAugLikes(target[0], Integer.parseInt(aug[1]));
+			assertTrue(DatabaseManager.incAugLikes(target[0], Integer.parseInt(aug[1])));
 
 			list = DatabaseManager.getAugs(target[0]);
 			assertEquals(likes+1, Integer.parseInt(list.get(0).get(6)));
@@ -234,7 +234,7 @@ public class DatabaseManagerTest {
 			ArrayList<ArrayList<String>> list = DatabaseManager.getFriends();
 			int shares = Integer.parseInt(list.get(0).get(2));
 			
-			DatabaseManager.incFriendNumShares(friend[1]);
+			assertTrue(DatabaseManager.incFriendNumShares(friend[1]));
 
 			list = DatabaseManager.getFriends();
 			assertEquals(shares+1, Integer.parseInt(list.get(0).get(2)));

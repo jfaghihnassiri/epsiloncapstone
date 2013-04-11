@@ -146,17 +146,13 @@ public final class User {
 	 * @return number of targets created
 	 */
 	public static int incNumAugsCreated() {
-		
 		try {
 			if(DatabaseManager.incUsrAugsCreated())
 				return ++numAugsCreated;
-			else
-				return numAugsCreated;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return -1;
 		}
-		
+		return numAugsCreated;
 	}
 
 	/**
@@ -176,17 +172,13 @@ public final class User {
 	 * @return number of targets created
 	 */
 	public static int incNumAugsShared() {
-		
 		try {
 			if(DatabaseManager.incUsrAugsShared())
 				return ++numAugsShared;
-			else
-				return numAugsShared;
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return -1;
 		}
-		
+		return numAugsShared;
 	}
 	
 }

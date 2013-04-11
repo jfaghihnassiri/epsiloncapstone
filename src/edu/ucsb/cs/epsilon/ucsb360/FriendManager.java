@@ -126,12 +126,10 @@ public final class FriendManager {
 		try {
 			if(DatabaseManager.incFriendNumShares(username))
 				return friends.get(username).incNumShares();
-			else
-				return friends.get(username).getNumShares();
 		} catch (SQLException e) {
 			e.printStackTrace();
-			return -1;
 		}
+		return friends.get(username).getNumShares();
 		
 	}
 	
