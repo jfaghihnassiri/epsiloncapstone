@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public final class Target {
 
-	private static ArrayList<Augmentation> augmentations = new ArrayList<Augmentation>();
+	private ArrayList<Augmentation> augmentations = new ArrayList<Augmentation>();
 	private String id;
 	private String date;
 	private String creator;
@@ -117,9 +117,8 @@ public final class Target {
 	 * @param yPos the y postiion of the augmentation in reference to the target
 	 * @param size the size of the augmentation in reference to the target
 	 */
-	public void createAug( int aug_id, String aug_date, String username, String message, int views, int likes, int xPos, int yPos, double size, String url) {
-		Augmentation to_add = new Augmentation( aug_id, aug_date, username, message, views, likes, xPos, yPos, size, url);
-		augmentations.add(to_add);
+	public void createAug(int aug_id, String aug_date, String username, String message, int views, int likes, int xPos, int yPos, double size, String url) {
+		augmentations.add(new Augmentation(aug_id, aug_date, username, message, views, likes, xPos, yPos, size, url));
 	}
 	
 	/**
