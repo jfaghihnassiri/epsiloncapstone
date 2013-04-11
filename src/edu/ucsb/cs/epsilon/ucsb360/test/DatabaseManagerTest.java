@@ -4,9 +4,9 @@ import edu.ucsb.cs.epsilon.ucsb360.DatabaseManager;
 import edu.ucsb.cs.epsilon.ucsb360.User;
 
 import java.sql.*;
+import java.util.ArrayList;
 import static org.junit.Assert.*;
 import org.junit.*;
-import javax.sql.rowset.CachedRowSet;
 
 /**
  * Test class for DatabaseManager class
@@ -144,22 +144,18 @@ public class DatabaseManagerTest {
 	@Test
 	public void testCreateAug() {
 		
-		try {
-			CachedRowSet crs = DatabaseManager.getAugs(target[0]);
-			crs.next();
-			assertEquals(aug[0], crs.getString(1));
-			assertEquals(aug[1], crs.getString(2));
-			assertEquals(aug[2], crs.getString(3));
-			assertEquals(aug[3], crs.getString(4));
-			assertEquals(aug[4], crs.getString(5));
-			assertEquals(Integer.parseInt(aug[5]), crs.getInt(6));
-			assertEquals(Integer.parseInt(aug[6]), crs.getInt(7));
-			assertEquals(Integer.parseInt(aug[7]), crs.getInt(8));
-			assertEquals(Integer.parseInt(aug[8]), crs.getInt(9));
-			assertTrue(Double.parseDouble(aug[9]) - crs.getDouble(10) < 0.01);
+		try {			
+			ArrayList<ArrayList<String>> list = DatabaseManager.getAugs(target[0]);
+			
+			for(int i = 0; i < list.size(); i++) {
+				ArrayList<String> a = list.get(i);
+				for(int j = 0; j < a.size(); j++)
+					assertEquals(aug[j], a.get(j));
+			}
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
+			e.printStackTrace();
 		}
 		
 	}
@@ -170,16 +166,14 @@ public class DatabaseManagerTest {
 	@Test
 	public void testIncAugViews() {
 		
-		try {
-			CachedRowSet crs = DatabaseManager.getAugs(target[0]);
-			crs.next();
-			int views = crs.getInt(6);
+		try {			
+			ArrayList<ArrayList<String>> list = DatabaseManager.getAugs(target[0]);
+			int views = Integer.parseInt(list.get(0).get(5));
 			
 			DatabaseManager.incAugViews(target[0], Integer.parseInt(aug[1]));
-			
-			crs = DatabaseManager.getAugs(target[0]);
-			crs.next();
-			assertEquals(views+1, crs.getInt(6));
+
+			list = DatabaseManager.getAugs(target[0]);
+			assertEquals(views+1, Integer.parseInt(list.get(0).get(5)));
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
@@ -193,16 +187,14 @@ public class DatabaseManagerTest {
 	@Test
 	public void testIncAugLikes() {
 		
-		try {
-			CachedRowSet crs = DatabaseManager.getAugs(target[0]);
-			crs.next();
-			int likes = crs.getInt(7);
+		try {		
+			ArrayList<ArrayList<String>> list = DatabaseManager.getAugs(target[0]);
+			int likes = Integer.parseInt(list.get(0).get(6));
 			
 			DatabaseManager.incAugLikes(target[0], Integer.parseInt(aug[1]));
-			
-			crs = DatabaseManager.getAugs(target[0]);
-			crs.next();
-			assertEquals(likes+1, crs.getInt(7));
+
+			list = DatabaseManager.getAugs(target[0]);
+			assertEquals(likes+1, Integer.parseInt(list.get(0).get(6)));
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
@@ -218,11 +210,13 @@ public class DatabaseManagerTest {
 	public void testCreateFriend() {
 
 		try {
-			CachedRowSet crs = DatabaseManager.getFriends();
-			crs.next();
-			assertEquals(friend[0], crs.getString(1));
-			assertEquals(user[1], crs.getString(2));
-			assertEquals(friend[2], crs.getString(3));
+			ArrayList<ArrayList<String>> list = DatabaseManager.getFriends();
+			for(int i = 0; i < list.size(); i++) {
+				ArrayList<String> a = list.get(i);
+				assertEquals(friend[0], a.get(0));
+				assertEquals(user[1], a.get(1));
+				assertEquals(friend[2], a.get(2));
+			}
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());
@@ -237,15 +231,13 @@ public class DatabaseManagerTest {
 	public void testIncFriendNumShares() {
 
 		try {
-			CachedRowSet crs = DatabaseManager.getFriends();
-			crs.next();
-			int shares = crs.getInt(3);
+			ArrayList<ArrayList<String>> list = DatabaseManager.getFriends();
+			int shares = Integer.parseInt(list.get(0).get(2));
 			
 			DatabaseManager.incFriendNumShares(friend[1]);
-			
-			crs = DatabaseManager.getFriends();
-			crs.next();
-			assertEquals(shares+1, crs.getInt(3));
+
+			list = DatabaseManager.getFriends();
+			assertEquals(shares+1, Integer.parseInt(list.get(0).get(2)));
 		}
 		catch (SQLException e) {
 			fail(e.getMessage());

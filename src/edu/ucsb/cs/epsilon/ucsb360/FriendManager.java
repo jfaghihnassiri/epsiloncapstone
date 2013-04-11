@@ -3,8 +3,6 @@ package edu.ucsb.cs.epsilon.ucsb360;
 import java.sql.SQLException;
 import java.util.*;
 
-import javax.sql.rowset.CachedRowSet;
-
 /**
  * Manager for Friend objects
  * 
@@ -26,9 +24,11 @@ public final class FriendManager {
 
 		try
 		{
-			CachedRowSet crs = DatabaseManager.getFriends();
-			while(crs.next())
-				friends.put(crs.getString(1), new Friend(crs.getString(1), crs.getString(2), crs.getInt(3))); 
+			ArrayList<ArrayList<String>> list = DatabaseManager.getFriends();
+			for(int i = 0; i < list.size(); i++) {
+				ArrayList<String> a = list.get(i);
+				friends.put(a.get(0), new Friend(a.get(0), a.get(1), Integer.parseInt(a.get(2))));
+			}
 		}
 		catch (SQLException e) {
 			e.printStackTrace();
