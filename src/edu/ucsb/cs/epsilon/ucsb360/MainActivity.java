@@ -1,7 +1,5 @@
 package edu.ucsb.cs.epsilon.ucsb360;
 
-import java.util.Arrays;
-
 import com.facebook.LoggingBehavior;
 import com.facebook.Request;
 import com.facebook.Response;
@@ -15,8 +13,6 @@ import com.facebook.android.Facebook;
 import com.facebook.internal.SessionTracker;
 import com.facebook.model.GraphUser;
 import com.qualcomm.QCARSamples.CloudRecognition.CloudReco;
-
-
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -50,6 +46,18 @@ public class MainActivity extends FragmentActivity {
 	        loginFragment = (LoginFragment) getSupportFragmentManager()
 	        .findFragmentById(android.R.id.content);
 	    }
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		Global.applicationResumed();
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		Global.applicationPaused();
 	}
 
 }

@@ -33,11 +33,7 @@ public class LoginFragment extends Fragment{
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	   /* if(!DatabaseManager.isConnected())
-	    {
-	    	DatabaseManager.Connect();
-	    }*/
-	    DatabaseManager.Connect();
+
 	    uiHelper = new UiLifecycleHelper(getActivity(), callback);
 	    uiHelper.onCreate(savedInstanceState);
 	}
