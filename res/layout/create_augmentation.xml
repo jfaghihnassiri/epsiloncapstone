@@ -9,5 +9,15 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
     />
+    
+    <!-- comment
+    <Button
+        android:id="@+id/create_augmentation_done"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/done_button_background"/>
+    -->
 
 </RelativeLayout>
