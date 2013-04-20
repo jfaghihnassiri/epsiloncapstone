@@ -19,4 +19,6 @@
 	<string name="app_id">560602963958157</string>
 	<string name="status_bar_scanning">Scanning</string>
 	<string name="post">Post to Facebook</string>
+	<string name="augmentation_hint">Input augmentation message here!</string>
+	
 </resources>

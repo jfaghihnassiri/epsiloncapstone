@@ -3,21 +3,30 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
         
-    <TextView
-        android:id="@+id/createAugText"
-        android:text="Create Augmentation Toolkit Page Goes Here"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-    />
+
     
-    <!-- comment
     <Button
         android:id="@+id/create_augmentation_done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:background="@drawable/done_button_background"/>
-    -->
+        android:background="@drawable/augdone_button_background"/>
 
+	<ProgressBar
+            style="@android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+	
+	<EditText
+    	android:id="@+id/augmentation_text"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+    	android:hint="@string/augmentation_hint"
+    	android:inputType="text" />
+	
+	
 </RelativeLayout>

@@ -54,7 +54,8 @@
                   />
         <meta-data android:value="@string/app_id" android:name="com.facebook.sdk.ApplicationId"/>
         <activity android:name="com.qualcomm.QCARSamples.CloudRecognition.CloudReco"></activity>
-        <activity android:name="edu.ucsb.cs.epsilon.ucsb360.createAugmentation"></activity>
+        <activity android:name="edu.ucsb.cs.epsilon.ucsb360.CreateAugmentation"></activity>
+        <activity android:name="edu.ucsb.cs.epsilon.ucsb360.ReviewAugmentation"></activity>
     </application>
 
 </manifest>
