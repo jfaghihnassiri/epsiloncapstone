@@ -39,7 +39,7 @@ public class ReviewAugmentation extends Activity{
 			public void onClick(View view){
 				Intent intent = new Intent(getApplicationContext(), com.qualcomm.QCARSamples.CloudRecognition.CloudReco.class);
 	    		//Intent i = new Intent(getActivity(), SplashScreen.class);
-	  	        startActivity(intent);
+	  	        //startActivity(intent);
 			}
 		});
 		
