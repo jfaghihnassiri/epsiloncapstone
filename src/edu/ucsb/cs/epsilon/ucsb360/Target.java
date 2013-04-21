@@ -1,6 +1,5 @@
 package edu.ucsb.cs.epsilon.ucsb360;
 
-import java.sql.*;
 import java.util.ArrayList;
 
 /**
@@ -19,36 +18,14 @@ public final class Target {
 	 * Constructor for Target class
 	 * 
 	 * @author Max Hinson
-	 * @param targetId Target identifier
+	 * @param id target id
+	 * @param date date of target creation
+	 * @param creator user who created the target
 	 */
-	public Target(String targetId) {
-		
-		try {
-			// Get target information from database
-			String[] targetInfo = DatabaseManager.getTar(targetId);
-			
-			// Store database fields in local variables
-			id = targetInfo[0];
-			date = targetInfo[1];
-			creator = targetInfo[2];
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
-
-	}
-	
-	/**
-	 * Different constructor for a NEW target
-	 * 
-	 * @author Max Hinson
-	 * @param targetId Target identifier
-	 */
-	public Target(String targetId, String date) {
-		try {
-			DatabaseManager.createTar(targetId, date, User.getUsername());
-		} catch (SQLException e) {
-			System.out.println(e.getMessage());
-		}
+	public Target(String id, String date, String creator) {
+		this.id = id;
+		this.date = date;
+		this.creator = creator;
 	}
 	
 	/**

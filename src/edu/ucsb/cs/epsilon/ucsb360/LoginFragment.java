@@ -8,6 +8,8 @@ import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 
+import edu.ucsb.cs.epsilon.ucsb360.database.UserLoginTask;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -70,12 +72,11 @@ public class LoginFragment extends Fragment{
 	    if (state.isOpened()) {
 	        Log.i(TAG, "Logged in...");
 	        activeSession = Session.getActiveSession();
-	        isLoggedIn = true;
-	      
+	        User.setLoggedIn();	      
 	    } else if (state.isClosed()) {
 	        Log.i(TAG, "Logged out...");
 	        activeSession.closeAndClearTokenInformation();
-	        isLoggedIn = false;
+	        User.logOut();
 	    }
 	    
 	   
@@ -136,11 +137,14 @@ public class LoginFragment extends Fragment{
 	 */
 	public void getInfo(String uId, String uName, String uBday)
 	{
+		/*
 		boolean isUserRegistered = User.logIn(uId);
 		if(!isUserRegistered)
 		{
 			User.createUser(uId, uName, uBday);
 		}
+		*/
+		new UserLoginTask().execute(uId, uName, uBday);
 		Log.i(TAG,"USERINFO");
 	}
 	@Override

@@ -3,6 +3,9 @@ package edu.ucsb.cs.epsilon.ucsb360;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import edu.ucsb.cs.epsilon.ucsb360.database.ConnectTask;
+import edu.ucsb.cs.epsilon.ucsb360.database.DisconnectTask;
+
 import android.app.Application;
 
 /**
@@ -27,10 +30,8 @@ public class Global extends Application {
 	public static void applicationResumed() {
 
 		appVisible = true;
-		if(!DatabaseManager.isConnected()) {
-			DatabaseManager.Connect();
-			System.out.println("Database connection created");
-		}
+		if(!DatabaseManager.isConnected())
+			new ConnectTask().execute();
 		
 	}
 
@@ -48,8 +49,8 @@ public class Global extends Application {
 		     @Override
 		     public void run() {
 		    	 if(!appVisible) {
-		    		 DatabaseManager.Disconnect();
-		    		 System.out.println("Database connection terminated");
+		    		 if(DatabaseManager.isConnected())
+		    			 new DisconnectTask().execute();
 		    	 }
 		     }
 		}, 5000);

@@ -1,7 +1,5 @@
 package edu.ucsb.cs.epsilon.ucsb360;
 
-import java.sql.SQLException;
-
 /**
  * Class to keep track of user information
  * 
@@ -16,36 +14,6 @@ public final class User {
 	private static String gender;
 	private static int numAugsCreated;
 	private static int numAugsShared;
-	
-	/**
-	 * Log in
-	 * 
-	 * @author Max Hinson
-	 */
-	public static Boolean logIn(String username) {
-		try {
-			String[] user = DatabaseManager.getUsr(username);
-			
-			// Populate the private members from database results
-			if(user != null)
-			{
-				User.loggedIn = true;
-				User.username = user[0];
-				User.name = user[1];
-				User.birthday = user[2];
-				User.gender = user[3];
-				User.numAugsCreated = Integer.parseInt(user[4]);
-				User.numAugsShared = Integer.parseInt(user[5]);
-				return true;
-			}
-			else
-				return false;
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-			return false;
-		}
-	}
 	
 	/**
 	 * Log out
@@ -67,26 +35,12 @@ public final class User {
 	}
 	
 	/**
-	 * Create a new user in the database
+	 * Set logged in
 	 * 
 	 * @author Max Hinson
 	 */
-	public static void createUser(String username, String name, String birthday) {
-		
-		try {
-			DatabaseManager.createUsr(username, name, birthday, "");
-			
-			User.loggedIn = true;
-			User.username = username;
-			User.name = name;
-			User.birthday = birthday;
-			User.gender = "";
-			User.numAugsCreated = 0;
-			User.numAugsShared = 0;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		
+	public static void setLoggedIn() {
+		loggedIn = true;
 	}
 	
 	/**
@@ -100,6 +54,16 @@ public final class User {
 	}
 
 	/**
+	 * Set the user's username
+	 * 
+	 * @author Max Hinson
+	 * @param u User's username
+	 */
+	public static void setUsername(String u) {
+		username = u;
+	}
+	
+	/**
 	 * Get the user's name
 	 * 
 	 * @author Max Hinson
@@ -107,6 +71,16 @@ public final class User {
 	 */
 	public static String getName() {
 		return name;
+	}
+	
+	/**
+	 * Set the user's name
+	 * 
+	 * @author Max Hinson
+	 * @param n user's name
+	 */
+	public static void setName(String n) {
+		name = n;
 	}
 
 	/**
@@ -118,6 +92,16 @@ public final class User {
 	public static String getBirthday() {
 		return birthday;
 	}
+	
+	/**
+	 * Set the user's birthday
+	 * 
+	 * @author Max Hinson
+	 * @param b user's birthday
+	 */
+	public static void setBirthday(String b) {
+		birthday = b;
+	}
 
 	/**
 	 * Get the user's gender
@@ -127,6 +111,16 @@ public final class User {
 	 */
 	public static String getGender() {
 		return gender;
+	}
+	
+	/**
+	 * Set the user's gender
+	 * 
+	 * @author Max Hinson
+	 * @param g user's gender
+	 */
+	public static void setGender(String g) {
+		gender = g;
 	}
 
 	/**
@@ -140,19 +134,23 @@ public final class User {
 	}
 	
 	/**
+	 * Set the number of targets created
+	 * 
+	 * @author Max Hinson
+	 * @param c number of targets created
+	 */
+	public static void setNumAugsCreated(int c) {
+		numAugsCreated = c;
+	}
+	
+	/**
 	 * Increment the number of targets created
 	 * 
 	 * @author Max Hinson
 	 * @return number of targets created
 	 */
-	public static int incNumAugsCreated() {
-		try {
-			if(DatabaseManager.incUsrAugsCreated())
-				return ++numAugsCreated;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return numAugsCreated;
+	public static void incNumAugsCreated() {
+		numAugsCreated++;
 	}
 
 	/**
@@ -164,6 +162,16 @@ public final class User {
 	public static int getNumAugsShared() {
 		return numAugsShared;
 	}
+	
+	/**
+	 * Set the number of targets shared
+	 * 
+	 * @author Max Hinson
+	 * @param s number of targets shared
+	 */
+	public static void setNumAugsShared(int s) {
+		numAugsShared = s;
+	}
 
 	/**
 	 * Increment the number of targets created
@@ -171,14 +179,8 @@ public final class User {
 	 * @author Max Hinson
 	 * @return number of targets created
 	 */
-	public static int incNumAugsShared() {
-		try {
-			if(DatabaseManager.incUsrAugsShared())
-				return ++numAugsShared;
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return numAugsShared;
+	public static void incNumAugsShared() {
+		numAugsShared++;
 	}
 	
 }
