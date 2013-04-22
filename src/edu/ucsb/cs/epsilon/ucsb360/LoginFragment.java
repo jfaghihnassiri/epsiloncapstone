@@ -188,7 +188,7 @@ public class LoginFragment extends Fragment{
 	    return true;
 	}
 	
-	private Bundle publishStory(){
+	private static Bundle publishStory(){
 		 Bundle postParams = new Bundle();
 	        /*postParams.putString("name", "Facebook UCSB360 OFFICIAL");
 	        postParams.putString("caption", "UCSB 360 Post to Fb caption");
@@ -201,7 +201,8 @@ public class LoginFragment extends Fragment{
 	        
 	}
 	
-	private void postToFb()
+	
+	public static void postToFb()
 	{
 		Session session = Session.getActiveSession();
         Request.Callback callback= new Request.Callback() {
@@ -217,7 +218,7 @@ public class LoginFragment extends Fragment{
                         "JSON error "+ e.getMessage());
                 }
                 FacebookRequestError error = response.getError();
-                if (error != null) {
+               /* if (error != null) {
                     Toast.makeText(getActivity()
                          .getApplicationContext(),
                          error.getErrorMessage(),
@@ -227,7 +228,7 @@ public class LoginFragment extends Fragment{
                              .getApplicationContext(), 
                              postId,
                              Toast.LENGTH_LONG).show();
-                }
+                }*/
             }
         };
 
