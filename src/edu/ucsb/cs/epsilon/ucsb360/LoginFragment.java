@@ -7,6 +7,8 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.facebook.FacebookException;
+import com.facebook.FacebookOperationCanceledException;
 import com.facebook.FacebookRequestError;
 import com.facebook.HttpMethod;
 import com.facebook.Request;
@@ -17,9 +19,12 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
+import com.facebook.widget.WebDialog;
+import com.facebook.widget.WebDialog.OnCompleteListener;
 
 import edu.ucsb.cs.epsilon.ucsb360.database.UserLoginTask;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -42,16 +47,17 @@ public class LoginFragment extends Fragment{
 	private String userName;
 	private String userBirthday;
 	private String userLocation;
-	
+	private static MainActivity activity;
 	/*FB PRIVATES*/
 	private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
 	private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
 	private boolean pendingPublishReauthorization = false;
 	/*					*/
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-
+	     
 	    uiHelper = new UiLifecycleHelper(getActivity(), callback);
 	    uiHelper.onCreate(savedInstanceState);
 	}
@@ -63,7 +69,7 @@ public class LoginFragment extends Fragment{
 	    View view = inflater.inflate(R.layout.activity_main, container, false);
 	    LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
 	    authButton.setFragment(this);
-	    
+	    activity  = (MainActivity) getActivity();
 	    btnViewNoLogin = (Button)view.findViewById(R.id.btnViewNoLogin);
 	    btnViewNoLogin.setOnClickListener(new OnClickListener() 
 	    {
@@ -188,7 +194,7 @@ public class LoginFragment extends Fragment{
 	    return true;
 	}
 	
-	private static Bundle publishStory(){
+	public static Bundle publishStory(){
 		 Bundle postParams = new Bundle();
 	        /*postParams.putString("name", "Facebook UCSB360 OFFICIAL");
 	        postParams.putString("caption", "UCSB 360 Post to Fb caption");
@@ -196,18 +202,61 @@ public class LoginFragment extends Fragment{
 	        postParams.putString("link", "https://developers.facebook.com/android");
 	        postParams.putString("picture", "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png");*/
 
-		 	//postParams.putString("message", "OMG IT WORKS");
+		 	postParams.putString("message", "TESTING 2ND WAY");
 	        return postParams;
 	        
 	}
-	
-	
+	/*public void postToFb2()
+	{
+
+		WebDialog feedDialog = (
+		        new WebDialog.FeedDialogBuilder(this,
+		            Session.getActiveSession(),
+		            edu.ucsb.cs.epsilon.ucsb360.LoginFragment.publishStory()))
+		        .setOnCompleteListener(new OnCompleteListener() {
+
+		            @Override
+		            public void onComplete(Bundle values,
+		                FacebookException error) {
+		               /* if (error == null) {
+		                    // When the story is posted, echo the success
+		                    // and the post Id.
+		                    final String postId = values.getString("post_id");
+		                    if (postId != null) {
+		                        Toast.makeText(getActivity(),
+		                            "Posted story, id: "+postId,
+		                            Toast.LENGTH_SHORT).show();
+		                    } else {
+		                        // User clicked the Cancel button
+		                        Toast.makeText(getActivity().getApplicationContext(), 
+		                            "Publish cancelled", 
+		                            Toast.LENGTH_SHORT).show();
+		                    }
+		                } else if (error instanceof FacebookOperationCanceledException) {
+		                    // User clicked the "x" button
+		                    Toast.makeText(getActivity().getApplicationContext(), 
+		                        "Publish cancelled", 
+		                        Toast.LENGTH_SHORT).show();
+		                } else {
+		                    // Generic, ex: network error
+		                    Toast.makeText(getActivity().getApplicationContext(), 
+		                        "Error posting story", 
+		                        Toast.LENGTH_SHORT).show();
+		                }
+		            }
+
+				
+
+		        })
+		        .build();
+		    feedDialog.show();
+	}*/
 	public static void postToFb()
 	{
 		Session session = Session.getActiveSession();
         Request.Callback callback= new Request.Callback() {
             public void onCompleted(Response response) {
-                JSONObject graphResponse = response
+                /*JSONObject graphResponse = response
                                            .getGraphObject()
                                            .getInnerJSONObject();
                 String postId = null;
@@ -237,52 +286,9 @@ public class LoginFragment extends Fragment{
 
         RequestAsyncTask task = new RequestAsyncTask(request);
         task.execute();
+        
 	}
-/*	private void publishStory() {
-	    
 
-	        Bundle postParams = new Bundle();
-	        postParams.putString("name", "Facebook UCSB360 OFFICIAL");
-	        postParams.putString("caption", "UCSB 360 Post to Fb caption");
-	        postParams.putString("description", "UCSB 360 ANDROID TEST");
-
-	        Request.Callback callback= new Request.Callback() {
-	            public void onCompleted(Response response) {
-	                JSONObject graphResponse = response
-	                                           .getGraphObject()
-	                                           .getInnerJSONObject();
-	                String postId = null;
-	                try {
-	                    postId = graphResponse.getString("id");
-	                } catch (JSONException e) {
-	                    Log.i(TAG,
-	                        "JSON error "+ e.getMessage());
-	                }
-	                FacebookRequestError error = response.getError();
-	                if (error != null) {
-	                    Toast.makeText(getActivity()
-	                         .getApplicationContext(),
-	                         error.getErrorMessage(),
-	                         Toast.LENGTH_SHORT).show();
-	                    } else {
-	                        Toast.makeText(getActivity()
-	                             .getApplicationContext(), 
-	                             postId,
-	                             Toast.LENGTH_LONG).show();
-	                }
-	            }
-	        };
-
-	        Request request = new Request(session, "me/feed", postParams, 
-	                              HttpMethod.POST, callback);
-
-	        RequestAsyncTask task = new RequestAsyncTask(request);
-	        task.execute();
-	    }
-
-	}
-	
-	*/
 	@Override
 	public void onPause() {
 	    super.onPause();
