@@ -9,7 +9,15 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-
+/**
+ * Page for user to review the static image
+ * with his/her own augmentations on it.
+ * Allows user choose to share this image, upload this image
+ * or cancel this augmentation action.
+ * 
+ * @author huangjicheng
+ *
+ */
 public class ReviewAugmentation extends Activity{
 
 	Button doneButton;
@@ -40,6 +48,7 @@ public class ReviewAugmentation extends Activity{
 				Intent intent = new Intent(getApplicationContext(), com.qualcomm.QCARSamples.CloudRecognition.CloudReco.class);
 	    		//Intent i = new Intent(getActivity(), SplashScreen.class);
 	  	        //startActivity(intent);
+				
 			}
 		});
 		

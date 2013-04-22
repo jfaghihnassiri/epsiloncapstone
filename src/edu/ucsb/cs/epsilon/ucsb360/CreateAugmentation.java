@@ -16,6 +16,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+/**
+ * The creating augmentation page
+ * User will see a static image of the target and 
+ * add augmentations on it with user choice. 
+ * 
+ * @author huangjicheng
+ * @author Jhon
+ */
+
 public class CreateAugmentation extends Activity{
 
 	Button doneButton;
