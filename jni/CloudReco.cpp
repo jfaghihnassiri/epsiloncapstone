@@ -514,7 +514,7 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_setProjectionMatrix(JNI
     // Cache the projection matrix:
     const QCAR::CameraCalibration& cameraCalibration =
     QCAR::CameraDevice::getInstance().getCameraCalibration();
-    projectionMatrix = QCAR::Tool::getProjectionGL(cameraCalibration, 2.0f, 2500.0f);
+    projectionMatrix = QCAR::Tool::getProjectionGL(cameraCalibration, 2.0f, 10000.0f);
 
     // Cache the inverse projection matrix - Used for handling touch events against
     // trackable data
