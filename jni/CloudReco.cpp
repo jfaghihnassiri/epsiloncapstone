@@ -84,9 +84,13 @@ class CloudReco_UpdateCallback : public QCAR::UpdateCallback
                             createProductTexture(targetMetadata);
 
                         }
-                        else
+                        else{
+							//call the function that will check
+							//and show proper buttons for the augmentation.
+							showGalleryButtons();
+							
                             renderState = RS_NORMAL;
-
+						}
                         // Initialize the frames to skip variable, used for waiting
                         // a few frames for getting the chance to tracking before
                         // starting the transition to 2D when there is no target
@@ -400,9 +404,11 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_initApplicationNative(
     //hideStatusBarID = env->GetMethodID(activityClass, "hideStatusBar", "()V");
     //setStatusBarTextID = env->GetMethodID(activityClass, "setStatusBarText", "(Ljava/lang/String;)V");
     //enterContentModeID = env->GetMethodID(activityClass,"enterContentMode", "()V");
-		//jicheng
+	
+	//HJC
 	passTargetIDID = env->GetMethodID(activityClass, "passTargetID", "(Ljava/lang/String;)V");
-
+	showGalleryButtonsID = env->GetMethodID(activityClass, "showGalleryButtons", "()V");
+	
     activityObj = env->NewGlobalRef(obj);
 
     // Reset global variables:
@@ -772,6 +778,20 @@ passTargetID(const char* theCurrentTarget)
     {
 
         env->CallVoidMethod(activityObj, passTargetIDID, env->NewStringUTF(theCurrentTarget));
+
+    }
+}
+
+void
+showGalleryButtons()
+{
+	JNIEnv* env = 0;
+	
+	if (javaVM != 0 && showGalleryButtonsID != 0 && activityObj != 0
+            && javaVM->GetEnv((void**)&env, JNI_VERSION_1_4) == JNI_OK)
+    {
+
+        env->CallVoidMethod(activityObj, showGalleryButtonsID);
 
     }
 }

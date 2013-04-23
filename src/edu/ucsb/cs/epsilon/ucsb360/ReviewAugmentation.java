@@ -62,6 +62,7 @@ public class ReviewAugmentation extends Activity{
 		cancelButton.setOnClickListener(new OnClickListener(){
 			@Override
 			public void onClick(View view){
+				System.gc();
 				Intent intent = new Intent(getApplicationContext(), CreateAugmentation.class);
 	    		//Intent i = new Intent(getActivity(), SplashScreen.class);
 	  	        startActivity(intent);
