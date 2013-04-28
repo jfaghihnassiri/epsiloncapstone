@@ -94,8 +94,8 @@ public final class Target {
 	 * @param yPos the y postiion of the augmentation in reference to the target
 	 * @param size the size of the augmentation in reference to the target
 	 */
-	public void createAug(int aug_id, String aug_date, String username, String message, int views, int likes, int xPos, int yPos, double size, String url) {
-		augmentations.add(new Augmentation(aug_id, aug_date, username, message, views, likes, xPos, yPos, size, url));
+	public void createAug(int aug_id, String aug_date, String creator, String privacy, String message, int views, int likes, int xPos, int yPos, double size, String url) {
+		augmentations.add(new Augmentation(aug_id, aug_date, creator, privacy, message, views, likes, xPos, yPos, size, url));
 	}
 	
 	/**
@@ -132,6 +132,17 @@ public final class Target {
 	 */
 	public String getAugCreator(int augIndex) {
 		return augmentations.get(augIndex).getCreator();
+	}
+	
+	/**
+	 * Get augmentation privacy setting
+	 * 
+	 * @author Max Hinson
+	 * @param augIndex the index of an augmentation into the ArrayList
+	 * @return augmentation privacy
+	 */
+	public String getAugPrivacy(int augIndex) {
+		return augmentations.get(augIndex).getPrivacy();
 	}
 	
 	/**
