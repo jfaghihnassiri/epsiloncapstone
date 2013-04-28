@@ -22,8 +22,6 @@ import com.facebook.widget.LoginButton;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
 
-import edu.ucsb.cs.epsilon.ucsb360.database.UserLoginTask;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -181,8 +179,7 @@ public class LoginFragment extends Fragment{
 	 */
 	public void getInfo(String uId, String uName, String uBday)
 	{
-
-		new UserLoginTask().execute(uId, uName, uBday);
+		DatabaseManager.login(uId, uName, uBday);
 		Log.i(TAG,"USERINFO");
 	}
 	private boolean isSubsetOf(Collection<String> subset, Collection<String> superset) {
