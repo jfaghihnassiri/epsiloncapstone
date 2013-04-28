@@ -22,6 +22,12 @@ public final class User {
 	 */
 	public static void logOut() {
 		loggedIn = false;
+		username = "";
+		name = "";
+		birthday = "";
+		gender = "";
+		numAugsCreated = 0;
+		numAugsShared = 0;
 	}
 	
 	/**
