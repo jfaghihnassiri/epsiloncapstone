@@ -22,6 +22,7 @@ import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 
 public class MainActivity extends FragmentActivity {
@@ -34,6 +35,7 @@ public class MainActivity extends FragmentActivity {
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 	    
+	    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	    if (savedInstanceState == null) {
 	        // Add the fragment on initial activity setup
 	        loginFragment = new LoginFragment();
