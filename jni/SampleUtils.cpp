@@ -19,10 +19,6 @@
 #include <GLES2/gl2.h>
 #include <GLES2/gl2ext.h>
 
-#include <vector>
-
-std::vector<int> myVec;
-
 void SampleUtils::printMatrix(const float* mat)
 {
     for (int r = 0; r < 4; r++, mat += 4)
