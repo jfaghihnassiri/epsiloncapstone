@@ -1,5 +1,8 @@
 package edu.ucsb.cs.epsilon.ucsb360;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -24,6 +27,8 @@ import com.facebook.widget.WebDialog.OnCompleteListener;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -39,7 +44,7 @@ public class LoginFragment extends Fragment{
 	private static final String TAG = "LoginFragment";
 	private UiLifecycleHelper uiHelper;
 	private Button btnViewNoLogin;
-	private Session activeSession;
+	public static Session activeSession;
 	private static boolean isLoggedIn;
 	private String userId;
 	private String userName;
@@ -67,6 +72,8 @@ public class LoginFragment extends Fragment{
 	    View view = inflater.inflate(R.layout.activity_main, container, false);
 	    LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
 	    authButton.setFragment(this);
+	    activeSession = Session.getActiveSession();
+	    Log.d("FB","PASSED ACTIVE SESSION IN ONCREATEVIEW");
 	    activity  = (MainActivity) getActivity();
 	    btnViewNoLogin = (Button)view.findViewById(R.id.btnViewNoLogin);
 	    btnViewNoLogin.setOnClickListener(new OnClickListener() 
@@ -115,6 +122,7 @@ public class LoginFragment extends Fragment{
 	        
 	    }
 	};
+	
 	/*
 	 * THE FOLLOWING ARE OVERRIDE TO ENSURE PROPER FRAGMENT LIFECYCLE
 	 */
@@ -142,21 +150,24 @@ public class LoginFragment extends Fragment{
 	    Intent i = new Intent(getActivity(), com.qualcomm.QCARSamples.CloudRecognition.CloudReco.class);
 	    getActivity().startActivity(i);
 	    
-	    //For user permission to post
-	    Session session = Session.getActiveSession();
-	    if (session != null){
-	    	Log.d("TAG ANDY","PUBLISH STORY");/////////////////////
-	        // Check for publish permissions    
-	        List<String> permissions = session.getPermissions();
-	        Log.d("TAG ANDY", permissions.toString());/////////////////////
-	        if (!isSubsetOf(PERMISSIONS, permissions)) {
-	        	Log.d("TAG ANDY","AUTHROZIATION");////////////////////
-	            pendingPublishReauthorization = true;
-	            Session.NewPermissionsRequest newPermissionsRequest = new Session
-	                    .NewPermissionsRequest(this, PERMISSIONS);
-	        session.requestNewPublishPermissions(newPermissionsRequest);
-	            return;
-	        }
+	    if(Session.getActiveSession() != null){
+		    //For user permission to post
+	    	Session.getActiveSession().onActivityResult(getActivity(), requestCode, resultCode, data);
+		    Session session = Session.getActiveSession();
+		    if (session != null){
+		    	Log.d("TAG ANDY","PUBLISH STORY");/////////////////////
+		        // Check for publish permissions    
+		        List<String> permissions = session.getPermissions();
+		        Log.d("TAG ANDY", permissions.toString());/////////////////////
+		        if (!isSubsetOf(PERMISSIONS, permissions)) {
+		        	Log.d("TAG ANDY","AUTHROZIATION");////////////////////
+		            pendingPublishReauthorization = true;
+		            Session.NewPermissionsRequest newPermissionsRequest = new Session
+		                    .NewPermissionsRequest(this, PERMISSIONS);
+		        session.requestNewPublishPermissions(newPermissionsRequest);
+		            return;
+		        }
+		    }
 	    }
 	    //CODE FOR USER STUFF
 	    Request.executeMeRequestAsync(Session.getActiveSession(), new Request.GraphUserCallback() {
@@ -171,7 +182,6 @@ public class LoginFragment extends Fragment{
 				getInfo(userId, userName, userBirthday);
 			}
 		});
-	    //postToFb();
 	}
 
 	/*
@@ -193,61 +203,12 @@ public class LoginFragment extends Fragment{
 	
 	public static Bundle publishStory(){
 		 Bundle postParams = new Bundle();
-	        /*postParams.putString("name", "Facebook UCSB360 OFFICIAL");
-	        postParams.putString("caption", "UCSB 360 Post to Fb caption");
-	        postParams.putString("description", "UCSB 360 ANDROID TEST");
-	        postParams.putString("link", "https://developers.facebook.com/android");
-	        postParams.putString("picture", "https://raw.github.com/fbsamples/ios-3.x-howtos/master/Images/iossdk_logo.png");*/
 
 		 	postParams.putString("message", "TESTING 2ND WAY");
 	        return postParams;
 	        
 	}
-	/*public void postToFb2()
-	{
 
-		WebDialog feedDialog = (
-		        new WebDialog.FeedDialogBuilder(this,
-		            Session.getActiveSession(),
-		            edu.ucsb.cs.epsilon.ucsb360.LoginFragment.publishStory()))
-		        .setOnCompleteListener(new OnCompleteListener() {
-
-		            @Override
-		            public void onComplete(Bundle values,
-		                FacebookException error) {
-		               /* if (error == null) {
-		                    // When the story is posted, echo the success
-		                    // and the post Id.
-		                    final String postId = values.getString("post_id");
-		                    if (postId != null) {
-		                        Toast.makeText(getActivity(),
-		                            "Posted story, id: "+postId,
-		                            Toast.LENGTH_SHORT).show();
-		                    } else {
-		                        // User clicked the Cancel button
-		                        Toast.makeText(getActivity().getApplicationContext(), 
-		                            "Publish cancelled", 
-		                            Toast.LENGTH_SHORT).show();
-		                    }
-		                } else if (error instanceof FacebookOperationCanceledException) {
-		                    // User clicked the "x" button
-		                    Toast.makeText(getActivity().getApplicationContext(), 
-		                        "Publish cancelled", 
-		                        Toast.LENGTH_SHORT).show();
-		                } else {
-		                    // Generic, ex: network error
-		                    Toast.makeText(getActivity().getApplicationContext(), 
-		                        "Error posting story", 
-		                        Toast.LENGTH_SHORT).show();
-		                }
-		            }
-
-				
-
-		        })
-		        .build();
-		    feedDialog.show();
-	}*/
 	public static void postToFb()
 	{
 		Session session = Session.getActiveSession();
