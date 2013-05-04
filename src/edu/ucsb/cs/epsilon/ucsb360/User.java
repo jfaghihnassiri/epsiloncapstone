@@ -1,7 +1,7 @@
 package edu.ucsb.cs.epsilon.ucsb360;
 
 /**
- * Class to keep track of user information
+ * Static class to keep track of user information
  * 
  * @author Max Hinson
  */
@@ -11,9 +11,12 @@ public final class User {
 	private static String username;
 	private static String name;
 	private static String birthday;
-	private static String gender;
-	private static int numAugsCreated;
-	private static int numAugsShared;
+	private static String lastOnline;
+	private static int targetsSeen;
+	private static int targetsCreated;
+	private static int augsSeen;
+	private static int augsCreated;
+	private static int augsShared;
 	
 	/**
 	 * Log out
@@ -25,9 +28,12 @@ public final class User {
 		username = "";
 		name = "";
 		birthday = "";
-		gender = "";
-		numAugsCreated = 0;
-		numAugsShared = 0;
+		lastOnline = "";
+		targetsSeen = 0;
+		targetsCreated = 0;
+		augsSeen = 0;
+		augsCreated = 0;
+		augsShared = 0;
 	}
 	
 	/**
@@ -108,85 +114,170 @@ public final class User {
 	public static void setBirthday(String b) {
 		birthday = b;
 	}
-
+	
 	/**
-	 * Get the user's gender
+	 * Get the date the user was last online
 	 * 
 	 * @author Max Hinson
-	 * @return user's gender
+	 * @return date the user was last online
 	 */
-	public static String getGender() {
-		return gender;
+	public static String getLastOnline() {
+		return lastOnline;
 	}
 	
 	/**
-	 * Set the user's gender
+	 * Set the date the user was last online
 	 * 
 	 * @author Max Hinson
-	 * @param g user's gender
+	 * @param lo date the user was last online
 	 */
-	public static void setGender(String g) {
-		gender = g;
+	public static void setLastOnline(String lo) {
+		lastOnline = lo;
 	}
 
+	/**
+	 * Get the number of targets seen
+	 * 
+	 * @author Max Hinson
+	 * @return number of targets seen
+	 */
+	public static int getTargetsSeen() {
+		return targetsSeen;
+	}
+	
+	/**
+	 * Set the number of targets seen
+	 * 
+	 * @author Max Hinson
+	 * @param ts number of targets seen
+	 */
+	public static void setTargetsSeen(int ts) {
+		targetsSeen = ts;
+	}
+	
+	/**
+	 * Increment the number of targets seen
+	 * 
+	 * @author Max Hinson
+	 */
+	public static void incTargetsSeen() {
+		targetsSeen++;
+	}
+	
 	/**
 	 * Get the number of targets created
 	 * 
 	 * @author Max Hinson
 	 * @return number of targets created
 	 */
-	public static int getNumAugsCreated() {
-		return numAugsCreated;
+	public static int getTargetsCreated() {
+		return targetsCreated;
 	}
 	
 	/**
 	 * Set the number of targets created
 	 * 
 	 * @author Max Hinson
-	 * @param c number of targets created
+	 * @param tc number of targets created
 	 */
-	public static void setNumAugsCreated(int c) {
-		numAugsCreated = c;
+	public static void setTargetsCreated(int tc) {
+		targetsCreated = tc;
 	}
 	
 	/**
 	 * Increment the number of targets created
 	 * 
 	 * @author Max Hinson
-	 * @return number of targets created
 	 */
-	public static void incNumAugsCreated() {
-		numAugsCreated++;
+	public static void incTargetsCreated() {
+		targetsCreated++;
 	}
 
 	/**
-	 * Get the number of targets shared
+	 * Get the number of augmentations seen
 	 * 
 	 * @author Max Hinson
-	 * @return number of targets shared
+	 * @return number of augmentations seen
 	 */
-	public static int getNumAugsShared() {
-		return numAugsShared;
+	public static int getAugsSeen() {
+		return augsSeen;
 	}
 	
 	/**
-	 * Set the number of targets shared
+	 * Set the number of augmentations seen
 	 * 
 	 * @author Max Hinson
-	 * @param s number of targets shared
+	 * @param ts number of augmentations seen
 	 */
-	public static void setNumAugsShared(int s) {
-		numAugsShared = s;
+	public static void setAugsSeen(int as) {
+		augsSeen = as;
+	}
+	
+	/**
+	 * Increment the number of augmentations seen
+	 * 
+	 * @author Max Hinson
+	 */
+	public static void incAugsSeen() {
+		augsSeen++;
 	}
 
 	/**
-	 * Increment the number of targets created
+	 * Get the number of augmentations created
 	 * 
 	 * @author Max Hinson
-	 * @return number of targets created
+	 * @return number of augmentations created
 	 */
-	public static void incNumAugsShared() {
-		numAugsShared++;
+	public static int getAugsCreated() {
+		return augsCreated;
+	}
+	
+	/**
+	 * Set the number of augmentations created
+	 * 
+	 * @author Max Hinson
+	 * @param ac number of augmentations created
+	 */
+	public static void setAugsCreated(int ac) {
+		augsCreated = ac;
+	}
+	
+	/**
+	 * Increment the number of augmentations created
+	 * 
+	 * @author Max Hinson
+	 */
+	public static void incAugsCreated() {
+		augsCreated++;
+	}
+
+	/**
+	 * Get the number of augmentations shared
+	 * 
+	 * @author Max Hinson
+	 * @return number of augmentations shared
+	 */
+	public static int getAugsShared() {
+		return augsShared;
+	}
+	
+	/**
+	 * Set the number of augmentations shared
+	 * 
+	 * @author Max Hinson
+	 * @param s number of augmentations shared
+	 */
+	public static void setAugsShared(int s) {
+		augsShared = s;
+	}
+
+	/**
+	 * Increment the number of augmentations created
+	 * 
+	 * @author Max Hinson
+	 */
+	public static void incAugsShared() {
+		augsShared++;
 	}
 	
 }

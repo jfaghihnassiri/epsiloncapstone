@@ -1,5 +1,6 @@
 package edu.ucsb.cs.epsilon.ucsb360;
 
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -14,6 +15,19 @@ public class Global extends Application {
 
 	private static boolean appVisible;
 	private static Timer timer = new Timer();
+	private static String date;
+	
+	private static void setDate() {
+		Calendar calendar = Calendar.getInstance();
+		int month = calendar.get(Calendar.MONTH)+1;
+		int day = calendar.get(Calendar.DAY_OF_MONTH);
+		int year = calendar.get(Calendar.YEAR);
+		date = month + "/" + day + "/" + year;
+	}
+	
+	public static String getDate() {
+		return date;
+	}
 	
 	public static boolean isApplicationVisible() {
 		return appVisible;
@@ -27,8 +41,10 @@ public class Global extends Application {
 	public static void applicationResumed() {
 
 		appVisible = true;
-		if(!DatabaseManager.isConnected())
+		if(!DatabaseManager.isConnected()) {
+			setDate();
 			DatabaseManager.connect();
+		}
 		
 	}
 
