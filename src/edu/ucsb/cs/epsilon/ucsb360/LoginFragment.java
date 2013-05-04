@@ -72,6 +72,8 @@ public class LoginFragment extends Fragment{
 	    View view = inflater.inflate(R.layout.activity_main, container, false);
 	    LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
 	    authButton.setFragment(this);
+	    authButton.setReadPermissions(Arrays.asList("read_friendlists"));
+	    
 	    activeSession = Session.getActiveSession();
 	    Log.d("FB","PASSED ACTIVE SESSION IN ONCREATEVIEW");
 	    activity  = (MainActivity) getActivity();
@@ -141,6 +143,9 @@ public class LoginFragment extends Fragment{
 	    uiHelper.onResume();
 	}
 
+	/**
+	 * 
+	 */
 	@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	    super.onActivityResult(requestCode, resultCode, data);
