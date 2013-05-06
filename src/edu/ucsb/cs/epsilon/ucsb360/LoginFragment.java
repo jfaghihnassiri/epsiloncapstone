@@ -180,7 +180,7 @@ public class LoginFragment extends Fragment{
 				// TODO Auto-generated method stub
 				for (int i = 0; i < users.size(); i++)
 				{
-					friendList.addElement(users.get(i).getName());
+					friendList.addElement(users.get(i).getId());
 				}
 			}
 		});
