@@ -86,7 +86,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/indexes"
-        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@+id/indexes"
         android:background="@drawable/gallery_left_background"
         android:visibility="visible" />
 
@@ -95,7 +95,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/indexes"
-        android:layout_alignParentRight="true"
+        android:layout_toRightOf="@+id/indexes"
         android:background="@drawable/gallery_right_background"
         android:visibility="visible" />
 
