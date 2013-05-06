@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Vector;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -51,6 +52,7 @@ public class LoginFragment extends Fragment{
 	private String userBirthday;
 	private String userLocation;
 	private static MainActivity activity;
+	private static Vector<String>friendList;
 	/*FB PRIVATES*/
 	private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
 	private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
@@ -74,6 +76,7 @@ public class LoginFragment extends Fragment{
 	    authButton.setFragment(this);
 	    authButton.setReadPermissions(Arrays.asList("read_friendlists"));
 	    
+	    friendList = new Vector<String>();
 	    activeSession = Session.getActiveSession();
 	    Log.d("FB","PASSED ACTIVE SESSION IN ONCREATEVIEW");
 	    activity  = (MainActivity) getActivity();
@@ -154,7 +157,39 @@ public class LoginFragment extends Fragment{
 	    //CODE FOR CAMERA 
 	    Intent i = new Intent(getActivity(), com.qualcomm.QCARSamples.CloudRecognition.CloudReco.class);
 	    getActivity().startActivity(i);
-	    
+	  
+	    //CODE FOR USER STUFF
+	    Request.executeMeRequestAsync(Session.getActiveSession(), new Request.GraphUserCallback() {
+			
+			@Override
+			public void onCompleted(GraphUser user, Response response) {
+				// TODO Auto-generated method stub
+				Log.d(TAG, user.getBirthday() + " "+ user.getId() + user.getUsername()+" "+user.getName());
+				userId = user.getId();
+				userName= user.getName();
+				userBirthday = user.getBirthday();
+				getInfo(userId, userName, userBirthday);
+				
+			}
+		});
+	    //CODE FOR FRIENDS LIST REQUEST
+	    Request.executeMyFriendsRequestAsync(Session.getActiveSession(), new Request.GraphUserListCallback() {
+			
+			@Override
+			public void onCompleted(List<GraphUser> users, Response response) {
+				// TODO Auto-generated method stub
+				for (int i = 0; i < users.size(); i++)
+				{
+					friendList.addElement(users.get(i).getName());
+				}
+			}
+		});
+	    //TEST PRINT LOG
+	/*    for(int k = 0; k < friendList.size(); k++)
+	    {
+	    	Log.d("friend list", friendList.get(k));
+	    }*/
+	    //CODE FOR PERMISSION MOVED
 	    if(Session.getActiveSession() != null){
 		    //For user permission to post
 	    	Session.getActiveSession().onActivityResult(getActivity(), requestCode, resultCode, data);
@@ -174,19 +209,6 @@ public class LoginFragment extends Fragment{
 		        }
 		    }
 	    }
-	    //CODE FOR USER STUFF
-	    Request.executeMeRequestAsync(Session.getActiveSession(), new Request.GraphUserCallback() {
-			
-			@Override
-			public void onCompleted(GraphUser user, Response response) {
-				// TODO Auto-generated method stub
-				Log.d(TAG, user.getBirthday() + " "+ user.getId() + user.getUsername()+" "+user.getName());
-				userId = user.getId();
-				userName= user.getName();
-				userBirthday = user.getBirthday();
-				getInfo(userId, userName, userBirthday);
-			}
-		});
 	}
 
 	/*
@@ -269,6 +291,11 @@ public class LoginFragment extends Fragment{
 	    super.onSaveInstanceState(outState);
 	    outState.putBoolean(PENDING_PUBLISH_KEY, pendingPublishReauthorization);
 	    uiHelper.onSaveInstanceState(outState);
+	}
+	
+	public static Vector<String> getFriends()
+	{
+		return friendList;
 	}
 	/*
 	 * OVERRIDE ENDS
