@@ -47,9 +47,9 @@ public class LoginFragment extends Fragment{
 	private Button btnViewNoLogin;
 	public static Session activeSession;
 	private static boolean isLoggedIn;
-	private String userId;
-	private String userName;
-	private String userBirthday;
+	private static String userId;
+	private static String userName;
+	private static String userBirthday;
 	private String userLocation;
 	private static MainActivity activity;
 	private static Vector<String>friendList;
@@ -108,11 +108,9 @@ public class LoginFragment extends Fragment{
 	    if (state.isOpened()) {
 	        Log.i(TAG, "Logged in...");
 	        activeSession = Session.getActiveSession();
-	        User.setLoggedIn();	      
 	    } else if (state.isClosed()) {
 	        Log.i(TAG, "Logged out...");
 	        activeSession.closeAndClearTokenInformation();
-	        User.logOut();
 	    }
 	    
 	   
@@ -216,7 +214,8 @@ public class LoginFragment extends Fragment{
 	 */
 	public void getInfo(String uId, String uName, String uBday)
 	{
-		DatabaseManager.login(uId, uName, uBday);
+		if(DatabaseManager.isConnected())
+			DatabaseManager.login(uId, uName, uBday);
 		Log.i(TAG,"USERINFO");
 	}
 	private boolean isSubsetOf(Collection<String> subset, Collection<String> superset) {
@@ -300,4 +299,17 @@ public class LoginFragment extends Fragment{
 	/*
 	 * OVERRIDE ENDS
 	 */
+	
+	public static String getUserId() {
+		return userId;
+	}
+	
+	public static String getUserName() {
+		return userName;
+	}
+	
+	public static String getBirthday() {
+		return userBirthday;
+	}
+	
 }
