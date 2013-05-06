@@ -43,15 +43,33 @@
         android:layout_height="wrap_content"
         android:text="Like"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:visibility="invisible"
+        />
     
     <Button
         android:id="@+id/help"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
         android:background="@drawable/help_button_background"/>
+    
+     <TextView
+        android:id="@+id/numLikes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@+string/indexes" />
+     
+     <TextView
+        android:id="@+id/createrInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/numLikes"
+        android:layout_centerHorizontal="true"
+        android:text="@+string/createrInfo" />
     
     <Button
         android:id="@+id/logout_facebook"
@@ -62,14 +80,14 @@
         android:background="@drawable/logout_button_background"/>
     
     
-    <CheckedTextView
+    <TextView
         android:id="@+id/indexes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/facebookLike"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:text="0/0" />
+        android:text="@+string/indexes" />
     
     
     <Button
@@ -88,7 +106,7 @@
         android:layout_alignBottom="@+id/indexes"
         android:layout_toLeftOf="@+id/indexes"
         android:background="@drawable/gallery_left_background"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/gallery_right"
@@ -97,6 +115,6 @@
         android:layout_alignBottom="@+id/indexes"
         android:layout_toRightOf="@+id/indexes"
         android:background="@drawable/gallery_right_background"
-        android:visibility="visible" />
+        android:visibility="invisible" />
 
 </RelativeLayout>

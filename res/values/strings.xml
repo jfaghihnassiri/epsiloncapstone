@@ -21,4 +21,8 @@
 	<string name="post">Post to Facebook</string>
 	<string name="augmentation_hint">Input augmentation message here!</string>
 	
+	<string name="indexes">0/0</string>
+	<string name="createrInfo">Created by</string>
+	<string name="numLikes"># of likes</string>
+	
 </resources>
