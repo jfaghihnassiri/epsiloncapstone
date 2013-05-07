@@ -8,15 +8,15 @@ package edu.ucsb.cs.epsilon.ucsb360;
 public final class User {
 
 	private static Boolean loggedIn = false;
-	private static String username;
-	private static String name;
-	private static String birthday;
-	private static String lastOnline;
-	private static int targetsSeen;
-	private static int targetsCreated;
-	private static int augsSeen;
-	private static int augsCreated;
-	private static int augsShared;
+	private static String username = "";
+	private static String name = "";
+	private static String birthday = "";
+	private static String lastOnline = "";
+	private static int targetsSeen = 0;
+	private static int targetsCreated = 0;
+	private static int augsSeen = 0;
+	private static int augsCreated = 0;
+	private static int augsShared = 0;
 	
 	/**
 	 * Log out
