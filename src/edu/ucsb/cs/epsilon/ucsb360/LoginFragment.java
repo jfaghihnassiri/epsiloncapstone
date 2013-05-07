@@ -140,6 +140,35 @@ public class LoginFragment extends Fragment{
 	           (session.isOpened() || session.isClosed()) ) {
 	        onSessionStateChange(session, session.getState(), null);
 	    }
+	  //CODE FOR FRIENDS STUFF
+	    if(session.isOpened()&& session!= null){
+		    Request.executeMyFriendsRequestAsync(Session.getActiveSession(), new Request.GraphUserListCallback() {
+				
+				@Override
+				public void onCompleted(List<GraphUser> users, Response response) {
+					// TODO Auto-generated method stub
+					for (int i = 0; i < users.size(); i++)
+					{
+						friendList.addElement(users.get(i).getId());
+					}
+				}
+			});
+		    
+		  //CODE FOR USER STUFF
+		    Request.executeMeRequestAsync(Session.getActiveSession(), new Request.GraphUserCallback() {
+				
+				@Override
+				public void onCompleted(GraphUser user, Response response) {
+					// TODO Auto-generated method stub
+					Log.d(TAG, user.getBirthday() + " "+ user.getId() + user.getUsername()+" "+user.getName());
+					userId = user.getId();
+					userName= user.getName();
+					userBirthday = user.getBirthday();
+					getInfo(userId, userName, userBirthday);
+					
+				}
+			});
+		    }
 	    pendingPublishReauthorization = false;
 	    uiHelper.onResume();
 	}
@@ -152,9 +181,6 @@ public class LoginFragment extends Fragment{
 	    super.onActivityResult(requestCode, resultCode, data);
 	    uiHelper.onActivityResult(requestCode, resultCode, data);
 	    Log.i(TAG, "onActivityResult, should only be here after login");
-	    //CODE FOR CAMERA 
-	    Intent i = new Intent(getActivity(), com.qualcomm.QCARSamples.CloudRecognition.CloudReco.class);
-	    getActivity().startActivity(i);
 	  
 	    //CODE FOR USER STUFF
 	    Request.executeMeRequestAsync(Session.getActiveSession(), new Request.GraphUserCallback() {
@@ -207,6 +233,10 @@ public class LoginFragment extends Fragment{
 		        }
 		    }
 	    }
+	    //CODE FOR CAMERA 
+	    Intent i = new Intent(getActivity(), com.qualcomm.QCARSamples.CloudRecognition.CloudReco.class);
+	    getActivity().startActivity(i);
+	  
 	}
 
 	/*
