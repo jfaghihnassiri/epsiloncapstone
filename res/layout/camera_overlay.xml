@@ -41,7 +41,7 @@
         android:id="@+id/facebookLike"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Like"
+        android:text="@+string/facebookLike"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:visibility="invisible"
