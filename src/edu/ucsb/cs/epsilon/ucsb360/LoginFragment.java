@@ -105,11 +105,50 @@ public class LoginFragment extends Fragment{
 	 * session state changes when user logs in or out
 	 */
 	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
-	    if (state.isOpened()) {
-	        Log.i(TAG, "Logged in...");
-	        activeSession = Session.getActiveSession();
+
+		if (state.isOpened()) {
+			Log.i(TAG, "Logged in...");
+			activeSession = Session.getActiveSession();
+
+			//CODE FOR FRIENDS STUFF
+			if(session.isOpened()&& session!= null && userId == null) {
+				Request.executeMyFriendsRequestAsync(Session.getActiveSession(), new Request.GraphUserListCallback() {
+
+					@Override
+					public void onCompleted(List<GraphUser> users, Response response) {
+						// TODO Auto-generated method stub
+						for (int i = 0; i < users.size(); i++)
+						{
+							friendList.addElement(users.get(i).getId());
+						}
+					}
+
+				});
+
+				//CODE FOR USER STUFF
+				Request.executeMeRequestAsync(Session.getActiveSession(), new Request.GraphUserCallback() {
+
+					@Override
+					public void onCompleted(GraphUser user, Response response) {
+						// TODO Auto-generated method stub
+						System.out.println("DEBUG: GETTING USER INFO");
+						Log.d(TAG, user.getBirthday() + " "+ user.getId() + user.getUsername()+" "+user.getName());
+						userId = user.getId();
+						userName= user.getName();
+						userBirthday = user.getBirthday();
+						getInfo(userId, userName, userBirthday);
+
+					}
+				});
+				
+			}
+
 	    } else if (state.isClosed()) {
 	        Log.i(TAG, "Logged out...");
+	        userId = null;
+	        userName = null;
+	        userBirthday = null;
+	        User.logOut();
 	        activeSession.closeAndClearTokenInformation();
 	    }
 	    
@@ -140,35 +179,8 @@ public class LoginFragment extends Fragment{
 	           (session.isOpened() || session.isClosed()) ) {
 	        onSessionStateChange(session, session.getState(), null);
 	    }
-	  //CODE FOR FRIENDS STUFF
-	    if(session.isOpened()&& session!= null){
-		    Request.executeMyFriendsRequestAsync(Session.getActiveSession(), new Request.GraphUserListCallback() {
-				
-				@Override
-				public void onCompleted(List<GraphUser> users, Response response) {
-					// TODO Auto-generated method stub
-					for (int i = 0; i < users.size(); i++)
-					{
-						friendList.addElement(users.get(i).getId());
-					}
-				}
-			});
-		    
-		  //CODE FOR USER STUFF
-		    Request.executeMeRequestAsync(Session.getActiveSession(), new Request.GraphUserCallback() {
-				
-				@Override
-				public void onCompleted(GraphUser user, Response response) {
-					// TODO Auto-generated method stub
-					Log.d(TAG, user.getBirthday() + " "+ user.getId() + user.getUsername()+" "+user.getName());
-					userId = user.getId();
-					userName= user.getName();
-					userBirthday = user.getBirthday();
-					getInfo(userId, userName, userBirthday);
-					
-				}
-			});
-		    }
+	    
+
 	    pendingPublishReauthorization = false;
 	    uiHelper.onResume();
 	}
@@ -182,37 +194,6 @@ public class LoginFragment extends Fragment{
 	    uiHelper.onActivityResult(requestCode, resultCode, data);
 	    Log.i(TAG, "onActivityResult, should only be here after login");
 	  
-	    //CODE FOR USER STUFF
-	    Request.executeMeRequestAsync(Session.getActiveSession(), new Request.GraphUserCallback() {
-			
-			@Override
-			public void onCompleted(GraphUser user, Response response) {
-				// TODO Auto-generated method stub
-				Log.d(TAG, user.getBirthday() + " "+ user.getId() + user.getUsername()+" "+user.getName());
-				userId = user.getId();
-				userName= user.getName();
-				userBirthday = user.getBirthday();
-				getInfo(userId, userName, userBirthday);
-				
-			}
-		});
-	    //CODE FOR FRIENDS LIST REQUEST
-	    Request.executeMyFriendsRequestAsync(Session.getActiveSession(), new Request.GraphUserListCallback() {
-			
-			@Override
-			public void onCompleted(List<GraphUser> users, Response response) {
-				// TODO Auto-generated method stub
-				for (int i = 0; i < users.size(); i++)
-				{
-					friendList.addElement(users.get(i).getId());
-				}
-			}
-		});
-	    //TEST PRINT LOG
-	/*    for(int k = 0; k < friendList.size(); k++)
-	    {
-	    	Log.d("friend list", friendList.get(k));
-	    }*/
 	    //CODE FOR PERMISSION MOVED
 	    if(Session.getActiveSession() != null){
 		    //For user permission to post
