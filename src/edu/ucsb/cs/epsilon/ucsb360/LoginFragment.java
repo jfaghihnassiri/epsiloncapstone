@@ -199,7 +199,7 @@ public class LoginFragment extends Fragment{
 		    //For user permission to post
 	    	Session.getActiveSession().onActivityResult(getActivity(), requestCode, resultCode, data);
 		    Session session = Session.getActiveSession();
-		    if (session != null){
+		    if (session != null && session.isOpened()){
 		    	Log.d("TAG ANDY","PUBLISH STORY");/////////////////////
 		        // Check for publish permissions    
 		        List<String> permissions = session.getPermissions();
