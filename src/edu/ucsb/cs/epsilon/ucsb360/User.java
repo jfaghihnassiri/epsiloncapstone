@@ -24,7 +24,7 @@ public final class User {
 	 * @author Max Hinson
 	 */
 	public static void logOut() {
-		System.out.println("DEBUG: Logging out user " + username);
+		System.out.println("DEBUG: Logging out user " + name);
 		loggedIn = false;
 		username = "";
 		name = "";
