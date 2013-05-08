@@ -71,7 +71,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="@+string/indexes" />
+        android:text="@+string/indexes" 
+        android:textColor="@color/ucsb_gold"
+        />
 
     
     <Button
@@ -98,7 +100,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="@+string/numLikes" />
+        android:text="@+string/numLikes" 
+        android:textColor="@color/ucsb_gold"
+        />
      
      <TextView
         android:id="@+id/createrInfo"
@@ -106,7 +110,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/numLikes"
         android:layout_centerHorizontal="true"
-        android:text="@+string/createrInfo" />
+        android:text="@+string/createrInfo" 
+        android:textColor="@color/ucsb_gold"
+        />
     
     <Button
         android:id="@+id/post_to_fb"
