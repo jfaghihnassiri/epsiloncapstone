@@ -20,7 +20,7 @@
 	<string name="status_bar_scanning">Scanning</string>
 	<string name="post">Post to Facebook</string>
 	<string name="augmentation_hint">Input augmentation message here!</string>
-	
+	<string name="version">version</string>
 	<string name="indexes"> </string>
 	<string name="createrInfo"> </string>
 	<string name="numLikes"> </string>
