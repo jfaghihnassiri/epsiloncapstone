@@ -100,7 +100,7 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
         // Update render view (projection matrix and viewport) if needed:
         mActivity.updateRenderView();
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_ddHH_mm_ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
         
         // Call our native function to render content
         renderFrame();
@@ -128,7 +128,7 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
             fos.flush();
              
             fos.close();
-             
+            
         } catch (Exception e) {
             DebugLog.LOGD(e.getStackTrace().toString());
         }
