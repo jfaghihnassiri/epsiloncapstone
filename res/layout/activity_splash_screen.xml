@@ -2,14 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ucsb_blue"
+    android:background="@color/white"
     tools:context=".SplashScreen" >
-
-    <!--
-         The primary full-screen view. This can be replaced with whatever view
-         is needed to present your content, e.g. VideoView, SurfaceView,
-         TextureView, etc.
-    -->
 
     <TextView
         android:id="@+id/fullscreen_content"
@@ -21,11 +15,6 @@
         android:textColor="@color/ucsb_gold"
         android:textSize="50sp"
         android:textStyle="bold" />
-
-    <!--
-         This FrameLayout insets its children based on system windows using
-         android:fitsSystemWindows.
-    -->
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -40,11 +29,21 @@
             android:layout_gravity="bottom|center_horizontal"
             android:background="@color/black_overlay"
             android:orientation="horizontal"
-            tools:ignore="UselessParent" >
+            tools:ignore="UselessParent" />
 
-            
-        </LinearLayout>
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/splash" />
 
     </FrameLayout>
-
+    
+	<TextView 
+	    android:id="@+id/version"
+	    android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="@+string/version" />
+	
 </FrameLayout>

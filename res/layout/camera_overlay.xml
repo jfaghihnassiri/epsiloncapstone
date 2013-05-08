@@ -61,7 +61,9 @@
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="@+string/indexes" />
+        android:text="@+string/indexes" 
+        android:textColor="@color/ucsb_gold"
+        />
      
      <TextView
         android:id="@+id/createrInfo"
@@ -69,7 +71,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/numLikes"
         android:layout_centerHorizontal="true"
-        android:text="@+string/createrInfo" />
+        android:text="@+string/createrInfo" 
+        android:textColor="@color/ucsb_gold"
+        />
     
     <Button
         android:id="@+id/logout_facebook"
@@ -87,7 +91,9 @@
         android:layout_above="@+id/facebookLike"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="10dp"
-        android:text="@+string/indexes" />
+        android:text="@+string/indexes" 
+        android:textColor="@color/ucsb_gold"
+        />
     
     
     <Button

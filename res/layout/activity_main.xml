@@ -7,7 +7,7 @@
 	<RelativeLayout 
 	    android:layout_width="match_parent"
 	    android:layout_height="fill_parent"
-	    android:background="#66CCFF"
+	    android:background="#FFFFFF"
 	    tools:context=".MainActivity" >
 	
 	    <LinearLayout
@@ -15,11 +15,11 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content" >
 	
-	        <ImageView android:src="@drawable/ucsb360logo"
-	            android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_marginLeft="10dip"
-	       />
+		    <ImageView android:src="@drawable/three60logo480wide"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_marginLeft="10dip" />
+		    
 	    </LinearLayout>
 	    
 	    <!--  Login Form -->
@@ -30,12 +30,14 @@
 	          android:padding="10dip"         
 	          android:layout_below="@id/header">
 	      
-	        <TextView android:layout_width="fill_parent"
-	            	android:layout_height="wrap_content"
-	            	android:layout_marginBottom="30dip"
-	            	android:textSize="25sp"
-	            	android:text="@string/Welcome"
-	            />
+	        <TextView
+	            android:layout_width="fill_parent"
+	            android:layout_height="wrap_content"
+	            android:layout_marginBottom="30dip"
+	            android:text="@string/Welcome"
+	            android:textColor="@color/black"
+	            android:textSize="25sp" />
+
 	        <!-- EMAIL LOGIN 
 	        <EditText android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
@@ -61,14 +63,13 @@
        			android:layout_marginBottom="25dip"
        			/>
 	        
-	        <Button android:id="@+id/btnViewNoLogin"
+	        <Button
+	            android:id="@+id/btnViewNoLogin"
 	            android:layout_width="fill_parent"
 	            android:layout_height="wrap_content"
+	            android:layout_marginBottom="10dip"
 	            android:text="@string/view"
-	        	android:layout_marginBottom="10dip"
-	        />
-	        
-	            
+	            android:textColor="@color/black" />
 	        
 	        <!-- EMAIL LOGIN END-->
 	
