@@ -18,18 +18,34 @@ package com.example.android.apis.graphics;
 
 import com.qualcomm.QCARSamples.CloudRecognition.utils.DebugLog;
 
+import edu.ucsb.cs.epsilon.ucsb360.R;
+import edu.ucsb.cs.epsilon.ucsb360.ReviewAugmentation;
+
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.*;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.text.method.KeyListener;
 import android.view.Display;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.BitmapDrawable;
+import android.view.LayoutInflater;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import java.lang.Math;
+import android.widget.TextView.OnEditorActionListener;
 
 public class FingerPaint extends GraphicsActivity
         implements ColorPickerDialog.OnColorChangedListener {    
@@ -37,18 +53,44 @@ public class FingerPaint extends GraphicsActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Display display = getWindowManager().getDefaultDisplay();
+        width = display.getWidth();
+        height = display.getHeight();
         backgrnd = getIntent().getByteArrayExtra("bitMP");
-        setContentView(new MyView(this));
+        //setContentView(R.layout.create_augmentation);
+        thisView = new MyView(this);
+        setContentView(thisView);
+        //setContentView(new MyView(this));
+        /*LinearLayout v = (LinearLayout) findViewById(R.id.linearLayout);
+        MyGraphics myView = new MyGraphics(this);
+        v.addView(myView);*/
+         
+        LayoutInflater inflater = getLayoutInflater();
+        getWindow().addContentView(inflater.inflate(R.layout.create_augmentation,null),
+        		new ViewGroup.LayoutParams(
+        				ViewGroup.LayoutParams.FILL_PARENT,
+        				ViewGroup.LayoutParams.FILL_PARENT));
+    		
+    		
+        //this.addContentView(new MyView(this), null);
+
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
-        mPaint.setColor(0xFFFF0000);
+        //mPaint.setColor(0xFFFF0000);//set to black
+        mPaint.setColor(Color.BLACK);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
         //mPaint.setStrokeWidth(12);
-        mPaint.setStrokeWidth(5);
+        mPaint.setStrokeWidth(12);
+        
+        textPaint = new Paint();
+        textPaint.setAntiAlias(true);
+        textPaint.setColor(Color.BLACK);
+        textPaint.setTextSize(26);
+        textPaint.setStrokeWidth(1);
         
         mEmboss = new EmbossMaskFilter(new float[] { 1, 1, 1 },
                                        0.4f, 6, 3.5f);
@@ -60,12 +102,83 @@ public class FingerPaint extends GraphicsActivity
         	DebugLog.LOGD("backgrnd NULL!!!1");
         else
         	DebugLog.LOGD("backgrnd NOT NULL!!!1");
+        
+        addListenerOnButtonAndTextChange();
     }
+    
+	Button doneButton;
+	EditText augInput;
+	TextView display;
+	private MyView thisView;
+	private Paint textPaint;
+    
+    public void addListenerOnButtonAndTextChange() 
+	{
+		// Buttons go here JFN JCH
+		final Context context = this;
+		
+		doneButton = (Button) findViewById(R.id.create_augmentation_done);
+		augInput = (EditText) findViewById(R.id.augmentation_text);
+		display = (TextView) findViewById(R.id.createAugText);
+		
+		augInput.setOnEditorActionListener(new OnEditorActionListener()
+		{
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+		    {
+		    	//boolean handled = false;
+			    //if (actionId == KeyEvent.KEYCODE_ENTER)
+			    {
+					mCanvas.drawText(v.getText().toString(), (float)Math.floor(width/2), (float)Math.floor(height/2)-200, textPaint);
+					DebugLog.LOGD("textChanged");					
+					thisView.invalidate();
+			        //handled = true;
+			    }
+			    //DebugLog.LOGD("textChanged2");
+			    //return handled; 
+			    return false;
+		    }
+		});
+		//Listener to change text on screen LB
+		augInput.addTextChangedListener(new TextWatcher(){
+			
+			public void onTextChanged(CharSequence s, int start, int before, int count){
+				//String printString = s.toString();
+	            //printString.contains('\n');
+				//mCanvas.drawText(printString, (float)Math.floor(width/2)-s.length()*5, (float)Math.floor(height/2)-200, mPaint);
+				//DebugLog.LOGD("textChanged");
+			}
+			
+			public void afterTextChanged(Editable s){};
+			public void beforeTextChanged(CharSequence s, int start, int count, int after){};			
+		});
+		
+		doneButton.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View view){
+				if (augInput.getText().toString() != null){
+					//display.setText(augInput.getText().toString());
+					//display.refreshDrawableState();
+				}
+				Intent intent = new Intent(getApplicationContext(), ReviewAugmentation.class);
+				startActivity(intent);
+				//goto viewing page of target with augmentation
+			}
+		});
+		
+	}
+    
     
     private Paint       mPaint;
     private MaskFilter  mEmboss;
     private MaskFilter  mBlur;
     private byte[] backgrnd;
+    
+    //LB moved outside
+    private Canvas  mCanvas;
+
+    
+    private int width;
+    private int height;
     
     public void colorChanged(int color) {
         mPaint.setColor(color);
@@ -77,7 +190,7 @@ public class FingerPaint extends GraphicsActivity
         private static final float MAXP = 0.75f;
         
         private Bitmap  mBitmap;
-        private Canvas  mCanvas;
+        //private Canvas  mCanvas;
         private Path    mPath;
         private Paint   mBitmapPaint;
         
@@ -88,9 +201,6 @@ public class FingerPaint extends GraphicsActivity
             Drawable d = new BitmapDrawable(getResources(),BitmapFactory.decodeByteArray(backgrnd, 0, backgrnd.length));
             super.setBackgroundDrawable(d);
             
-            Display display = getWindowManager().getDefaultDisplay();
-            int width = display.getWidth();
-            int height = display.getHeight();
             mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             mCanvas = new Canvas(mBitmap); 
             mPath = new Path();
@@ -136,7 +246,6 @@ public class FingerPaint extends GraphicsActivity
             // kill this so we don't double draw
             mPath.reset();
             
-            mCanvas.drawText("HELLO!", 150, 200, mPaint);
         }
         
         @Override
