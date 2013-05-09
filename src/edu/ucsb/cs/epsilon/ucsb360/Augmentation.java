@@ -9,7 +9,8 @@ public final class Augmentation {
 
 	private int id;
 	private String date;
-	private String creator;
+	private String creatorId;
+	private String creatorName;
 	private String privacy;
 	private String message;
 	private int views;
@@ -25,7 +26,8 @@ public final class Augmentation {
 	 * @author Max Hinson
 	 * @param id augmentation identifier
 	 * @param date date the augmentation was created
-	 * @param creator user who created the augmentation
+	 * @param creatorId id of the user who created the augmentation
+	 * @param creatorName name of the user who created the augmentation
 	 * @param privacy who can see this augmentation
 	 * @param message message attached to augmentation
 	 * @param views times the augmentation has been viewed
@@ -35,11 +37,12 @@ public final class Augmentation {
 	 * @param size size of the augmentation
 	 * @param url URL to get the augmentation image
 	 */
-	public Augmentation(int id, String date, String creator, String privacy, String message,
+	public Augmentation(int id, String date, String creatorId, String creatorName, String privacy, String message,
 			int views, int likes, int xPos, int yPos, double size, String url) {
 		this.id = id;
 		this.date = date;
-		this.creator = creator;
+		this.creatorId = creatorId;
+		this.creatorName = creatorName;
 		this.message = message;
 		this.views = views;
 		this.likes = likes;
@@ -69,8 +72,16 @@ public final class Augmentation {
 	 * @author Max Hinson
 	 * @return the creator
 	 */
-	public String getCreator() {
-		return creator;
+	public String getCreatorId() {
+		return creatorId;
+	}
+	
+	/**
+	 * @author Max Hinson
+	 * @return the creator
+	 */
+	public String getCreatorName() {
+		return creatorName;
 	}
 	
 	/**
