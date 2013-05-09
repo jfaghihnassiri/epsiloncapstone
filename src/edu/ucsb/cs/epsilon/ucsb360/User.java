@@ -19,12 +19,47 @@ public final class User {
 	private static int augsShared = 0;
 	
 	/**
+	 * Log in
+	 * 
+	 * @author Max Hinson
+	 * @param username User's Facebook ID
+	 * @param name User's name
+	 * @param birthday User's birthday
+	 * @param lastOnline Last time user was online
+	 * @param targetsSeen Number of targets the user has seen
+	 * @param targetsCreated Number of targets the user has created
+	 * @param augsSeen Number of augmentations a user has seen
+	 * @param augsCreated Number of augmentations a user has created
+	 * @param augsShared Number of augmentations a user has shared
+	 */
+	public static void logIn(String username, String name, String birthday, String lastOnline, int targetsSeen,
+			int targetsCreated, int augsSeen, int augsCreated, int augsShared) {
+		
+		System.out.println("DEBUG: Setting user data for " + name);
+		
+		loggedIn = true;
+		User.username = username;
+		User.name = name;
+		User.birthday = birthday;
+		User.lastOnline = lastOnline;
+		User.targetsSeen = targetsSeen;
+		User.targetsCreated = targetsCreated;
+		User.augsSeen = augsSeen;
+		User.augsCreated = augsCreated;
+		User.augsShared = augsShared;
+		
+		TargetManager.clearCache();
+	}
+	
+	/**
 	 * Log out
 	 * 
 	 * @author Max Hinson
 	 */
 	public static void logOut() {
-		System.out.println("DEBUG: Logging out user " + name);
+		
+		System.out.println("DEBUG: Logging out as " + name);
+		
 		loggedIn = false;
 		username = "";
 		name = "";
@@ -35,6 +70,8 @@ public final class User {
 		augsSeen = 0;
 		augsCreated = 0;
 		augsShared = 0;
+		
+		TargetManager.clearCache();
 	}
 	
 	/**
@@ -48,15 +85,6 @@ public final class User {
 	}
 	
 	/**
-	 * Set logged in
-	 * 
-	 * @author Max Hinson
-	 */
-	public static void setLoggedIn() {
-		loggedIn = true;
-	}
-	
-	/**
 	 * Get the user's username
 	 * 
 	 * @author Max Hinson
@@ -67,16 +95,6 @@ public final class User {
 	}
 
 	/**
-	 * Set the user's username
-	 * 
-	 * @author Max Hinson
-	 * @param u User's username
-	 */
-	public static void setUsername(String u) {
-		username = u;
-	}
-	
-	/**
 	 * Get the user's name
 	 * 
 	 * @author Max Hinson
@@ -84,16 +102,6 @@ public final class User {
 	 */
 	public static String getName() {
 		return name;
-	}
-	
-	/**
-	 * Set the user's name
-	 * 
-	 * @author Max Hinson
-	 * @param n user's name
-	 */
-	public static void setName(String n) {
-		name = n;
 	}
 
 	/**
@@ -107,16 +115,6 @@ public final class User {
 	}
 	
 	/**
-	 * Set the user's birthday
-	 * 
-	 * @author Max Hinson
-	 * @param b user's birthday
-	 */
-	public static void setBirthday(String b) {
-		birthday = b;
-	}
-	
-	/**
 	 * Get the date the user was last online
 	 * 
 	 * @author Max Hinson
@@ -124,16 +122,6 @@ public final class User {
 	 */
 	public static String getLastOnline() {
 		return lastOnline;
-	}
-	
-	/**
-	 * Set the date the user was last online
-	 * 
-	 * @author Max Hinson
-	 * @param lo date the user was last online
-	 */
-	public static void setLastOnline(String lo) {
-		lastOnline = lo;
 	}
 
 	/**
@@ -144,16 +132,6 @@ public final class User {
 	 */
 	public static int getTargetsSeen() {
 		return targetsSeen;
-	}
-	
-	/**
-	 * Set the number of targets seen
-	 * 
-	 * @author Max Hinson
-	 * @param ts number of targets seen
-	 */
-	public static void setTargetsSeen(int ts) {
-		targetsSeen = ts;
 	}
 	
 	/**
@@ -174,17 +152,7 @@ public final class User {
 	public static int getTargetsCreated() {
 		return targetsCreated;
 	}
-	
-	/**
-	 * Set the number of targets created
-	 * 
-	 * @author Max Hinson
-	 * @param tc number of targets created
-	 */
-	public static void setTargetsCreated(int tc) {
-		targetsCreated = tc;
-	}
-	
+
 	/**
 	 * Increment the number of targets created
 	 * 
@@ -202,16 +170,6 @@ public final class User {
 	 */
 	public static int getAugsSeen() {
 		return augsSeen;
-	}
-	
-	/**
-	 * Set the number of augmentations seen
-	 * 
-	 * @author Max Hinson
-	 * @param ts number of augmentations seen
-	 */
-	public static void setAugsSeen(int as) {
-		augsSeen = as;
 	}
 	
 	/**
@@ -234,16 +192,6 @@ public final class User {
 	}
 	
 	/**
-	 * Set the number of augmentations created
-	 * 
-	 * @author Max Hinson
-	 * @param ac number of augmentations created
-	 */
-	public static void setAugsCreated(int ac) {
-		augsCreated = ac;
-	}
-	
-	/**
 	 * Increment the number of augmentations created
 	 * 
 	 * @author Max Hinson
@@ -260,16 +208,6 @@ public final class User {
 	 */
 	public static int getAugsShared() {
 		return augsShared;
-	}
-	
-	/**
-	 * Set the number of augmentations shared
-	 * 
-	 * @author Max Hinson
-	 * @param s number of augmentations shared
-	 */
-	public static void setAugsShared(int s) {
-		augsShared = s;
 	}
 
 	/**
