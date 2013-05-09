@@ -102,6 +102,8 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
         
+        
+        
         // Call our native function to render content
         renderFrame();
         // make sure the OpenGL rendering is finalized

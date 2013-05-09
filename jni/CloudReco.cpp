@@ -76,7 +76,7 @@ class CloudReco_UpdateCallback : public QCAR::UpdateCallback
 
                             // Starts the loading state for the product
                             renderState = RS_LOADING;
-
+							
                             // Copies the new target Metadata
                             snprintf(targetMetadata, CONTENT_MAX, "%s", result->getMetaData());
 
@@ -107,7 +107,7 @@ class CloudReco_UpdateCallback : public QCAR::UpdateCallback
                         strcpy(lastTargetId, result->getUniqueTargetId());
                         pthread_mutex_unlock(&lastTargetIdMutex);
 
-                        //enterContentMode();COMMENTED
+                        //enterContentMode();
                     }
                     else
                         LOG("Failed to create new trackable.");
@@ -232,6 +232,7 @@ JNIEXPORT void JNICALL
 Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_productTextureIsCreated(JNIEnv *env,jobject)
 {
     renderState = RS_TEXTURE_GENERATED;
+	
 }
 
 // ----------------------------------------------------------------------------
@@ -298,10 +299,23 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_renderFrame(JNI
         QCAR::ImageTargetResult *imageResult = (QCAR::ImageTargetResult *)trackableResult;
         targetSize = imageResult->getTrackable().getSize();
 
+		//HJC
+		if(renderState == RS_NORMAL){
+			showGalleryButtons();
+		}
+		
         // Renders the Augmentation View with the 3D Book data Panel
         renderAugmentation(trackableResult);
 
     }
+	else{
+		//HJC 
+		//If not looking at the target, buttons go away
+		if(renderState == RS_NORMAL){
+			hideGalleryButtons();
+		}
+	}
+	
     /*else
     {
         // Manages the 3D to 2D Transition initialization
@@ -403,11 +417,12 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_initApplicationNative(
     //showStatusBarID = env->GetMethodID(activityClass, "showStatusBar", "()V"); COMMENTED
     //hideStatusBarID = env->GetMethodID(activityClass, "hideStatusBar", "()V");
     //setStatusBarTextID = env->GetMethodID(activityClass, "setStatusBarText", "(Ljava/lang/String;)V");
-    //enterContentModeID = env->GetMethodID(activityClass,"enterContentMode", "()V");
+    enterContentModeID = env->GetMethodID(activityClass,"enterContentMode", "()V");
 	
 	//HJC
 	passTargetIDID = env->GetMethodID(activityClass, "passTargetID", "(Ljava/lang/String;)V");
 	showGalleryButtonsID = env->GetMethodID(activityClass, "showGalleryButtons", "()V");
+	hideGalleryButtonsID = env->GetMethodID(activityClass, "hideGalleryButtons", "()V");
 	
     activityObj = env->NewGlobalRef(obj);
 
@@ -637,8 +652,8 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_finishTransition(JNIEnv
 {
     // Initialize the Transition values and returns to the normal
     // rendering state
+	
     renderState = RS_NORMAL;
-
 }
 
 JNIEXPORT jint JNICALL
@@ -652,7 +667,7 @@ JNI_OnLoad(JavaVM* vm, void* reserved)
 // ----------------------------------------------------------------------------
 // Disables the CloudReco service
 // ----------------------------------------------------------------------------
-/*JNIEXPORT void JNICALL
+JNIEXPORT void JNICALL
 Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_enterContentModeNative(JNIEnv*, jobject)
 {
     QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
@@ -667,7 +682,7 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_enterContentModeNative(
 
     // Remember we are in content mode:
     scanningMode = false;
-}*/
+}
 
 // ----------------------------------------------------------------------------
 // Enables CloudReco Service
@@ -687,7 +702,7 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_enterScanningModeNative
 
     // Clear all trackables created previously:
     targetFinder->clearTrackables();
-
+	
     scanningMode = true;
 
     // Updates state variables
@@ -695,7 +710,6 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_enterScanningModeNative
     showAnimation2Dto3D = false;
     isShowing2DOverlay = false;
     renderState = RS_SCANNING;
-
 }
 
 // ----------------------------------------------------------------------------
@@ -796,6 +810,20 @@ showGalleryButtons()
     }
 }
 
+void
+hideGalleryButtons()
+{
+	JNIEnv* env = 0;
+	
+	if (javaVM != 0 && hideGalleryButtonsID != 0 && activityObj != 0
+            && javaVM->GetEnv((void**)&env, JNI_VERSION_1_4) == JNI_OK)
+    {
+
+        env->CallVoidMethod(activityObj, hideGalleryButtonsID);
+
+    }
+}
+
 // ----------------------------------------------------------------------------
 /** Calls the Java Method to start loading the product texture*/
 // ----------------------------------------------------------------------------
@@ -847,9 +875,10 @@ generateProductTextureInOpenGL()
         glTexSubImage2D(GL_TEXTURE_2D, 0, 180, 230, productTexture->mWidth,//CHANGED 0 to DIFFERING NUM
             productTexture->mHeight, GL_RGBA, GL_UNSIGNED_BYTE,
             (GLvoid*) productTexture->mData);
-
+			
         // Updates the current Render State
         renderState = RS_NORMAL;
+		
     }
 }
 
@@ -1024,12 +1053,11 @@ renderAugmentation(const QCAR::TrackableResult* trackableResult)
         // Initialize the Animation to 3d variables
         startTransition2Dto3D = true;
         isShowing2DOverlay = false;
-
+		
         // Updates renderState
         renderState = RS_TRANSITION_TO_3D;
-
+	
     }
-
     SampleUtils::checkGlError("CloudReco renderFrame");
 }
 
@@ -1144,7 +1172,7 @@ initStateVariables()
 {
     // Initialize transition state variables
     renderState = RS_SCANNING;
-
+	
     // Initialize textures state variables
     productTexture = 0;
     
@@ -1161,7 +1189,7 @@ initStateVariables()
 // ----------------------------------------------------------------------------
 // Transitions the application to content mode:
 // ----------------------------------------------------------------------------
-/*void
+void
 enterContentMode()
 {
     // Check that the JNI handles are setup correctly:
@@ -1171,7 +1199,7 @@ enterContentMode()
     {
         env->CallVoidMethod(activityObj, enterContentModeID);
     }
-}*/
+}
 
 #ifdef __cplusplus
 }
