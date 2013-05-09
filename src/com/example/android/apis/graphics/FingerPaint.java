@@ -78,8 +78,8 @@ public class FingerPaint extends GraphicsActivity
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setDither(true);
-        //mPaint.setColor(0xFFFF0000);//set to black
-        mPaint.setColor(Color.BLACK);
+        mPaint.setColor(0xFFFF0000);
+        //mPaint.setColor(Color.BLACK);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeJoin(Paint.Join.ROUND);
         mPaint.setStrokeCap(Paint.Cap.ROUND);
@@ -88,7 +88,7 @@ public class FingerPaint extends GraphicsActivity
         
         textPaint = new Paint();
         textPaint.setAntiAlias(true);
-        textPaint.setColor(Color.BLACK);
+        textPaint.setColor(Color.BLUE);
         textPaint.setTextSize(26);
         textPaint.setStrokeWidth(1);
         
@@ -107,6 +107,8 @@ public class FingerPaint extends GraphicsActivity
     }
     
 	Button doneButton;
+	Button clearButton;
+	Button undoButton;
 	EditText augInput;
 	TextView display;
 	private MyView thisView;
@@ -120,15 +122,18 @@ public class FingerPaint extends GraphicsActivity
 		doneButton = (Button) findViewById(R.id.create_augmentation_done);
 		augInput = (EditText) findViewById(R.id.augmentation_text);
 		display = (TextView) findViewById(R.id.createAugText);
+		clearButton = (Button) findViewById(R.id.create_augmentation_freehand);
+		undoButton = (Button) findViewById(R.id.create_augmentation_textmode);
 		
+		// LB - Listener to input text on screen from keyboard input (on enter only?)
 		augInput.setOnEditorActionListener(new OnEditorActionListener()
 		{
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
 		    {
 		    	//boolean handled = false;
-			    //if (actionId == KeyEvent.KEYCODE_ENTER)
+			    if (v.getText().toString() != null)
 			    {
-					mCanvas.drawText(v.getText().toString(), (float)Math.floor(width/2), (float)Math.floor(height/2)-200, textPaint);
+					mCanvas.drawText(v.getText().toString(), (float)Math.floor(width/2)-textPaint.measureText(v.getText().toString())/2, (float)Math.floor(height/2), textPaint);
 					DebugLog.LOGD("textChanged");					
 					thisView.invalidate();
 			        //handled = true;
@@ -137,19 +142,6 @@ public class FingerPaint extends GraphicsActivity
 			    //return handled; 
 			    return false;
 		    }
-		});
-		//Listener to change text on screen LB
-		augInput.addTextChangedListener(new TextWatcher(){
-			
-			public void onTextChanged(CharSequence s, int start, int before, int count){
-				//String printString = s.toString();
-	            //printString.contains('\n');
-				//mCanvas.drawText(printString, (float)Math.floor(width/2)-s.length()*5, (float)Math.floor(height/2)-200, mPaint);
-				//DebugLog.LOGD("textChanged");
-			}
-			
-			public void afterTextChanged(Editable s){};
-			public void beforeTextChanged(CharSequence s, int start, int count, int after){};			
 		});
 		
 		doneButton.setOnClickListener(new OnClickListener(){
@@ -162,6 +154,24 @@ public class FingerPaint extends GraphicsActivity
 				Intent intent = new Intent(getApplicationContext(), ReviewAugmentation.class);
 				startActivity(intent);
 				//goto viewing page of target with augmentation
+			}
+		});
+		
+		// LB - clears canvas on button click
+		clearButton.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View view){
+				DebugLog.LOGD("clearingCanvas");
+				mCanvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR);
+				thisView.invalidate();
+			}
+		});
+		
+		// LB - undoes last edit on button click
+		undoButton.setOnClickListener(new OnClickListener(){
+			@Override
+			public void onClick(View view){
+				DebugLog.LOGD("undoOnCanvas");				
 			}
 		});
 		
@@ -269,6 +279,7 @@ public class FingerPaint extends GraphicsActivity
             }
             return true;
         }
+
     }
     
     private static final int COLOR_MENU_ID = Menu.FIRST;
