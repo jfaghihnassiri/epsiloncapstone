@@ -129,10 +129,10 @@ public class SplashScreen extends Activity {
 		// while interacting with the UI.
 		
 		// Set up animation for version bar
-		 TranslateAnimation mAnimation = new TranslateAnimation(-480, 0, 0, 0);
-		    mAnimation.setDuration(2000);
-		    mAnimation.setFillAfter(true);
-		    versionBar.setAnimation(mAnimation);
+		TranslateAnimation mAnimation = new TranslateAnimation(-480, 0, 0, 0);
+		mAnimation.setDuration(2000);
+		mAnimation.setFillAfter(true);
+		versionBar.setAnimation(mAnimation);
 		
 	}
 

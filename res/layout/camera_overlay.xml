@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/camera_overlay_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/camera_overlay_layout" >
+    android:layout_height="match_parent" >
 
     <RelativeLayout
         android:id="@+id/loading_layout"
@@ -20,82 +20,100 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true" />
     </RelativeLayout>
-    
-    <Button
-        android:id="@+id/post_to_fb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/share_button_background"/>
 
-    <Button
-        android:id="@+id/create_augmentation"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/augmentation_info_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/aug_info_bar"
+        android:visibility="invisible" >
+
+        <TextView
+            android:id="@+id/numLikes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_alignTop="@+id/augmentation_info_bar"
+            android:layout_marginTop="13dp"
+            android:text="@+string/indexes"
+            android:textColor="@color/ucsb_gold" />
+
+        <TextView
+            android:id="@+id/createrInfo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/numLikes"
+            android:layout_centerHorizontal="true"
+            android:text="@+string/createrInfo"
+            android:textColor="@color/ucsb_gold" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/createaug_button_background"/>
-    
-    <Button
-        android:id="@+id/facebookLike"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@+string/facebookLike"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:visibility="invisible"
-        />
-    
-    <Button
-        android:id="@+id/help"
-        android:layout_width="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/post_to_fb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="45dp"
+            android:background="@drawable/share_button_background" />
+
+        <Button
+            android:id="@+id/facebookLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/like_button_background"
+            android:visibility="invisible" />
+
+        <Button
+            android:id="@+id/create_augmentation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="45dp"
+            android:background="@drawable/createaug_button_background" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/help_button_background"/>
-    
-     <TextView
-        android:id="@+id/numLikes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/bottom_bar"
         android:layout_centerHorizontal="true"
-        android:text="@+string/indexes" 
-        android:textColor="@color/ucsb_gold"
-        />
-     
-     <TextView
-        android:id="@+id/createrInfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/numLikes"
-        android:layout_centerHorizontal="true"
-        android:text="@+string/createrInfo" 
-        android:textColor="@color/ucsb_gold"
-        />
-    
-    <Button
-        android:id="@+id/logout_facebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/logout_button_background"/>
-    
-    
-    <TextView
-        android:id="@+id/indexes"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/facebookLike"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
-        android:text="@+string/indexes" 
-        android:textColor="@color/ucsb_gold"
-        />
-    
-    
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:orientation="horizontal" >
+
+        <Button
+            android:id="@+id/gallery_left"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/gallery_left_background"
+            android:visibility="invisible" />
+
+        <TextView
+            android:id="@+id/indexes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@+string/indexes"
+            android:textColor="@color/ucsb_gold"
+            android:textSize="30sp" />
+
+        <Button
+            android:id="@+id/gallery_right"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/gallery_right_background"
+            android:visibility="invisible" />
+    </LinearLayout>
+
     <Button
         android:id="@+id/overlay_close_button"
         android:layout_width="wrap_content"
@@ -104,23 +122,5 @@
         android:layout_alignParentTop="true"
         android:background="@drawable/close_button_background"
         android:visibility="gone" />
-
-    <Button
-        android:id="@+id/gallery_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/indexes"
-        android:layout_toLeftOf="@+id/indexes"
-        android:background="@drawable/gallery_left_background"
-        android:visibility="invisible" />
-
-    <Button
-        android:id="@+id/gallery_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/indexes"
-        android:layout_toRightOf="@+id/indexes"
-        android:background="@drawable/gallery_right_background"
-        android:visibility="invisible" />
 
 </RelativeLayout>

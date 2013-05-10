@@ -996,8 +996,10 @@ renderAugmentation(const QCAR::TrackableResult* trackableResult)
     QCAR::Matrix44F modelViewProjection;
 
     // Scales the plane relative to the target
-    SampleUtils::scalePoseMatrix(430.f * scaleFactor,
-            430.f * scaleFactor,
+    float augWidth = augSize;
+    float augHeight = augSize*augRatio;
+    SampleUtils::scalePoseMatrix(augWidth * scaleFactor,
+            augHeight * scaleFactor,
             1.0f,
             &modelViewMatrix.data[0]);
 
