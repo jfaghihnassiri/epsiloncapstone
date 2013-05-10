@@ -36,6 +36,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.TranslateAnimation;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
@@ -98,6 +99,13 @@ public class LoginFragment extends Fragment{
 	        pendingPublishReauthorization = 
 	            savedInstanceState.getBoolean(PENDING_PUBLISH_KEY, false);
 	    }
+	    
+	    // Animate the view without login button
+	    TranslateAnimation translate = new TranslateAnimation(480, 0, 0, 0);
+	    translate.setDuration(1000);
+	    translate.setFillAfter(true);
+	    btnViewNoLogin.startAnimation(translate);
+	    
 	    return view;
 	}
 	//call when session state is changed
