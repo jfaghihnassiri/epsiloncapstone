@@ -1,80 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="fill_parent"
-  	android:layout_height="fill_parent"
-  	android:fillViewport="true">
-	<RelativeLayout 
-	    android:layout_width="match_parent"
-	    android:layout_height="fill_parent"
-	    android:background="#FFFFFF"
-	    tools:context=".MainActivity" >
-	
-	    <LinearLayout
-	        android:id="@+id/header"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" >
-	
-		    <ImageView android:src="@drawable/three60logo480wide"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_marginLeft="10dip" />
-		    
-	    </LinearLayout>
-	    
-	    <!--  Login Form -->
-	      <LinearLayout
-	          android:orientation="vertical"
-	          android:layout_width="match_parent"
-	          android:layout_height="wrap_content"
-	          android:padding="10dip"         
-	          android:layout_below="@id/header">
-	      
-	        <TextView
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_marginBottom="30dip"
-	            android:text="@string/Welcome"
-	            android:textColor="@color/black"
-	            android:textSize="25sp" />
+    android:layout_height="fill_parent"
+    android:fillViewport="true"
+    tools:context=".MainActivity" >
 
-	        <!-- EMAIL LOGIN 
-	        <EditText android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_marginTop="5dip"
-	            android:layout_marginBottom="20dip"
-	            android:hint="@string/login_hint"
-	            android:singleLine="true"
-	       
-	            />
-	        <EditText android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_marginBottom="10dip"
-	            android:hint="@string/password_hint"
-	       		android:password="true"
-	            />
-	            -->
-	            <com.facebook.widget.LoginButton
-        		android:id="@+id/authButton"
-        		android:layout_width="wrap_content"
-       			android:layout_height="wrap_content"
-       		 	android:layout_gravity="center_horizontal"
-       			android:layout_marginTop="30dp"
-       			android:layout_marginBottom="25dip"
-       			/>
-	        
-	        <Button
-	            android:id="@+id/btnViewNoLogin"
-	            android:layout_width="fill_parent"
-	            android:layout_height="wrap_content"
-	            android:layout_marginBottom="10dip"
-	            android:text="@string/view"
-	            android:textColor="@color/black" />
-	        
-	        <!-- EMAIL LOGIN END-->
-	
-	         
-		</LinearLayout>
-		<!--  Login Form Ends -->
-	</RelativeLayout>
-</ScrollView>
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/three60logo480wide"
+        android:layout_marginBottom="25dip" />
+
+    <TextView
+        android:id="@+id/welcome"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/logo"
+        android:text="@string/Welcome"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:layout_marginBottom="25dip" />
+
+    <com.facebook.widget.LoginButton
+        android:id="@+id/authButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/welcome"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="25dip" />
+
+    <Button
+        android:id="@+id/btnViewNoLogin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/parent"
+        android:layout_below="@+id/authButton"
+        android:background="@drawable/view_without_login" />
+
+</RelativeLayout>

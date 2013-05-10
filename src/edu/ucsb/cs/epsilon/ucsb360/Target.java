@@ -94,8 +94,8 @@ public final class Target {
 	 * @param yPos the y postiion of the augmentation in reference to the target
 	 * @param size the size of the augmentation in reference to the target
 	 */
-	public void createAug(int aug_id, String aug_date, String creator, String privacy, String message, int views, int likes, int xPos, int yPos, double size, String url) {
-		augmentations.add(new Augmentation(aug_id, aug_date, creator, privacy, message, views, likes, xPos, yPos, size, url));
+	public void createAug(int aug_id, String aug_date, String creatorId, String creatorName, String privacy, String message, int views, int likes, int xPos, int yPos, double size, String url) {
+		augmentations.add(new Augmentation(aug_id, aug_date, creatorId, creatorName, privacy, message, views, likes, xPos, yPos, size, url));
 	}
 	
 	/**
@@ -123,15 +123,26 @@ public final class Target {
 	}
 	
 	/**
-	 * Get augmentation creator
+	 * Get augmentation creator id
 	 * 
 	 * @author Jhon Nassiri
 	 * @author Max Hinson
 	 * @param augIndex the index of an augmentation into the ArrayList
-	 * @return augmentation creator
+	 * @return augmentation creator id
 	 */
-	public String getAugCreator(int augIndex) {
-		return augmentations.get(augIndex).getCreator();
+	public String getAugCreatorId(int augIndex) {
+		return augmentations.get(augIndex).getCreatorId();
+	}
+	
+	/**
+	 * Get augmentation creator name
+	 * 
+	 * @author Max Hinson
+	 * @param augIndex the index of an augmentation into the ArrayList
+	 * @return augmentation creator name
+	 */
+	public String getAugCreatorName(int augIndex) {
+		return augmentations.get(augIndex).getCreatorName();
 	}
 	
 	/**

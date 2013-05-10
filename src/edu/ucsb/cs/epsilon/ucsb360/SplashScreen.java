@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
 
 /**
@@ -30,7 +31,7 @@ public class SplashScreen extends Activity {
 	 * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
 	 * user interaction before hiding the system UI.
 	 */
-	private static final int AUTO_HIDE_DELAY_MILLIS = 2000;
+	private static final int AUTO_HIDE_DELAY_MILLIS = 3000;
 
 	/**
 	 * If set, will toggle the system UI visibility upon interaction. Otherwise,
@@ -57,6 +58,7 @@ public class SplashScreen extends Activity {
 
 		final View controlsView = findViewById(R.id.fullscreen_content_controls);
 		final View contentView = findViewById(R.id.fullscreen_content);
+		final View versionBar = findViewById(R.id.versionBar);
 
 		try {
 			version = (TextView) findViewById(R.id.version);
@@ -125,6 +127,12 @@ public class SplashScreen extends Activity {
 		// Upon interacting with UI controls, delay any scheduled hide()
 		// operations to prevent the jarring behavior of controls going away
 		// while interacting with the UI.
+		
+		// Set up animation for version bar
+		 TranslateAnimation mAnimation = new TranslateAnimation(-480, 0, 0, 0);
+		    mAnimation.setDuration(2000);
+		    mAnimation.setFillAfter(true);
+		    versionBar.setAnimation(mAnimation);
 		
 	}
 
