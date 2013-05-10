@@ -749,6 +749,26 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_cleanTargetTrackedId(JN
     pthread_mutex_unlock(&lastTargetIdMutex);
 }
 
+// ----------------------------------------------------------------------------
+// Updates augmentation height and width variables
+// JFN
+// ----------------------------------------------------------------------------
+JNIEXPORT void JNICALL
+Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_updateAugSize(JNIEnv*, jobject, jint height, jint width)
+{
+    augNativeHeight = height;
+    augNativeWidth = width;
+}
+
+// ----------------------------------------------------------------------------
+// Updates the width read from SQL database
+// JFN
+// ----------------------------------------------------------------------------
+JNIEXPORT void JNICALL
+Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_updateAugScale(JNIEnv*, jobject, jdouble scale)
+{
+    augPercentWidth = (float)scale;
+}
 
 // ----------------------------------------------------------------------------
 // Class Methods
@@ -995,11 +1015,12 @@ renderAugmentation(const QCAR::TrackableResult* trackableResult)
 {
     QCAR::Matrix44F modelViewProjection;
 
-    // Scales the plane relative to the target
-    float augWidth = augSize;
-    float augHeight = augSize*augRatio;
-    SampleUtils::scalePoseMatrix(augWidth * scaleFactor,
-            augHeight * scaleFactor,
+    // Scales the plane relative to the target JFN
+    //LOG("JFN target size is: %f, %f",targetSize.data[0],targetSize.data[1]);
+    float augPercentHeight = (augNativeHeight / augNativeWidth ) * augPercentWidth * (targetSize.data[0]/targetSize.data[1]);
+    //LOG("JFN augmentation size is: %f, %f",augPercentWidth,augPercentHeight);
+    SampleUtils::scalePoseMatrix(augPercentWidth * scaleFactor,
+            augPercentHeight * scaleFactor,
             1.0f,
             &modelViewMatrix.data[0]);
 
