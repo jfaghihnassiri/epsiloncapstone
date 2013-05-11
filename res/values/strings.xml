@@ -25,4 +25,6 @@
 	<string name="createrInfo"> </string>
 	<string name="numLikes"> </string>
 	<string name="facebookLike">Like</string>
+	<string name="sharefb">Share on your Facebook Wall</string>
+	<string name="share_hint">Type your message here!</string>
 </resources>
