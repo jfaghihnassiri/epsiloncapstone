@@ -28,6 +28,7 @@ import android.graphics.Bitmap.CompressFormat;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.os.Environment;
+import android.util.Log;
 
 import com.qualcomm.QCAR.QCAR;
 import com.qualcomm.QCARSamples.CloudRecognition.utils.DebugLog;
@@ -53,7 +54,6 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
     
     //date
     private Date date;
-    
     //boolean for taking Screen shot
     public boolean takeScreenShot = false;
     /** Called when the surface is created or recreated. */
@@ -100,7 +100,7 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
         // Update render view (projection matrix and viewport) if needed:
         mActivity.updateRenderView();
 
-        DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+        //DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
         
         
         
@@ -110,12 +110,14 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
         GLES20.glFinish();
      
         if ( takeScreenShot ) {
-            saveScreenShot(0, 0, mViewWidth, mViewHeight, dateFormat.format(date)+".png");
+           // snapshotRender = saveScreenShot(0, 0, mViewWidth, mViewHeight, dateFormat.format(date)+".png");
+            CloudReco.snapshot = grabPixels(0,0,mViewWidth, mViewHeight);
+            Log.d("SNAPSHOT","snapshot taken in redner");
             takeScreenShot = false;
         }
     }
     
-    private void saveScreenShot(int x, int y, int w, int h, String filename) {
+    private Bitmap saveScreenShot(int x, int y, int w, int h, String filename) {
         Bitmap bmp = grabPixels(x, y, w, h);
         try {
             String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + filename;
@@ -134,9 +136,10 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
         } catch (Exception e) {
             DebugLog.LOGD(e.getStackTrace().toString());
         }
+        return bmp;
     }
   
-    private Bitmap grabPixels(int x, int y, int w, int h) {
+    public Bitmap grabPixels(int x, int y, int w, int h) {
         int b[] = new int[w * (y + h)];
         int bt[] = new int[w * h];
         IntBuffer ib = IntBuffer.wrap(b);
@@ -162,6 +165,6 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
     public void takeScreenShot()
     {
     	takeScreenShot = true;
-        date = new Date();
+        //date = new Date();
     }
 }
