@@ -123,4 +123,31 @@
         android:background="@drawable/close_button_background"
         android:visibility="gone" />
 
+    <Button
+        android:id="@+id/cancel_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Cancel" 
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/share_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/share_button_background" 
+        android:visibility="invisible"/>
+
+    <Button
+        android:id="@+id/done_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/augdone_button_background" 
+        android:visibility="invisible"/>
+
 </RelativeLayout>

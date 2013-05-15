@@ -18,13 +18,16 @@ package com.example.android.apis.graphics;
 
 import com.qualcomm.QCARSamples.CloudRecognition.utils.DebugLog;
 
+
 import edu.ucsb.cs.epsilon.ucsb360.R;
 import edu.ucsb.cs.epsilon.ucsb360.ReviewAugmentation;
+import com.qualcomm.vuforia.CloudRecognition.samples.PostNewTarget;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.*;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -44,6 +47,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import java.io.ByteArrayOutputStream;
 import java.lang.Math;
 import android.widget.TextView.OnEditorActionListener;
 
@@ -53,17 +58,28 @@ public class FingerPaint extends GraphicsActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        //new upLoadToVuforiaTargetDatabase().execute();
+        
         Display display = getWindowManager().getDefaultDisplay();
         width = display.getWidth();
         height = display.getHeight();
         backgrnd = getIntent().getByteArrayExtra("bitMP");
+        byte[] foregrnd = getIntent().getByteArrayExtra("previousCanvas");
+        
+        // either redraws old bitmap previously drawn on by user or creates a new one if they haven't made one
+        if(foregrnd != null)
+        {
+        	Bitmap tempBmp = BitmapFactory.decodeByteArray(foregrnd, 0, foregrnd.length);
+        	mBitmap = tempBmp.copy(Bitmap.Config.ARGB_8888, true); // making bitmap mutable so it can be drawn on canvas
+        	tempBmp = null;
+        }
+        else
+        	mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        
         //setContentView(R.layout.create_augmentation);
         thisView = new MyView(this);
         setContentView(thisView);
-        //setContentView(new MyView(this));
-        /*LinearLayout v = (LinearLayout) findViewById(R.id.linearLayout);
-        MyGraphics myView = new MyGraphics(this);
-        v.addView(myView);*/
          
         LayoutInflater inflater = getLayoutInflater();
         getWindow().addContentView(inflater.inflate(R.layout.create_augmentation,null),
@@ -104,6 +120,23 @@ public class FingerPaint extends GraphicsActivity
         	DebugLog.LOGD("backgrnd NOT NULL!!!1");
         
         addListenerOnButtonAndTextChange();
+    }
+    
+    private class upLoadToVuforiaTargetDatabase extends AsyncTask<Void, Boolean, Boolean> {
+
+        protected void onPreExecute() {
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+        	new PostNewTarget().uploadTarget("test upload in finger paint", backgrnd);
+            return true;
+        }
+
+        protected void onPostExecute(Boolean result) {
+        	
+        }
+
     }
     
 	Button doneButton;
@@ -151,8 +184,19 @@ public class FingerPaint extends GraphicsActivity
 					//display.setText(augInput.getText().toString());
 					//display.refreshDrawableState();
 				}
-				Intent intent = new Intent(getApplicationContext(), ReviewAugmentation.class);
-				startActivity(intent);
+				//Intent intent = new Intent(getApplicationContext(), ReviewAugmentation.class);
+				//startActivity(intent);
+				
+    			ByteArrayOutputStream stream = new ByteArrayOutputStream();
+    			mBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+    			byte[] canvasByteArray = stream.toByteArray();
+    			stream = null;
+				
+				
+				Intent result = new Intent();
+				result.putExtra("returnedAugmentation", canvasByteArray);
+				setResult(Activity.RESULT_OK, result);
+	  	        finish();
 				//goto viewing page of target with augmentation
 			}
 		});
@@ -185,6 +229,7 @@ public class FingerPaint extends GraphicsActivity
     
     //LB moved outside
     private Canvas  mCanvas;
+    private Bitmap  mBitmap;
 
     
     private int width;
@@ -199,7 +244,7 @@ public class FingerPaint extends GraphicsActivity
         private static final float MINP = 0.25f;
         private static final float MAXP = 0.75f;
         
-        private Bitmap  mBitmap;
+
         //private Canvas  mCanvas;
         private Path    mPath;
         private Paint   mBitmapPaint;
@@ -211,7 +256,6 @@ public class FingerPaint extends GraphicsActivity
             Drawable d = new BitmapDrawable(getResources(),BitmapFactory.decodeByteArray(backgrnd, 0, backgrnd.length));
             super.setBackgroundDrawable(d);
             
-            mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
             mCanvas = new Canvas(mBitmap); 
             mPath = new Path();
             mBitmapPaint = new Paint(Paint.DITHER_FLAG);
