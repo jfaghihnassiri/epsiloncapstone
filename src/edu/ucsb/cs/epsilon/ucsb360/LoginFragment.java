@@ -127,16 +127,20 @@ public class LoginFragment extends Fragment{
 			activeSession = Session.getActiveSession();
 
 			//CODE FOR FRIENDS STUFF
-			if(session.isOpened()&& session!= null && userId == null) {
+			if(activeSession.isOpened()&& activeSession!= null && userId == null) {
 				Request.executeMyFriendsRequestAsync(Session.getActiveSession(), new Request.GraphUserListCallback() {
 
 					@Override
 					public void onCompleted(List<GraphUser> users, Response response) {
 						// TODO Auto-generated method stub
-						for (int i = 0; i < users.size(); i++)
+						if(activeSession == Session.getActiveSession())
 						{
-							friendList.addElement(users.get(i).getId());
+							for (int i = 0; i < users.size(); i++)
+							{
+								friendList.addElement(users.get(i).getId());
+							}
 						}
+						
 					}
 
 				});
@@ -147,12 +151,15 @@ public class LoginFragment extends Fragment{
 					@Override
 					public void onCompleted(GraphUser user, Response response) {
 						// TODO Auto-generated method stub
-						System.out.println("DEBUG: GETTING USER INFO");
-						Log.d(TAG, user.getBirthday() + " "+ user.getId() + user.getUsername()+" "+user.getName());
-						userId = user.getId();
-						userName= user.getName();
-						userBirthday = user.getBirthday();
-						getInfo(userId, userName, userBirthday);
+						if(activeSession == Session.getActiveSession())
+						{
+							System.out.println("DEBUG: GETTING USER INFO");
+							Log.d(TAG, user.getBirthday() + " "+ user.getId() + user.getUsername()+" "+user.getName());
+							userId = user.getId();
+							userName= user.getName();
+							userBirthday = user.getBirthday();
+							getInfo(userId, userName, userBirthday);
+						}
 
 					}
 				});
