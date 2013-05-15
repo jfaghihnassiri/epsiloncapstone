@@ -46,6 +46,7 @@ public class LoginFragment extends Fragment{
 	private static final String TAG = "LoginFragment";
 	private UiLifecycleHelper uiHelper;
 	private Button btnViewNoLogin;
+	private Button btnViewLogin;
 	public static Session activeSession;
 	private static boolean isLoggedIn;
 	private static String userId;
@@ -81,6 +82,7 @@ public class LoginFragment extends Fragment{
 	    activeSession = Session.getActiveSession();
 	    Log.d("FB","PASSED ACTIVE SESSION IN ONCREATEVIEW");
 	    activity  = (MainActivity) getActivity();
+	    btnViewLogin = (Button)view.findViewById(R.id.btnViewLogin);
 	    btnViewNoLogin = (Button)view.findViewById(R.id.btnViewNoLogin);
 	    btnViewNoLogin.setOnClickListener(new OnClickListener() 
 	    {
@@ -100,11 +102,17 @@ public class LoginFragment extends Fragment{
 	            savedInstanceState.getBoolean(PENDING_PUBLISH_KEY, false);
 	    }
 	    
-	    // Animate the view without login button
-	    TranslateAnimation translate = new TranslateAnimation(480, 0, 0, 0);
-	    translate.setDuration(1000);
-	    translate.setFillAfter(true);
-	    btnViewNoLogin.startAnimation(translate);
+	    // Animate the buttons
+	    TranslateAnimation translateLeft = new TranslateAnimation(480, 0, 0, 0);
+	    translateLeft.setDuration(1000);
+	    translateLeft.setFillAfter(true);
+	    btnViewNoLogin.startAnimation(translateLeft);
+	    
+	    TranslateAnimation translateRight = new TranslateAnimation(-480, 0, 0, 0);
+	    translateRight.setDuration(1000);
+	    translateRight.setFillAfter(true);
+	    btnViewLogin.startAnimation(translateRight);
+	    authButton.startAnimation(translateRight);
 	    
 	    return view;
 	}

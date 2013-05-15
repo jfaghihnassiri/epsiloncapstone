@@ -11,33 +11,47 @@
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/three60logo480wide"
-        android:layout_marginBottom="25dip" />
+        android:layout_marginBottom="25dip"
+        android:src="@drawable/three60logo480wide" />
 
     <TextView
         android:id="@+id/welcome"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/logo"
+        android:layout_marginBottom="25dip"
         android:text="@string/Welcome"
         android:textColor="@color/black"
-        android:textSize="25sp"
-        android:layout_marginBottom="25dip" />
+        android:textSize="25sp" />
 
-    <com.facebook.widget.LoginButton
-        android:id="@+id/authButton"
+    <RelativeLayout
+        android:id="@+id/fbLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/welcome"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="25dip" />
+        android:layout_marginBottom="25dip" >
+
+        <Button
+            android:id="@+id/btnViewLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/parent"
+            android:background="@drawable/login_facebook_normal" />
+
+        <com.facebook.widget.LoginButton
+            android:id="@+id/authButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp" />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/btnViewNoLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignRight="@+id/parent"
-        android:layout_below="@+id/authButton"
+        android:layout_below="@+id/fbLogin"
         android:background="@drawable/view_without_login" />
 
 </RelativeLayout>
