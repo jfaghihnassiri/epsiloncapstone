@@ -26,16 +26,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
         android:background="@drawable/aug_info_bar"
         android:visibility="invisible" >
+
+        <Button
+            android:id="@+id/facebookLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/like_button_background"
+            android:visibility="invisible" />
 
         <TextView
             android:id="@+id/numLikes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_alignTop="@+id/augmentation_info_bar"
-            android:layout_marginTop="13dp"
+            android:layout_toLeftOf="@+id/facebookLike"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="5dp"
             android:text="@+string/indexes"
             android:textColor="@color/ucsb_gold" />
 
@@ -44,17 +54,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/numLikes"
-            android:layout_centerHorizontal="true"
+            android:layout_toLeftOf="@+id/facebookLike"
+            android:layout_marginRight="5dp"
             android:text="@+string/createrInfo"
             android:textColor="@color/ucsb_gold" />
     </RelativeLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:background="@drawable/view_button_bar"
         android:gravity="center"
         android:orientation="horizontal" >
 
@@ -62,38 +74,16 @@
             android:id="@+id/post_to_fb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="45dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="20dp"
             android:background="@drawable/share_button_background" />
-
-        <Button
-            android:id="@+id/facebookLike"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/like_button_background"
-            android:visibility="invisible" />
-
-        <Button
-            android:id="@+id/create_augmentation"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="45dp"
-            android:background="@drawable/createaug_button_background" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/bottom_bar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:gravity="center"
-        android:orientation="horizontal" >
 
         <Button
             android:id="@+id/gallery_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/indexes"
+            android:layout_marginRight="10dp"
             android:background="@drawable/gallery_left_background"
             android:visibility="invisible" />
 
@@ -101,6 +91,7 @@
             android:id="@+id/indexes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
             android:text="@+string/indexes"
             android:textColor="@color/ucsb_gold"
             android:textSize="30sp" />
@@ -109,10 +100,19 @@
             android:id="@+id/gallery_right"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/indexes"
+            android:layout_marginLeft="10dp"
             android:background="@drawable/gallery_right_background"
             android:visibility="invisible" />
-    </LinearLayout>
+
+        <Button
+            android:id="@+id/create_augmentation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/createaug_button_background" />
+    </RelativeLayout>
 
     <Button
         android:id="@+id/overlay_close_button"
