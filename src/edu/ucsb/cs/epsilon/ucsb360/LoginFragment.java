@@ -3,6 +3,7 @@ package edu.ucsb.cs.epsilon.ucsb360;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -55,16 +56,29 @@ public class LoginFragment extends Fragment{
 	private String userLocation;
 	private static MainActivity activity;
 	private static Vector<String>friendList;
+	private static ArrayList<String>friendList2 = new ArrayList<String>();
 	/*FB PRIVATES*/
 	private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
 	private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
+	private static final String FRIEND_LIST = "friendList";
+	private static final String USER_ID = "userId";
+	private static final String USER_NAME= "userName";
+	private static final String USER_BIRTHDAY=" userBirthday";
 	private boolean pendingPublishReauthorization = false;
 	/*					*/
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
-	     
+	    if(savedInstanceState != null)
+	    {
+	    	Log.d(TAG,"in oncreatesavedInstance");
+	    	friendList2 = savedInstanceState.getStringArrayList(FRIEND_LIST);
+	    	userId = savedInstanceState.getString(USER_ID);
+	    	userName = savedInstanceState.getString(USER_NAME);
+	    	userBirthday = savedInstanceState.getString(USER_BIRTHDAY);
+	    	Log.d(TAG,"Complete oncreate restor");
+	    }
 	    uiHelper = new UiLifecycleHelper(getActivity(), callback);
 	    uiHelper.onCreate(savedInstanceState);
 	}
@@ -127,7 +141,7 @@ public class LoginFragment extends Fragment{
 			activeSession = Session.getActiveSession();
 
 			//CODE FOR FRIENDS STUFF
-			if(activeSession.isOpened()&& activeSession!= null && userId == null) {
+			if(activeSession.isOpened()&& activeSession!= null && userId == null && Session.openActiveSessionFromCache(getActivity())!= null) {
 				Request.executeMyFriendsRequestAsync(Session.getActiveSession(), new Request.GraphUserListCallback() {
 
 					@Override
@@ -135,9 +149,12 @@ public class LoginFragment extends Fragment{
 						// TODO Auto-generated method stub
 						if(activeSession == Session.getActiveSession())
 						{
+							Log.i(TAG, "Friend List...");
 							for (int i = 0; i < users.size(); i++)
 							{
 								friendList.addElement(users.get(i).getId());
+								friendList2.add(users.get(i).getId());
+								
 							}
 						}
 						
@@ -159,6 +176,7 @@ public class LoginFragment extends Fragment{
 							userName= user.getName();
 							userBirthday = user.getBirthday();
 							getInfo(userId, userName, userBirthday);
+							Log.i(TAG, "User Info");
 						}
 
 					}
@@ -182,8 +200,14 @@ public class LoginFragment extends Fragment{
 	private Session.StatusCallback callback = new Session.StatusCallback() {
 	    @Override
 	    public void call(Session session, SessionState state, Exception exception) {
-	        onSessionStateChange(session, state, exception);
-	        
+	    	if(state.equals(SessionState.CLOSED) || state.equals(SessionState.CLOSED_LOGIN_FAILED))
+	    	{
+	    		activeSession.closeAndClearTokenInformation();
+	    	}
+	    	else if(state.equals(SessionState.OPENED))
+	    	{
+	    		onSessionStateChange(session, state, exception);
+	    	}
 	        
 	    }
 	};
@@ -323,12 +347,21 @@ public class LoginFragment extends Fragment{
 	public void onSaveInstanceState(Bundle outState) {
 	    super.onSaveInstanceState(outState);
 	    outState.putBoolean(PENDING_PUBLISH_KEY, pendingPublishReauthorization);
+	    outState.putStringArrayList(FRIEND_LIST, friendList2);
+	    outState.putString(USER_ID, userId);
+	    outState.putString(USER_NAME, userName);
+	    outState.putSerializable(USER_BIRTHDAY, userBirthday);
 	    uiHelper.onSaveInstanceState(outState);
 	}
 	
 	public static Vector<String> getFriends()
 	{
 		return friendList;
+	}
+	
+	public static ArrayList<String> getFriendList()
+	{
+		return friendList2;
 	}
 	/*
 	 * OVERRIDE ENDS
