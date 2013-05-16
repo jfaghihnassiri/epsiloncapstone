@@ -14,8 +14,22 @@ import android.app.Application;
 public class Global extends Application {
 
 	private static boolean appVisible;
+	private static boolean connecting = false;
+	private static boolean loggingIn = false;
 	private static Timer timer = new Timer();
 	private static String date;
+	
+	public static void setConnecting(boolean isConnecting) {
+		connecting = isConnecting;
+	}
+	
+	public static void setLoggingIn(boolean isLoggingIn) {
+		loggingIn = isLoggingIn;
+	}
+	
+	public static boolean isLoggingIn() {
+		return loggingIn;
+	}
 	
 	private static void setDate() {
 		Calendar calendar = Calendar.getInstance();
@@ -41,9 +55,9 @@ public class Global extends Application {
 	public static void applicationResumed() {
 
 		appVisible = true;
-		if(!DatabaseManager.isConnected()) {
-			setDate();
+		if(!DatabaseManager.isConnected() && !connecting) {
 			DatabaseManager.connect();
+			setDate();
 		}
 		
 	}

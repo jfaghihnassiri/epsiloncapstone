@@ -181,4 +181,17 @@ public class SplashScreen extends Activity {
 		mHideHandler.removeCallbacks(mHideRunnable);
 		mHideHandler.postDelayed(mHideRunnable, delayMillis);
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		Global.applicationResumed();
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		Global.applicationPaused();
+	}
+	
 }

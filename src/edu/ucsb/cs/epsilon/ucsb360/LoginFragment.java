@@ -170,7 +170,6 @@ public class LoginFragment extends Fragment{
 						// TODO Auto-generated method stub
 						if(activeSession == Session.getActiveSession())
 						{
-							System.out.println("DEBUG: GETTING USER INFO");
 							Log.d(TAG, user.getBirthday() + " "+ user.getId() + user.getUsername()+" "+user.getName());
 							userId = user.getId();
 							userName= user.getName();
@@ -202,7 +201,7 @@ public class LoginFragment extends Fragment{
 	    public void call(Session session, SessionState state, Exception exception) {
 	    	if(state.equals(SessionState.CLOSED) || state.equals(SessionState.CLOSED_LOGIN_FAILED))
 	    	{
-	    		activeSession.closeAndClearTokenInformation();
+	    		onSessionStateChange(session, state, exception);
 	    	}
 	    	else if(state.equals(SessionState.OPENED))
 	    	{
@@ -272,7 +271,7 @@ public class LoginFragment extends Fragment{
 	 */
 	public void getInfo(String uId, String uName, String uBday)
 	{
-		if(DatabaseManager.isConnected())
+		if(DatabaseManager.isConnected() && !Global.isLoggingIn())
 			DatabaseManager.login(uId, uName, uBday);
 		Log.i(TAG,"USERINFO");
 	}
