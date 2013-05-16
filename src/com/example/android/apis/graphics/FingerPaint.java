@@ -19,6 +19,7 @@ package com.example.android.apis.graphics;
 import com.qualcomm.QCARSamples.CloudRecognition.utils.DebugLog;
 
 
+import edu.ucsb.cs.epsilon.ucsb360.Global;
 import edu.ucsb.cs.epsilon.ucsb360.R;
 import edu.ucsb.cs.epsilon.ucsb360.ReviewAugmentation;
 import com.qualcomm.vuforia.CloudRecognition.samples.PostNewTarget;
@@ -394,4 +395,17 @@ public class FingerPaint extends GraphicsActivity
         }
         return super.onOptionsItemSelected(item);
     }
+    
+    @Override
+	public void onResume() {
+		super.onResume();
+		Global.applicationResumed();
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		Global.applicationPaused();
+	}
+    
 }
