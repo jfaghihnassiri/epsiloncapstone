@@ -100,7 +100,7 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
         // Update render view (projection matrix and viewport) if needed:
         mActivity.updateRenderView();
 
-        //DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
         
         
         
@@ -110,7 +110,8 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
         GLES20.glFinish();
      
         if ( takeScreenShot ) {
-           // snapshotRender = saveScreenShot(0, 0, mViewWidth, mViewHeight, dateFormat.format(date)+".png");
+            //snapshotRender = 
+            //saveScreenShot(0, 0, mViewWidth, mViewHeight, dateFormat.format(date)+".png");
             CloudReco.snapshot = grabPixels(0,0,mViewWidth, mViewHeight);
             Log.d("SNAPSHOT","snapshot taken in redner");
             takeScreenShot = false;
@@ -119,6 +120,7 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
     
     private Bitmap saveScreenShot(int x, int y, int w, int h, String filename) {
         Bitmap bmp = grabPixels(x, y, w, h);
+        CloudReco.snapshot = bmp;
         try {
             String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + filename;
             DebugLog.LOGD(path);
@@ -129,9 +131,9 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
             FileOutputStream fos = new FileOutputStream(file);
             bmp.compress(CompressFormat.PNG, 100, fos);
   
-            fos.flush();
+            ///fos.flush();
              
-            fos.close();
+            //fos.close();
             
         } catch (Exception e) {
             DebugLog.LOGD(e.getStackTrace().toString());
@@ -165,6 +167,6 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
     public void takeScreenShot()
     {
     	takeScreenShot = true;
-        //date = new Date();
+        date = new Date();
     }
 }

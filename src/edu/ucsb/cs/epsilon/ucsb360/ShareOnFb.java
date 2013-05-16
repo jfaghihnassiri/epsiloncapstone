@@ -10,6 +10,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -53,7 +54,9 @@ public class ShareOnFb extends DialogFragment{
         });
         //set up all privates
         image = new ImageView(getActivity());
-        Bitmap bitmap = (((CloudReco) getActivity()).getSnapshot());
+        Bitmap bitmap =  ((CloudReco) getActivity()).getSnapshot();
+        Log.d("SNAPSHOT","set in shareFB");
+        
         image.setImageBitmap(bitmap);
         image.setVisibility(View.VISIBLE);
         ((LinearLayout)view.findViewById(R.id.share_fb_container)).addView(image);

@@ -240,7 +240,7 @@ public class LoginFragment extends Fragment{
 	    super.onActivityResult(requestCode, resultCode, data);
 	    uiHelper.onActivityResult(requestCode, resultCode, data);
 	    Log.i(TAG, "onActivityResult, should only be here after login");
-	  
+	    activeSession = Session.getActiveSession();
 	    //CODE FOR PERMISSION MOVED
 	    if(Session.getActiveSession() != null){
 		    //For user permission to post
