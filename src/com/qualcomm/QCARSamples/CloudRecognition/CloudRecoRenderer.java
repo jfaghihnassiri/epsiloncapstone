@@ -56,6 +56,14 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
     private Date date;
     //boolean for taking Screen shot
     public boolean takeScreenShot = false;
+    
+    //HJC
+    //disable scanning bar to take screen shot
+    public native void enterScreenShotModeNative();
+    
+    //enable scanning bar back after took the screen shot
+    public native void exitScreenShotModeNative();
+    
     /** Called when the surface is created or recreated. */
     public void onSurfaceCreated(GL10 gl, EGLConfig config)
     {
@@ -114,6 +122,7 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
             //saveScreenShot(0, 0, mViewWidth, mViewHeight, dateFormat.format(date)+".png");
             CloudReco.snapshot = grabPixels(0,0,mViewWidth, mViewHeight);
             Log.d("SNAPSHOT","snapshot taken in redner");
+            exitScreenShotModeNative();
             takeScreenShot = false;
         }
     }
@@ -166,6 +175,7 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
     
     public void takeScreenShot()
     {
+    	enterScreenShotModeNative();
     	takeScreenShot = true;
         date = new Date();
     }
