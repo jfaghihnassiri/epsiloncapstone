@@ -94,8 +94,8 @@ public final class Target {
 	 * @param yPos the y postiion of the augmentation in reference to the target
 	 * @param size the size of the augmentation in reference to the target
 	 */
-	public void createAug(int aug_id, String aug_date, String creatorId, String creatorName, String privacy, String message, int views, int likes, int xPos, int yPos, double size, String url) {
-		augmentations.add(new Augmentation(aug_id, aug_date, creatorId, creatorName, privacy, message, views, likes, xPos, yPos, size, url));
+	public void createAug(int aug_id, String aug_date, String creatorId, String creatorName, String privacy, int views, int likes, boolean likedByUser, String url) {
+		augmentations.add(new Augmentation(aug_id, aug_date, creatorId, creatorName, privacy, views, likes, likedByUser, url));
 	}
 	
 	/**
@@ -157,18 +157,6 @@ public final class Target {
 	}
 	
 	/**
-	 * Get augmentation message
-	 * 
-	 * @author Jhon Nassiri
-	 * @author Max Hinson
-	 * @param augIndex the index of an augmentation into the ArrayList
-	 * @return augmentation message
-	 */
-	public String getAugMessage(int augIndex) {
-		return augmentations.get(augIndex).getMessage();
-	}
-	
-	/**
 	 * Get augmentation views
 	 * 
 	 * @author Jhon Nassiri
@@ -193,39 +181,12 @@ public final class Target {
 	}
 	
 	/**
-	 * Get augmentation x position
 	 * 
-	 * @author Jhon Nassiri
-	 * @author Max Hinson
-	 * @param augIndex the index of an augmentation into the ArrayList
-	 * @return augmentation x position
+	 * @param augIndex the index of the augmentation into the ArrayList
+	 * @return whether or not the augmentation has been liked by the user
 	 */
-	public int getAugXPos(int augIndex) {
-		return augmentations.get(augIndex).getxPos();
-	}
-	
-	/**
-	 * Get augmentation y position
-	 * 
-	 * @author Jhon Nassiri
-	 * @author Max Hinson 
-	 * @param augIndex the index of an augmentation into the ArrayList
-	 * @return augmentation x position
-	 */
-	public int getAugYPos(int augIndex) {
-		return augmentations.get(augIndex).getyPos();
-	}
-	
-	/**
-	 * Get augmentation size
-	 * 
-	 * @author Jhon Nassiri
-	 * @author Max Hinson
-	 * @param augIndex the index of an augmentation into the ArrayList
-	 * @return augmentation size
-	 */
-	public double getAugSize(int augIndex) {
-		return augmentations.get(augIndex).getSize();
+	public boolean isAugLikedByUser(int augIndex) {
+		return augmentations.get(augIndex).isLikedByUser();
 	}
 	
 	/**
@@ -248,8 +209,8 @@ public final class Target {
 	 * @param augIndex the index of an augmentation into the ArrayList
 	 * @return augmentation views
 	 */
-	public int incAugViews(int augIndex) {
-		return augmentations.get(augIndex).incViews();
+	public void incAugViews(int augIndex) {
+		augmentations.get(augIndex).incViews();
 	}
 	
 	/**
@@ -260,8 +221,8 @@ public final class Target {
 	 * @param augIndex the index of an augmentation into the hashmap
 	 * @return augmentation likes
 	 */
-	public int incAugLikes(int augIndex) {
-		return augmentations.get(augIndex).incLikes();
+	public void incAugLikes(int augIndex) {
+		augmentations.get(augIndex).incLikes();
 	}
 
 }
