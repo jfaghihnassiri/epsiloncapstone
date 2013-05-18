@@ -119,12 +119,10 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
         GLES20.glFinish();
      
         if ( takeScreenShot ) {
-            //snapshotRender = 
-            //saveScreenShot(0, 0, mViewWidth, mViewHeight, dateFormat.format(date)+".png");
             CloudReco.snapshot = grabPixels(0,0,mViewWidth, mViewHeight);
             Log.d("SNAPSHOT","snapshot taken in redner");
-            exitScreenShotModeNative();
             takeScreenShot = false;
+         //   exitScreenShotModeNative();
         }
     }
     
@@ -176,7 +174,7 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
     
     public void takeScreenShot()
     {
-    	enterScreenShotModeNative();
+    //	enterScreenShotModeNative();
     	takeScreenShot = true;
         date = new Date();
     }
@@ -185,7 +183,7 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
     	
     	@Override
     	protected Bitmap doInBackground(Void... params){
-    		enterScreenShotModeNative();
+    	//	enterScreenShotModeNative();
     		Bitmap temp = grabPixels(0,0,mViewWidth, mViewHeight);
         	
     		CloudReco.snapshot = grabPixels(0,0,mViewWidth, mViewHeight);
@@ -197,7 +195,7 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
 	    		  DebugLog.LOGD("XXXXXXXX: snapShot is NULLLLLLL");
 	    	  }
     		
-    		exitScreenShotModeNative();
+    	//	exitScreenShotModeNative();
     		
 			return temp;
     	}
