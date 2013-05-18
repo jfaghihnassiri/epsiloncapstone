@@ -57,6 +57,8 @@ public class LoginFragment extends Fragment{
 	private static MainActivity activity;
 	private static Vector<String>friendList;
 	private static ArrayList<String>friendList2 = new ArrayList<String>();
+	private TranslateAnimation translateLeft;
+	private TranslateAnimation translateRight;
 	/*FB PRIVATES*/
 	private static final List<String> PERMISSIONS = Arrays.asList("publish_actions");
 	private static final String PENDING_PUBLISH_KEY = "pendingPublishReauthorization";
@@ -65,6 +67,7 @@ public class LoginFragment extends Fragment{
 	private static final String USER_NAME= "userName";
 	private static final String USER_BIRTHDAY=" userBirthday";
 	private boolean pendingPublishReauthorization = false;
+	private LoginButton authButton;
 	/*					*/
 	
 	@Override
@@ -88,7 +91,7 @@ public class LoginFragment extends Fragment{
 	        ViewGroup container, 
 	        Bundle savedInstanceState) {
 	    View view = inflater.inflate(R.layout.activity_main, container, false);
-	    LoginButton authButton = (LoginButton) view.findViewById(R.id.authButton);
+	    authButton = (LoginButton) view.findViewById(R.id.authButton);
 	    authButton.setFragment(this);
 	    authButton.setReadPermissions(Arrays.asList("read_friendlists"));
 	    
@@ -117,16 +120,13 @@ public class LoginFragment extends Fragment{
 	    }
 	    
 	    // Animate the buttons
-	    TranslateAnimation translateLeft = new TranslateAnimation(480, 0, 0, 0);
+	    translateLeft = new TranslateAnimation(480, 0, 0, 0);
 	    translateLeft.setDuration(1000);
 	    translateLeft.setFillAfter(true);
-	    btnViewNoLogin.startAnimation(translateLeft);
 	    
-	    TranslateAnimation translateRight = new TranslateAnimation(-480, 0, 0, 0);
+	    translateRight = new TranslateAnimation(-480, 0, 0, 0);
 	    translateRight.setDuration(1000);
 	    translateRight.setFillAfter(true);
-	    btnViewLogin.startAnimation(translateRight);
-	    authButton.startAnimation(translateRight);
 	    
 	    return view;
 	}
@@ -225,10 +225,13 @@ public class LoginFragment extends Fragment{
 	           (session.isOpened() || session.isClosed()) ) {
 	        onSessionStateChange(session, session.getState(), null);
 	    }
-	    
 
 	    pendingPublishReauthorization = false;
 	    uiHelper.onResume();
+	    
+	    btnViewNoLogin.startAnimation(translateLeft);
+	    btnViewLogin.startAnimation(translateRight);
+	    authButton.startAnimation(translateRight);
 	}
 
 	/**
