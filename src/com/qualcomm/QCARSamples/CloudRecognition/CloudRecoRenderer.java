@@ -27,6 +27,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
@@ -179,4 +180,32 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
     	takeScreenShot = true;
         date = new Date();
     }
+    
+    public final class takeSnapShot extends AsyncTask<Void, Void, Bitmap>{
+    	
+    	@Override
+    	protected Bitmap doInBackground(Void... params){
+    		enterScreenShotModeNative();
+    		Bitmap temp = grabPixels(0,0,mViewWidth, mViewHeight);
+        	
+    		CloudReco.snapshot = grabPixels(0,0,mViewWidth, mViewHeight);
+    		
+	      	  if(CloudReco.snapshot != null){
+	      		DebugLog.LOGD("XXXXXXXX: Something in SnapShot");
+	    	  }
+	    	  else{
+	    		  DebugLog.LOGD("XXXXXXXX: snapShot is NULLLLLLL");
+	    	  }
+    		
+    		exitScreenShotModeNative();
+    		
+			return temp;
+    	}
+    	
+    	protected void onPostExecute(Bitmap temp){
+    		CloudReco.snapshot = temp;
+    		DebugLog.LOGD("XXXXXXX: AsyncTask finished" );
+    	}
+    }
+    
 }
