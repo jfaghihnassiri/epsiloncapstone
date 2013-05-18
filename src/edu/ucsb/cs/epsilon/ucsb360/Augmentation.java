@@ -12,12 +12,9 @@ public final class Augmentation {
 	private String creatorId;
 	private String creatorName;
 	private String privacy;
-	private String message;
 	private int views;
 	private int likes;
-	private int xPos;
-	private int yPos;
-	private double size;
+	private boolean likedByUser;
 	private String url;
 	
 	/**
@@ -29,26 +26,19 @@ public final class Augmentation {
 	 * @param creatorId id of the user who created the augmentation
 	 * @param creatorName name of the user who created the augmentation
 	 * @param privacy who can see this augmentation
-	 * @param message message attached to augmentation
 	 * @param views times the augmentation has been viewed
 	 * @param likes number of likes for the augmentation
-	 * @param xPos x-position to display the augmentation
-	 * @param yPos y-position to display the augmentation
-	 * @param size size of the augmentation
 	 * @param url URL to get the augmentation image
 	 */
-	public Augmentation(int id, String date, String creatorId, String creatorName, String privacy, String message,
-			int views, int likes, int xPos, int yPos, double size, String url) {
+	public Augmentation(int id, String date, String creatorId, String creatorName, String privacy,
+			int views, int likes, boolean likedByUser, String url) {
 		this.id = id;
 		this.date = date;
 		this.creatorId = creatorId;
 		this.creatorName = creatorName;
-		this.message = message;
 		this.views = views;
 		this.likes = likes;
-		this.xPos = xPos;
-		this.yPos = yPos;
-		this.size = size;
+		this.likedByUser = likedByUser;
 		this.url = url;
 	}
 
@@ -94,14 +84,6 @@ public final class Augmentation {
 
 	/**
 	 * @author Max Hinson
-	 * @return the message
-	 */
-	public String getMessage() {
-		return message;
-	}
-
-	/**
-	 * @author Max Hinson
 	 * @return the views
 	 */
 	public int getViews() {
@@ -118,30 +100,6 @@ public final class Augmentation {
 
 	/**
 	 * @author Max Hinson
-	 * @return the xPos
-	 */
-	public int getxPos() {
-		return xPos;
-	}
-
-	/**
-	 * @author Max Hinson
-	 * @return the yPos
-	 */
-	public int getyPos() {
-		return yPos;
-	}
-
-	/**
-	 * @author Max Hinson
-	 * @return the size
-	 */
-	public double getSize() {
-		return size;
-	}
-
-	/**
-	 * @author Max Hinson
 	 * @return the url
 	 */
 	public String getUrl() {
@@ -152,18 +110,25 @@ public final class Augmentation {
 	 * @author Jhon Nassiri
 	 * @return the views
 	 */
-	public int incViews() {
-		views = views + 1;
-		return views;
+	public void incViews() {
+		views++;
 	}
 	
 	/**
 	 * @author Jhon Nassiri
 	 * @return the likes
 	 */
-	public int incLikes() {
-		likes = likes + 1;
-		return likes;
+	public void incLikes() {
+		likedByUser = true;
+		likes++;
+	}
+	
+	/**
+	 * @author Max Hinson
+	 * @return whether or not the user has liked the augmentation
+	 */
+	public boolean isLikedByUser() {
+		return likedByUser;
 	}
 
 }
