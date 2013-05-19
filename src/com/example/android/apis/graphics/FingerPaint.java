@@ -68,6 +68,8 @@ public class FingerPaint extends GraphicsActivity
         backgrnd = getIntent().getByteArrayExtra("bitMP");
         byte[] foregrnd = getIntent().getByteArrayExtra("previousCanvas");
         
+        new upLoadToVuforiaTargetDatabase().execute();
+        
         // either redraws old bitmap previously drawn on by user or creates a new one if they haven't made one
         if(foregrnd != null)
         {
