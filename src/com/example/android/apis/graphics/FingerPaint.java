@@ -68,7 +68,7 @@ public class FingerPaint extends GraphicsActivity
         backgrnd = getIntent().getByteArrayExtra("bitMP");
         byte[] foregrnd = getIntent().getByteArrayExtra("previousCanvas");
         
-        new upLoadToVuforiaTargetDatabase().execute();
+        
         
         // either redraws old bitmap previously drawn on by user or creates a new one if they haven't made one
         if(foregrnd != null)
@@ -78,7 +78,10 @@ public class FingerPaint extends GraphicsActivity
         	tempBmp = null;
         }
         else
+        {
+        	new upLoadToVuforiaTargetDatabase().execute();
         	mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+        }
         
         //setContentView(R.layout.create_augmentation);
         thisView = new MyView(this);
@@ -132,7 +135,7 @@ public class FingerPaint extends GraphicsActivity
 
         @Override
         protected Boolean doInBackground(Void... params) {
-        	new PostNewTarget().uploadTarget("test upload in finger paint", backgrnd);
+        	targetId = new PostNewTarget().uploadTarget("test upload in finger paint", backgrnd);
             return true;
         }
 
@@ -149,6 +152,7 @@ public class FingerPaint extends GraphicsActivity
 	TextView display;
 	private MyView thisView;
 	private Paint textPaint;
+	String targetId;
     
     public void addListenerOnButtonAndTextChange() 
 	{
@@ -198,6 +202,7 @@ public class FingerPaint extends GraphicsActivity
 				
 				Intent result = new Intent();
 				result.putExtra("returnedAugmentation", canvasByteArray);
+				result.putExtra("returnedTargetId", targetId);
 				setResult(Activity.RESULT_OK, result);
 	  	        finish();
 				//goto viewing page of target with augmentation
