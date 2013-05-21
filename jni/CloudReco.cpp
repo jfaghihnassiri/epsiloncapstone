@@ -299,6 +299,7 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_renderFrame(JNI
         QCAR::ImageTargetResult *imageResult = (QCAR::ImageTargetResult *)trackableResult;
         targetSize = imageResult->getTrackable().getSize();
 
+
 		//HJC
 		if(renderState == RS_NORMAL){
 			showGalleryButtons();
@@ -889,12 +890,23 @@ generateProductTextureInOpenGL()
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         // We create an empty power of two texture and upload a sub image.
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1024,
-                1024, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+        // JFNA
+        // Used to be glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1024, 1024, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+        aug_width = productTexture->mWidth;
+        aug_height = productTexture->mHeight;
+        frame_width = 1024;
+        frame_height = 1024;
+        botleft_x = ((frame_width/2.0)-(aug_width/2.0))-1;
+        if(botleft_x<0) botleft_x=0;
+        botleft_y = ((frame_height/2.0)-(aug_height/2.0))-1;
+        if(botleft_y<0) botleft_y=0;
+        LOG("JFN frameWH=(%f,%f), augWH=(%f,%f), tarWH=(%f,%f), botleftXY=(%f,%f)",frame_width,frame_height,aug_width, aug_height, targetSize.data[0],targetSize.data[1],botleft_x,botleft_y);
 
-        glTexSubImage2D(GL_TEXTURE_2D, 0, 180, 230, productTexture->mWidth,//CHANGED 0 to DIFFERING NUM
-            productTexture->mHeight, GL_RGBA, GL_UNSIGNED_BYTE,
-            (GLvoid*) productTexture->mData);
+        // Create frame
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, frame_width, frame_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+
+        // Add texture. Used to be glTexSubImage2D(GL_TEXTURE_2D, 0, 180, 230, productTexture->mWidth,
+        glTexSubImage2D(GL_TEXTURE_2D, 0, botleft_x, botleft_y, aug_width, aug_height, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*) productTexture->mData);
 			
         // Updates the current Render State
         renderState = RS_NORMAL;
@@ -1015,14 +1027,8 @@ renderAugmentation(const QCAR::TrackableResult* trackableResult)
 {
     QCAR::Matrix44F modelViewProjection;
 
-    // Scales the plane relative to the target JFN
-    //LOG("JFN target size is: %f, %f",targetSize.data[0],targetSize.data[1]);
-    float augPercentHeight = (augNativeHeight / augNativeWidth ) * augPercentWidth * (targetSize.data[0]/targetSize.data[1]);
-    //LOG("JFN augmentation size is: %f, %f",augPercentWidth,augPercentHeight);
-    SampleUtils::scalePoseMatrix(augPercentWidth * scaleFactor,
-            augPercentHeight * scaleFactor,
-            1.0f,
-            &modelViewMatrix.data[0]);
+    // JFN
+    SampleUtils::scalePoseMatrix(430.f * scaleFactor, 430.f * scaleFactor, 1.0f, &modelViewMatrix.data[0]);
 
     // Applies 3d Transformations to the plane
     SampleUtils::multiplyMatrix(&projectionMatrix.data[0],
@@ -1208,53 +1214,6 @@ initStateVariables()
     isShowing2DOverlay = false;
     startTransition3Dto2D = false;
 }
-
-
-//HJC
-//-------------------------------------------------
-// Disable the scanning bar for taking a snapShot
-//-------------------------------------------------
-JNIEXPORT void JNICALL
-Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_enterScreenShotModeNative(JNIEnv*, jobject)
-{
-	QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
-            trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
-    assert(imageTracker != 0);
-    QCAR::TargetFinder* targetFinder = imageTracker->getTargetFinder();
-    assert (targetFinder != 0);
-	crStarted = !targetFinder->stop();
-	
-	RS_TEMP = renderState;
-	//renderState = RS_NORMAL;
-	scanningMode = false;
-}
-
-
-//-------------------------------------------------
-// Enable the scanning bar after taking a snapShot
-//-------------------------------------------------
-JNIEXPORT void JNICALL
-Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_exitScreenShotModeNative(JNIEnv*, jobject)
-{
-	QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
-            trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
-    assert(imageTracker != 0);
-    QCAR::TargetFinder* targetFinder = imageTracker->getTargetFinder();
-    assert (targetFinder != 0);
-
-    // Start CloudReco
-    crStarted = targetFinder->startRecognition();
-
-    // Clear all trackables created previously:
-    targetFinder->clearTrackables();
-
-
-	renderState = RS_TEMP;
-	scanningMode = true;
-}
-
 
 // ----------------------------------------------------------------------------
 // Transitions the application to content mode:
