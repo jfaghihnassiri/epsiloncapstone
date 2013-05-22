@@ -148,12 +148,15 @@ public class FingerPaint extends GraphicsActivity
 	Button doneButton;
 	Button clearButton;
 	Button undoButton;
-	EditText augInput;
+	static EditText augInput;
 	TextView display;
 	private MyView thisView;
 	private Paint textPaint;
 	String targetId;
-    
+	public static String getText()
+	{
+		return augInput.getText().toString();
+	}
     public void addListenerOnButtonAndTextChange() 
 	{
 		// Buttons go here JFN JCH
@@ -183,6 +186,7 @@ public class FingerPaint extends GraphicsActivity
 			    return false;
 		    }
 		});
+		
 		
 		doneButton.setOnClickListener(new OnClickListener(){
 			@Override
