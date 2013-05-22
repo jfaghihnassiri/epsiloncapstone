@@ -302,7 +302,11 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_renderFrame(JNI
 
 		//HJC
 		if(renderState == RS_NORMAL){
-			showGalleryButtons();
+			if(firstLook){
+				LOG("--------->>>>> RS normal case, showing gallery buttons");
+				showGalleryButtons();
+				firstLook = false;
+			}
 		}
 		
         // Renders the Augmentation View with the 3D Book data Panel
@@ -313,7 +317,11 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_renderFrame(JNI
 		//HJC 
 		//If not looking at the target, buttons go away
 		if(renderState == RS_NORMAL){
-			hideGalleryButtons();
+			if(!firstLook){
+				LOG("--------->>>>> RS normal case, hiding gallery buttons");
+				hideGalleryButtons();
+				firstLook = true;
+			}
 		}
 	}
 	
