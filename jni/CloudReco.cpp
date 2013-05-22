@@ -1223,6 +1223,52 @@ initStateVariables()
     startTransition3Dto2D = false;
 }
 
+
+//HJC
+//-------------------------------------------------
+// Disable the scanning bar for taking a snapShot
+//-------------------------------------------------
+JNIEXPORT void JNICALL
+Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_enterScreenShotModeNative(JNIEnv*, jobject)
+{
+  QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
+    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
+            trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
+    assert(imageTracker != 0);
+    QCAR::TargetFinder* targetFinder = imageTracker->getTargetFinder();
+    assert (targetFinder != 0);
+  crStarted = !targetFinder->stop();
+
+  RS_TEMP = renderState;
+  //renderState = RS_NORMAL;
+  scanningMode = false;
+}
+
+
+//-------------------------------------------------
+// Enable the scanning bar after taking a snapShot
+//-------------------------------------------------
+JNIEXPORT void JNICALL
+Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_exitScreenShotModeNative(JNIEnv*, jobject)
+{
+  QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
+    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
+            trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
+    assert(imageTracker != 0);
+    QCAR::TargetFinder* targetFinder = imageTracker->getTargetFinder();
+    assert (targetFinder != 0);
+
+    // Start CloudReco
+    crStarted = targetFinder->startRecognition();
+
+    // Clear all trackables created previously:
+    targetFinder->clearTrackables();
+
+
+  renderState = RS_TEMP;
+  scanningMode = true;
+}
+
 // ----------------------------------------------------------------------------
 // Transitions the application to content mode:
 // ----------------------------------------------------------------------------
