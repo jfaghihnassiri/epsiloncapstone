@@ -495,6 +495,10 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_startCamera(JNIEnv *, j
         assert (targetFinder != 0);
         crStarted = targetFinder->startRecognition();
     }
+
+	// LTB - added to start the image builder looking for suitable targets
+	imageTracker->getImageTargetBuilder()->startScan();	
+
 }
 
 // ----------------------------------------------------------------------------
@@ -778,6 +782,61 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_updateAugScale(JNIEnv*,
 {
     augPercentWidth = (float)scale;
 }
+
+// Added by Lucas Buckland
+//-------------------------------------------------
+// Check frame for its target quality and then create new target if possible
+//-------------------------------------------------
+
+JNIEXPORT jboolean JNICALL
+Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_checkTargetQuality(JNIEnv*, jobject)
+{
+    LOG("Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_checkTargetQuality");
+
+	QCAR::ImageTargetBuilder* targetBuilder;
+
+    QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
+    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
+    if(imageTracker)
+    {
+        targetBuilder = imageTracker->getImageTargetBuilder();
+
+        if (targetBuilder)
+        {
+
+			if (targetBuilder->getFrameQuality() == QCAR::ImageTargetBuilder::FRAME_QUALITY_NONE)
+			{
+				LOG("getFrameQuality() was called outside of scanning mode");
+				return JNI_FALSE;
+			}
+
+			if (targetBuilder->getFrameQuality() == QCAR::ImageTargetBuilder::FRAME_QUALITY_LOW)
+			{
+				LOG("Frame quality too low to create target");
+				return JNI_FALSE;
+			}
+        }
+		else
+			return JNI_FALSE;
+    }
+    else
+		return JNI_FALSE;
+
+	LOG("Target quality in frame is good, thus creating new target!");
+
+	char name[128];
+    do
+    {
+        snprintf(name, sizeof(name), "UserTarget-%d", targetBuilderCounter++);
+        LOG("TRYING %s", name);
+    }
+    while (!targetBuilder->build(name, 320.0)); // LTB - maybe change sceneSizeWidth to something other than 320?
+
+	targetBuilder->stopScan();
+
+    return JNI_TRUE;
+}
+
 
 // ----------------------------------------------------------------------------
 // Class Methods
@@ -1243,7 +1302,6 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_enterScreenShot
   //renderState = RS_NORMAL;
   scanningMode = false;
 }
-
 
 //-------------------------------------------------
 // Enable the scanning bar after taking a snapShot
