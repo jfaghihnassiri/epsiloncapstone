@@ -128,6 +128,7 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
             CloudReco.snapshotTaken = true;
          //   exitScreenShotModeNative();
         }
+        GLES20.glFlush();
     }
     
     private Bitmap saveScreenShot(int x, int y, int w, int h, String filename) {

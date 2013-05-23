@@ -194,8 +194,8 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_initCloudReco(JNIEnv *,
     }
 
     // Use the following calls if you would like to customize the color of the UI
-    // targetFinder->setUIScanlineColor(1.0, 0.0, 0.0);
-    // targetFinder->setUIPointColor(0.0, 0.0, 1.0);
+    // targetFinder->setUIScanlineColor(255.0, 0.0, 0.0);
+    // targetFinder->setUIPointColor(0.0, 0.0, 255.0);
 
     return resultCode;
 }
@@ -1221,52 +1221,6 @@ initStateVariables()
     scanningMode = true;
     isShowing2DOverlay = false;
     startTransition3Dto2D = false;
-}
-
-
-//HJC
-//-------------------------------------------------
-// Disable the scanning bar for taking a snapShot
-//-------------------------------------------------
-JNIEXPORT void JNICALL
-Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_enterScreenShotModeNative(JNIEnv*, jobject)
-{
-  QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
-            trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
-    assert(imageTracker != 0);
-    QCAR::TargetFinder* targetFinder = imageTracker->getTargetFinder();
-    assert (targetFinder != 0);
-  crStarted = !targetFinder->stop();
-
-  RS_TEMP = renderState;
-  //renderState = RS_NORMAL;
-  scanningMode = false;
-}
-
-
-//-------------------------------------------------
-// Enable the scanning bar after taking a snapShot
-//-------------------------------------------------
-JNIEXPORT void JNICALL
-Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_exitScreenShotModeNative(JNIEnv*, jobject)
-{
-  QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
-    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
-            trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
-    assert(imageTracker != 0);
-    QCAR::TargetFinder* targetFinder = imageTracker->getTargetFinder();
-    assert (targetFinder != 0);
-
-    // Start CloudReco
-    crStarted = targetFinder->startRecognition();
-
-    // Clear all trackables created previously:
-    targetFinder->clearTrackables();
-
-
-  renderState = RS_TEMP;
-  scanningMode = true;
 }
 
 // ----------------------------------------------------------------------------
