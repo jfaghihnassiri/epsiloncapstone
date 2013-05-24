@@ -1280,8 +1280,8 @@ initStateVariables()
     scanningMode = true;
     isShowing2DOverlay = false;
     startTransition3Dto2D = false;
-<<<<<<< HEAD
-=======
+//<<<<<<< HEAD
+//=======
 }
 
 
@@ -1327,7 +1327,7 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_exitScreenShotM
 
   renderState = RS_TEMP;
   scanningMode = true;
->>>>>>> branch 'master' of https://github.com/jfaghihnassiri/epsiloncapstone.git
+//>>>>>>> branch 'master' of https://github.com/jfaghihnassiri/epsiloncapstone.git
 }
 
 // ----------------------------------------------------------------------------
