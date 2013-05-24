@@ -13,6 +13,7 @@
 
 package com.qualcomm.QCARSamples.CloudRecognition;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.nio.IntBuffer;
@@ -111,47 +112,38 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
 
         DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
         
-        
-        
         // Call our native function to render content
         renderFrame();
-        
-        
-        
+
         // make sure the OpenGL rendering is finalized
-        GLES20.glFinish();
+        //GLES20.glFinish();
      
+       
         if ( takeScreenShot ) {
+        	saveScreenShot(0, 0, mViewWidth, mViewHeight);
             CloudReco.snapshot = grabPixels(0,0,mViewWidth, mViewHeight);
             Log.d("SNAPSHOT","snapshot taken in redner");
             takeScreenShot = false;
             CloudReco.snapshotTaken = true;
          //   exitScreenShotModeNative();
         }
+        
+        
         GLES20.glFlush();
+        GLES20.glFinish();
     }
     
-    private Bitmap saveScreenShot(int x, int y, int w, int h, String filename) {
+    private void saveScreenShot(int x, int y, int w, int h) {
         Bitmap bmp = grabPixels(x, y, w, h);
         CloudReco.snapshot = bmp;
         try {
-            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + filename;
-            DebugLog.LOGD(path);
-             
-            File file = new File(path);
-            file.createNewFile();
-             
-            FileOutputStream fos = new FileOutputStream(file);
-            bmp.compress(CompressFormat.PNG, 100, fos);
-  
-            ///fos.flush();
-             
-            //fos.close();
+            GLES20.glFlush();
+            GLES20.glFinish();
             
         } catch (Exception e) {
             DebugLog.LOGD(e.getStackTrace().toString());
         }
-        return bmp;
+        
     }
   
     public Bitmap grabPixels(int x, int y, int w, int h) {
@@ -174,6 +166,7 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
         }
   
         Bitmap sb = Bitmap.createBitmap(bt, w, h, Bitmap.Config.ARGB_8888);
+        GLES20.glFlush();
         return sb;
     }
     
@@ -209,6 +202,14 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
     		CloudReco.snapshot = temp;
     		DebugLog.LOGD("XXXXXXX: AsyncTask finished" );
     	}
+    }
+    
+    public byte[] bitToByte(Bitmap input){
+    	byte[] temp = null;
+  	  	ByteArrayOutputStream stream = new ByteArrayOutputStream();
+  	  	input.compress(Bitmap.CompressFormat.PNG, 100, stream);
+  	  	temp = stream.toByteArray();
+    	return temp;
     }
     
 }
