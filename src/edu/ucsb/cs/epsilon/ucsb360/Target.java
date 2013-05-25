@@ -13,6 +13,7 @@ public final class Target {
 	private String id;
 	private String date;
 	private String creator;
+	private String url;
 	
 	/**
 	 * Constructor for Target class
@@ -26,6 +27,7 @@ public final class Target {
 		this.id = id;
 		this.date = date;
 		this.creator = creator;
+		this.url = TargetManager.getUrl() + id + "/target.png";
 	}
 	
 	/**
@@ -56,6 +58,16 @@ public final class Target {
 	 */
 	public String getCreator() {
 		return creator;
+	}
+	
+	/**
+	 * Get the URL for the target's image
+	 * 
+	 * @author Max Hinson
+	 * @return target URL
+	 */
+	public String getUrl() {
+		return url;
 	}
 	
 	/**
