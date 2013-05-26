@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/camera_overlay_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/camera_overlay_layout" >
+    android:layout_height="match_parent" >
 
     <RelativeLayout
         android:id="@+id/loading_layout"
@@ -21,15 +21,6 @@
             android:layout_centerVertical="true" />
     </RelativeLayout>
 
-    <Button
-        android:id="@+id/create_augmentation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/createaug_button_background"/>
-    
-    
     <Button
         android:id="@+id/overlay_close_button"
         android:layout_width="wrap_content"
@@ -63,61 +54,34 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:text="@+string/indexes" 
+        android:text="@+string/indexes"
         android:textColor="@color/ucsb_gold"
-        />
+        android:textSize="30sp" />
 
-    
-    <Button
-        android:id="@+id/facebookLike"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/create_augmentation"
-        android:layout_alignParentRight="true"
-        android:text="@+string/facebookLike" 
-        android:visibility="invisible"
-        />
-	     
-    <Button
-        android:id="@+id/post_to_fb"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:background="@drawable/share_button_background" />
-
-    <Button
-        android:id="@+id/help"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:background="@drawable/help_button_background" />
-
-    <Button
-        android:id="@+id/logout_facebook"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/post_to_fb"
-        android:background="@drawable/logout_button_background" />
-    
     <RelativeLayout
         android:id="@+id/augmentation_info_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/aug_info_bar"
         android:visibility="invisible" >
+
+        <Button
+            android:id="@+id/facebookLike"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/like_button_background" />
 
         <TextView
             android:id="@+id/numLikes"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:text="@+string/numLikes"
+            android:layout_alignTop="@+id/augmentation_info_bar"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
+            android:layout_toLeftOf="@+id/facebookLike"
+            android:text="@+string/indexes"
             android:textColor="@color/ucsb_gold" />
 
         <TextView
@@ -125,10 +89,62 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/numLikes"
-            android:layout_centerHorizontal="true"
+            android:layout_marginRight="5dp"
+            android:layout_toLeftOf="@+id/facebookLike"
             android:text="@+string/createrInfo"
             android:textColor="@color/ucsb_gold" />
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/bottom_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/augmentation_info_bar"
+        android:background="@drawable/view_button_bar_vert"
+        android:visibility="invisible" >
+
+        <Button
+            android:id="@+id/post_to_fb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/share_button_background" />
+
+        <Button
+            android:id="@+id/create_augmentation"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/post_to_fb"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/createaug_button_background" />
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/cancel_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/cancel_button_background"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/share_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@drawable/share_button_background"
+        android:visibility="invisible" />
+
+    <Button
+        android:id="@+id/done_review"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/augdone_button_background"
+        android:visibility="invisible" />
 
 </RelativeLayout>
