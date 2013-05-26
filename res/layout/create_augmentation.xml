@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:background="@drawable/freehand_button_background"/>
+        android:background="@drawable/erase_button_background"/>
     
 	<Button
         android:id="@+id/create_augmentation_textmode"
