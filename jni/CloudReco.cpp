@@ -970,10 +970,13 @@ generateProductTextureInOpenGL()
         LOG("JFN frameWH=(%f,%f), augWH=(%f,%f), tarWH=(%f,%f), botleftXY=(%f,%f)",frame_width,frame_height,aug_width, aug_height, targetSize.data[0],targetSize.data[1],botleft_x,botleft_y);
 
         // Create frame
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, frame_width, frame_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+        //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, frame_width, frame_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
         // Add texture. Used to be glTexSubImage2D(GL_TEXTURE_2D, 0, 180, 230, productTexture->mWidth,
-        glTexSubImage2D(GL_TEXTURE_2D, 0, botleft_x, botleft_y, aug_width, aug_height, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*) productTexture->mData);
+        //glTexSubImage2D(GL_TEXTURE_2D, 0, botleft_x, botleft_y, aug_width, aug_height, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*) productTexture->mData);
+
+        // JFN RELEASE if planning a release, please comment out the line below and comment in the line above.
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, aug_width, aug_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*) productTexture->mData );
 			
         // Updates the current Render State
         renderState = RS_NORMAL;
