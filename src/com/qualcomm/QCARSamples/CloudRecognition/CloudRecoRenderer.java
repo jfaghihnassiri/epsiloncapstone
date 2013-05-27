@@ -124,7 +124,7 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
             CloudReco.snapshot = grabPixels(0,0,mViewWidth, mViewHeight);
             Log.d("SNAPSHOT","snapshot taken in redner");
             takeScreenShot = false;
-            CloudReco.snapshotTaken = true;
+            CloudReco.imageReady = true;
          //   exitScreenShotModeNative();
         }
         
