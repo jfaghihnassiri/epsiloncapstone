@@ -146,5 +146,15 @@
         android:layout_alignParentRight="true"
         android:background="@drawable/augdone_button_background"
         android:visibility="invisible" />
+    
+    <Button
+        android:id="@+id/delete_target"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:text="DELETE"
+        android:background="@color/ucsb_gold"
+        android:visibility="invisible" />
 
 </RelativeLayout>
