@@ -66,6 +66,7 @@ class CloudReco_UpdateCallback : public QCAR::UpdateCallback
 						snprintf(theCurrentTarget, CONTENT_MAX, "%s", result->getUniqueTargetId());
 						LOG( "passing targetID to function");
 						passTargetID(result->getUniqueTargetId());
+						setTargetFound("true");
 						LOG( "After first call of passTargetID %s  ",result->getUniqueTargetId());
                         if (strcmp(result->getUniqueTargetId(), lastTargetId) != 0)
                         {
@@ -319,6 +320,7 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_renderFrame(JNI
 		if(renderState == RS_NORMAL){
 			if(!firstLook){
 				LOG("--------->>>>> RS normal case, hiding gallery buttons");
+				setTargetFound("false");
 				hideGalleryButtons();
 				firstLook = true;
 			}
@@ -432,7 +434,7 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_initApplicationNative(
 	passTargetIDID = env->GetMethodID(activityClass, "passTargetID", "(Ljava/lang/String;)V");
 	showGalleryButtonsID = env->GetMethodID(activityClass, "showGalleryButtons", "()V");
 	hideGalleryButtonsID = env->GetMethodID(activityClass, "hideGalleryButtons", "()V");
-	
+	setTargetFoundID = env->GetMethodID(activityClass, "setTargetFound", "(Ljava/lang/String;)V");
     activityObj = env->NewGlobalRef(obj);
 
     // Reset global variables:
@@ -880,6 +882,20 @@ passTargetID(const char* theCurrentTarget)
     {
 
         env->CallVoidMethod(activityObj, passTargetIDID, env->NewStringUTF(theCurrentTarget));
+
+    }
+}
+
+void
+setTargetFound(const char* found)
+{
+	JNIEnv* env = 0;
+	
+	if (javaVM != 0 && setTargetFoundID != 0 && activityObj != 0
+            && javaVM->GetEnv((void**)&env, JNI_VERSION_1_4) == JNI_OK)
+    {
+
+        env->CallVoidMethod(activityObj, setTargetFoundID, env->NewStringUTF(found));
 
     }
 }
