@@ -148,6 +148,7 @@ public class FingerPaint extends GraphicsActivity
 	Button doneButton;
 	Button clearButton;
 	Button undoButton;
+	Button toolsButton;
 	static EditText augInput;
 	TextView display;
 	private MyView thisView;
@@ -165,8 +166,9 @@ public class FingerPaint extends GraphicsActivity
 		doneButton = (Button) findViewById(R.id.create_augmentation_done);
 		augInput = (EditText) findViewById(R.id.augmentation_text);
 		display = (TextView) findViewById(R.id.createAugText);
-		clearButton = (Button) findViewById(R.id.create_augmentation_freehand);
+		clearButton = (Button) findViewById(R.id.create_augmentation_erase);
 		undoButton = (Button) findViewById(R.id.create_augmentation_textmode);
+		toolsButton = (Button) findViewById(R.id.create_augmentation_tools);
 		
 		// LB - Listener to input text on screen from keyboard input (on enter only?)
 		augInput.setOnEditorActionListener(new OnEditorActionListener()
@@ -228,6 +230,14 @@ public class FingerPaint extends GraphicsActivity
 			@Override
 			public void onClick(View view){
 				DebugLog.LOGD("undoOnCanvas");				
+			}
+		});
+		
+		// MH - opens tools menu
+		toolsButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				// LUKE: Pull up the paint tools menu here
 			}
 		});
 		
