@@ -13,12 +13,20 @@
         android:background="@drawable/augdone_button_background"/>
     
     <Button
-        android:id="@+id/create_augmentation_freehand"
+        android:id="@+id/create_augmentation_erase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/augmentation_text"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/erase_button_background"/>
+    
+    <Button
+        android:id="@+id/create_augmentation_tools"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:background="@drawable/erase_button_background"/>
+        android:background="@drawable/freehand_button_background"/>
     
 	<Button
         android:id="@+id/create_augmentation_textmode"

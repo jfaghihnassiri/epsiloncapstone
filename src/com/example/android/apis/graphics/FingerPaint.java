@@ -67,7 +67,7 @@ public class FingerPaint extends GraphicsActivity
         height = display.getHeight();
         backgrnd = getIntent().getByteArrayExtra("bitMP");
         byte[] foregrnd = getIntent().getByteArrayExtra("previousCanvas");
-        
+        boolean targetExists = getIntent().getBooleanExtra("existingTarget", true);
         
         
         // either redraws old bitmap previously drawn on by user or creates a new one if they haven't made one
@@ -79,7 +79,11 @@ public class FingerPaint extends GraphicsActivity
         }
         else
         {
-        	new upLoadToVuforiaTargetDatabase().execute();
+        	if (targetExists == false)
+        	{
+        		DebugLog.LOGD("uploadingTarget");
+        		new upLoadToVuforiaTargetDatabase().execute();
+        	}
         	mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         }
         
@@ -119,12 +123,6 @@ public class FingerPaint extends GraphicsActivity
 
         mBlur = new BlurMaskFilter(8, BlurMaskFilter.Blur.NORMAL);
         
-
-        if (backgrnd == null)
-        	DebugLog.LOGD("backgrnd NULL!!!1");
-        else
-        	DebugLog.LOGD("backgrnd NOT NULL!!!1");
-        
         addListenerOnButtonAndTextChange();
     }
     
@@ -148,6 +146,7 @@ public class FingerPaint extends GraphicsActivity
 	Button doneButton;
 	Button clearButton;
 	Button undoButton;
+	Button toolsButton;
 	static EditText augInput;
 	TextView display;
 	private MyView thisView;
@@ -165,8 +164,9 @@ public class FingerPaint extends GraphicsActivity
 		doneButton = (Button) findViewById(R.id.create_augmentation_done);
 		augInput = (EditText) findViewById(R.id.augmentation_text);
 		display = (TextView) findViewById(R.id.createAugText);
-		clearButton = (Button) findViewById(R.id.create_augmentation_freehand);
+		clearButton = (Button) findViewById(R.id.create_augmentation_erase);
 		undoButton = (Button) findViewById(R.id.create_augmentation_textmode);
+		toolsButton = (Button) findViewById(R.id.create_augmentation_tools);
 		
 		// LB - Listener to input text on screen from keyboard input (on enter only?)
 		augInput.setOnEditorActionListener(new OnEditorActionListener()
@@ -228,6 +228,14 @@ public class FingerPaint extends GraphicsActivity
 			@Override
 			public void onClick(View view){
 				DebugLog.LOGD("undoOnCanvas");				
+			}
+		});
+		
+		// MH - opens tools menu
+		toolsButton.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				openOptionsMenu();
 			}
 		});
 		
