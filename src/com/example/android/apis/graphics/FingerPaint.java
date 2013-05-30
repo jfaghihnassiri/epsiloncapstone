@@ -235,7 +235,7 @@ public class FingerPaint extends GraphicsActivity
 		toolsButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				// LUKE: Pull up the paint tools menu here
+				openOptionsMenu();
 			}
 		});
 		
