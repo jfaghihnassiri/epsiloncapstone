@@ -67,7 +67,7 @@ public class FingerPaint extends GraphicsActivity
         height = display.getHeight();
         backgrnd = getIntent().getByteArrayExtra("bitMP");
         byte[] foregrnd = getIntent().getByteArrayExtra("previousCanvas");
-        
+        boolean targetExists = getIntent().getBooleanExtra("existingTarget", true);
         
         
         // either redraws old bitmap previously drawn on by user or creates a new one if they haven't made one
@@ -79,7 +79,11 @@ public class FingerPaint extends GraphicsActivity
         }
         else
         {
-        	new upLoadToVuforiaTargetDatabase().execute();
+        	if (targetExists == false)
+        	{
+        		DebugLog.LOGD("uploadingTarget");
+        		new upLoadToVuforiaTargetDatabase().execute();
+        	}
         	mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         }
         
@@ -118,12 +122,6 @@ public class FingerPaint extends GraphicsActivity
                                        0.4f, 6, 3.5f);
 
         mBlur = new BlurMaskFilter(8, BlurMaskFilter.Blur.NORMAL);
-        
-
-        if (backgrnd == null)
-        	DebugLog.LOGD("backgrnd NULL!!!1");
-        else
-        	DebugLog.LOGD("backgrnd NOT NULL!!!1");
         
         addListenerOnButtonAndTextChange();
     }
