@@ -834,7 +834,7 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_checkTargetQuality(JNIE
     }
     while (!targetBuilder->build(name, 320.0)); // LTB - maybe change sceneSizeWidth to something other than 320?
 
-	targetBuilder->stopScan();
+	//targetBuilder->stopScan(); probably should fix this
 
     return JNI_TRUE;
 }
