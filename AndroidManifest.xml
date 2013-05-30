@@ -60,7 +60,8 @@
         <activity android:name="edu.ucsb.cs.epsilon.ucsb360.ReviewAugmentation"></activity>
 		<activity 
             android:name="com.example.android.apis.graphics.FingerPaint"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"            
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:screenOrientation="portrait"            
             ></activity>
     </application>
 
