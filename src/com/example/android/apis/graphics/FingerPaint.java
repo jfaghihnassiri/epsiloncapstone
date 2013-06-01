@@ -133,7 +133,7 @@ public class FingerPaint extends GraphicsActivity
 
         @Override
         protected Boolean doInBackground(Void... params) {
-        	targetId = new PostNewTarget().uploadTarget("test upload in finger paint", backgrnd);
+        	targetId = new PostNewTarget().uploadTarget("upload from finger paint", backgrnd);
             return true;
         }
 
