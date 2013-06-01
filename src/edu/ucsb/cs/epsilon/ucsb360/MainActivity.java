@@ -61,5 +61,9 @@ public class MainActivity extends FragmentActivity {
 		super.onPause();
 		Global.applicationPaused();
 	}
+	@Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+    }
 
 }
