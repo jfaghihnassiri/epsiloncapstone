@@ -26,11 +26,15 @@ import com.facebook.model.GraphUser;
 import com.facebook.widget.LoginButton;
 import com.facebook.widget.WebDialog;
 import com.facebook.widget.WebDialog.OnCompleteListener;
+import com.qualcomm.QCARSamples.CloudRecognition.utils.DebugLog;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -48,6 +52,7 @@ public class LoginFragment extends Fragment{
 	private UiLifecycleHelper uiHelper;
 	private Button btnViewNoLogin;
 	private Button btnViewLogin;
+	private Button btnOntopFB;
 	public static Session activeSession;
 	private static boolean isLoggedIn;
 	private static String userId;
@@ -101,16 +106,39 @@ public class LoginFragment extends Fragment{
 	    activity  = (MainActivity) getActivity();
 	    btnViewLogin = (Button)view.findViewById(R.id.btnViewLogin);
 	    btnViewNoLogin = (Button)view.findViewById(R.id.btnViewNoLogin);
+	    btnOntopFB = (Button)view.findViewById(R.id.btnOntopFB);
 	    btnViewNoLogin.setOnClickListener(new OnClickListener() 
 	    {
 	    	@Override
 	    	public void onClick(View v)
 	    	{
-	    		Log.d(TAG, "clickon that not button");
-	    	    		Intent i = new Intent(getActivity(), com.qualcomm.QCARSamples.CloudRecognition.CloudReco.class);
-	    	    		//Intent i = new Intent(getActivity(), SplashScreen.class);
-	    	  	        getActivity().startActivity(i);
-	    	  	        //publishStory();
+	    		if (isNetworkAvailable(getActivity()))
+	    		{
+					Log.d(TAG, "clickon that not button");
+		    		Intent i = new Intent(getActivity(), com.qualcomm.QCARSamples.CloudRecognition.CloudReco.class);
+		    		//Intent i = new Intent(getActivity(), SplashScreen.class);
+		  	        getActivity().startActivity(i);
+		  	        //publishStory();
+	    		}
+	    		else
+      			  Toast.makeText(getActivity(), "Please connect to the internet before using three60", Toast.LENGTH_SHORT).show(); 
+
+	    	}
+	    });
+	    
+	    
+	    btnOntopFB.setOnClickListener(new OnClickListener() 
+	    {
+	    	public void onClick(View v)
+	    	{
+	    		DebugLog.LOGD("Ontop click");
+	    		if (!isNetworkAvailable(getActivity()))
+	    		{
+	    			Toast.makeText(getActivity(), "Please connect to the internet before using three60", Toast.LENGTH_SHORT).show();
+	    			//onResume();
+	    		}
+	    		else
+	    			authButton.performClick();	    			
 	    	}
 	    });
 	    
@@ -356,6 +384,13 @@ public class LoginFragment extends Fragment{
 	
 	public static String getBirthday() {
 		return userBirthday;
+	}
+	
+	// LTB - checks for internet connection
+	private boolean isNetworkAvailable(Context context) {
+	    ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+	    return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 	
 }

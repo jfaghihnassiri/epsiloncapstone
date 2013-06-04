@@ -44,6 +44,15 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="30dp" />
+
+        <Button
+            android:id="@+id/btnOntopFB"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:background="#0000" />
+
     </RelativeLayout>
 
     <Button

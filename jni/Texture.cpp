@@ -105,6 +105,12 @@ Texture::create(JNIEnv* env, jobject textureObject)
     // Release:
     env->ReleaseByteArrayElements(pixelBuffer, pixels, 0);
 
+	//LTB - testing
+	if(newTexture->mHeight > newTexture->mWidth)
+			LOG("LTB portrait image");
+	else
+		LOG("LTB landscape image");
+
     return newTexture;
 }
 

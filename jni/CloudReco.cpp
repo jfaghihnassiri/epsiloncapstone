@@ -115,6 +115,45 @@ class CloudReco_UpdateCallback : public QCAR::UpdateCallback
                 }
             }
         }
+
+
+		// LTB - code to add newly created targets to the local target database
+		QCAR::ImageTargetBuilder* targetBuilder = imageTracker->getImageTargetBuilder();
+		QCAR::TrackableSource* trackableSource = targetBuilder->getTrackableSource();
+		if (trackableSource != NULL && newTarget == true) // LTB - testing fix this
+        {
+            imageTracker->start();
+			LOG("Attempting to transfer the trackable source to the dataset");
+
+            // Deactivate current dataset
+            imageTracker->deactivateDataSet(imageTracker->getActiveDataSet());
+
+            // Clear the oldest target if the dataset is full or the dataset 
+            // already contains five user-defined targets.
+            if (dataSetUserDef->hasReachedTrackableLimit()
+                    || dataSetUserDef->getNumTrackables() >= 5)
+                dataSetUserDef->destroy(dataSetUserDef->getTrackable(0));
+
+            // Add new trackable source
+            dataSetUserDef->createTrackable(trackableSource);
+
+            // Reactivate current dataset
+            imageTracker->activateDataSet(dataSetUserDef);
+
+			newTarget = false;
+
+			//added for testing
+			deleteCurrentProductTexture = true;
+			// Starts the loading state for the product
+			renderState = RS_LOADING;
+
+			//end added for testing
+			createProductTexture("emptyString"); // change to something else maybe
+
+			showAnimation3Dto2D = true;
+			trackingStarted = false;
+        }
+		
     }
 };
 
@@ -194,6 +233,23 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_initCloudReco(JNIEnv *,
         return resultCode;
     }
 
+	//LTB - initialization code for local target database
+
+	dataSetUserDef = imageTracker->createDataSet();
+    if (dataSetUserDef == 0)
+    {
+        LOG("Failed to create a new tracking data.");
+        return 0; // LTB - leave this in for now but probably should look into making sure its right
+    }
+
+    if (!imageTracker->activateDataSet(dataSetUserDef))
+    {
+        LOG("Failed to activate data set.");
+        return 0;// LTB - leave this in for now but probably should look into making sure its right
+    }
+
+    LOG("Successfully loaded and activated data set.");
+
     // Use the following calls if you would like to customize the color of the UI
     // targetFinder->setUIScanlineColor(255.0, 0.0, 0.0);
     // targetFinder->setUIPointColor(0.0, 0.0, 255.0);
@@ -222,7 +278,30 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_deinitCloudReco(JNIEnv 
     QCAR::TargetFinder* finder = imageTracker->getTargetFinder();
     finder->deinit();
 
-    return 1;
+	//LTB - de-initialization code for local target database
+
+	if (dataSetUserDef != 0)
+    {
+        if (imageTracker->getActiveDataSet() && !imageTracker->deactivateDataSet(dataSetUserDef))
+        {
+            LOG("Failed to destroy the tracking data set because the data set "
+                    "could not be deactivated.");
+            return 0;
+        }
+
+        if (!imageTracker->destroyDataSet(dataSetUserDef))
+        {
+            LOG("Failed to destroy the tracking data set.");
+            return 0;
+        }
+
+        LOG("Successfully destroyed the data set.");
+        dataSetUserDef = 0;
+        return 1;
+    }
+    LOG("No tracker data set to destroy.");
+
+    return 0; // maybe return 1 anyway? test.
 }
 
 // ----------------------------------------------------------------------------
@@ -410,7 +489,7 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_initApplicationNative(
     QCAR::registerCallback(&updateCallback);
 
     // Screen size:
-    QCAR::Vec2F screenSize;
+	QCAR::Vec2F screenSize;
     screenSize.data[0] = (float) screenWidth;
     screenSize.data[1] = (float) screenHeight;
 
@@ -832,7 +911,8 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_checkTargetQuality(JNIE
         snprintf(name, sizeof(name), "UserTarget-%d", targetBuilderCounter++);
         LOG("TRYING %s", name);
     }
-    while (!targetBuilder->build(name, 320.0)); // LTB - maybe change sceneSizeWidth to something other than 320?
+    while (!targetBuilder->build(name, screenWidth)); // LTB - maybe change sceneSizeWidth to something other than 320?
+	newTarget = true;
 
 	//targetBuilder->stopScan(); probably should fix this
 
@@ -1115,11 +1195,16 @@ renderAugmentation(const QCAR::TrackableResult* trackableResult)
 
     // JFN
     SampleUtils::scalePoseMatrix(430.f * scaleFactor, 430.f * scaleFactor, 1.0f, &modelViewMatrix.data[0]);
-
+   
     // Applies 3d Transformations to the plane
     SampleUtils::multiplyMatrix(&projectionMatrix.data[0],
             &modelViewMatrix.data[0] ,
             &modelViewProjection.data[0]);
+	//LOG("Matricies");
+	//SampleUtils::printMatrix(&projectionMatrix.data[0]);
+	//SampleUtils::printMatrix(&modelViewMatrix.data[0]);
+	//SampleUtils::printMatrix(&modelViewProjection.data[0]);
+
 
     // Moves the trackable current position to a global variable used for
     // the 3d to 2D animation
