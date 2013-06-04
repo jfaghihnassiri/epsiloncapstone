@@ -150,11 +150,17 @@ public class LoginFragment extends Fragment{
 						if(activeSession == Session.getActiveSession())
 						{
 							Log.i(TAG, "Friend List...");
-							for (int i = 0; i < users.size(); i++)
+							if(users != null){
+								for (int i = 0; i < users.size(); i++)
+								{
+									friendList.addElement(users.get(i).getId());
+									friendList2.add(users.get(i).getId());
+									
+								}
+							}
+							else
 							{
-								friendList.addElement(users.get(i).getId());
-								friendList2.add(users.get(i).getId());
-								
+								Log.d(TAG,"something went wrong in friends list");
 							}
 						}
 						
@@ -170,12 +176,19 @@ public class LoginFragment extends Fragment{
 						// TODO Auto-generated method stub
 						if(activeSession == Session.getActiveSession())
 						{
-							Log.d(TAG, user.getBirthday() + " "+ user.getId() + user.getUsername()+" "+user.getName());
-							userId = user.getId();
-							userName= user.getName();
-							userBirthday = user.getBirthday();
-							getInfo(userId, userName, userBirthday);
-							Log.i(TAG, "User Info");
+							if(user != null)
+							{
+								Log.d(TAG, user.getBirthday() + " "+ user.getId() + user.getUsername()+" "+user.getName());
+								userId = user.getId();
+								userName= user.getName();
+								userBirthday = user.getBirthday();
+								getInfo(userId, userName, userBirthday);
+								Log.i(TAG, "User Info");
+							}
+							else
+							{
+								Log.d("TAG", "something went wrong in userinfo");
+							}
 						}
 
 					}
@@ -295,43 +308,6 @@ public class LoginFragment extends Fragment{
 	        
 	}
 
-	public static void postToFb()
-	{
-		Session session = Session.getActiveSession();
-        Request.Callback callback= new Request.Callback() {
-            public void onCompleted(Response response) {
-                /*JSONObject graphResponse = response
-                                           .getGraphObject()
-                                           .getInnerJSONObject();
-                String postId = null;
-                try {
-                    postId = graphResponse.getString("id");
-                } catch (JSONException e) {
-                    Log.i(TAG,
-                        "JSON error "+ e.getMessage());
-                }
-                FacebookRequestError error = response.getError();
-               /* if (error != null) {
-                    Toast.makeText(getActivity()
-                         .getApplicationContext(),
-                         error.getErrorMessage(),
-                         Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getActivity()
-                             .getApplicationContext(), 
-                             postId,
-                             Toast.LENGTH_LONG).show();
-                }*/
-            }
-        };
-
-        Request request = new Request(session, "me/feed", publishStory(), 
-                              HttpMethod.POST, callback);
-
-        RequestAsyncTask task = new RequestAsyncTask(request);
-        task.execute();
-        
-	}
 
 	@Override
 	public void onPause() {
@@ -356,6 +332,7 @@ public class LoginFragment extends Fragment{
 	    uiHelper.onSaveInstanceState(outState);
 	}
 	
+
 	public static Vector<String> getFriends()
 	{
 		return friendList;

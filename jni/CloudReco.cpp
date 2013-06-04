@@ -1113,8 +1113,9 @@ renderAugmentation(const QCAR::TrackableResult* trackableResult)
 {
     QCAR::Matrix44F modelViewProjection;
 
-    // JFN
-    SampleUtils::scalePoseMatrix(430.f * scaleFactor, 430.f * scaleFactor, 1.0f, &modelViewMatrix.data[0]);
+    // JFNA for release comment out the second line and uncomment the first line
+    //SampleUtils::scalePoseMatrix(430.f * scaleFactor, 430.f * scaleFactor, 1.0f, &modelViewMatrix.data[0]);
+    SampleUtils::scalePoseMatrix(aug_width, aug_height, 1.0f, &modelViewMatrix.data[0]);
 
     // Applies 3d Transformations to the plane
     SampleUtils::multiplyMatrix(&projectionMatrix.data[0],
