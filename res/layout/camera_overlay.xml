@@ -160,4 +160,14 @@
         android:background="@color/ucsb_gold"
         android:visibility="invisible" />
 
+    <Button
+        android:id="@+id/set_privacy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@+string/set_privacy"
+        android:visibility="gone" />
+
+     
 </RelativeLayout>
