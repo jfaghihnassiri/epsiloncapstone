@@ -120,7 +120,7 @@ class CloudReco_UpdateCallback : public QCAR::UpdateCallback
 		// LTB - code to add newly created targets to the local target database
 		QCAR::ImageTargetBuilder* targetBuilder = imageTracker->getImageTargetBuilder();
 		QCAR::TrackableSource* trackableSource = targetBuilder->getTrackableSource();
-		if (trackableSource != NULL && newTarget == true) // LTB - testing fix this
+		if (trackableSource != NULL && newTarget == true)
         {
             imageTracker->start();
 			LOG("Attempting to transfer the trackable source to the dataset");
@@ -913,12 +913,42 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_checkTargetQuality(JNIE
     }
     while (!targetBuilder->build(name, screenWidth)); // LTB - maybe change sceneSizeWidth to something other than 320?
 	newTarget = true;
+	reviewMode = true;
 
 	//targetBuilder->stopScan(); probably should fix this
 
     return JNI_TRUE;
 }
 
+// Added by Lucas Buckland
+//-------------------------------------------------
+// Remove last target added to local database
+//-------------------------------------------------
+
+JNIEXPORT void JNICALL
+Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_deleteLocalTarget(JNIEnv*, jobject)
+{
+	// Get the tracker manager:
+	QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
+
+    // Get the image tracker:
+    QCAR::ImageTracker* imageTracker = static_cast<QCAR::ImageTracker*>(
+		trackerManager.getTracker(QCAR::Tracker::IMAGE_TRACKER));
+
+	imageTracker->deactivateDataSet(imageTracker->getActiveDataSet());
+	dataSetUserDef->destroy(dataSetUserDef->getTrackable(dataSetUserDef->getNumTrackables()-1));
+	imageTracker->activateDataSet(dataSetUserDef);
+
+	reviewMode = false;
+}
+
+
+JNIEXPORT void JNICALL
+Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_deleteCurrentProductTexture(JNIEnv*, jobject)
+{
+	deleteCurrentProductTexture = true;
+	//createProductTexture("empty string");
+}
 
 // ----------------------------------------------------------------------------
 // Class Methods
@@ -1192,11 +1222,13 @@ void
 renderAugmentation(const QCAR::TrackableResult* trackableResult)
 {
     QCAR::Matrix44F modelViewProjection;
-
+	
+	if (reviewMode == true)
+		SampleUtils::rotatePoseMatrix(450.0f, 0.0f, 0.0f, 1.0f, &modelViewMatrix.data[0]);
     // JFN
     SampleUtils::scalePoseMatrix(430.f * scaleFactor, 430.f * scaleFactor, 1.0f, &modelViewMatrix.data[0]);
-   
-    // Applies 3d Transformations to the plane
+    
+	// Applies 3d Transformations to the plane
     SampleUtils::multiplyMatrix(&projectionMatrix.data[0],
             &modelViewMatrix.data[0] ,
             &modelViewProjection.data[0]);
