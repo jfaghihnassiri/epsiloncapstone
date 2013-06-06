@@ -928,6 +928,7 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_checkTargetQuality(JNIE
 JNIEXPORT void JNICALL
 Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_deleteLocalTarget(JNIEnv*, jobject)
 {
+	newTarget = false;
 	// Get the tracker manager:
 	QCAR::TrackerManager& trackerManager = QCAR::TrackerManager::getInstance();
 
