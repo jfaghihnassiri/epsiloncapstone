@@ -357,7 +357,7 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_renderFrame(JNI
     if (state.getNumTrackableResults() > 0)
     {
         trackingStarted = true;
-
+		setTargetFound("true");
         // If we are already tracking something we don't need
         // to wait any frame before starting the 2D transition
         // when the target gets lost
