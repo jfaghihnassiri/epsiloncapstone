@@ -1462,8 +1462,8 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_exitScreenShotM
     // Clear all trackables created previously:
     targetFinder->clearTrackables();
 
-
-  renderState = RS_TEMP;
+	renderState = RS_SCANNING;
+  //renderState = RS_TEMP;
   scanningMode = true;
 }
 
