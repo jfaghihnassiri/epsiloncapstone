@@ -912,8 +912,6 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_checkTargetQuality(JNIE
         LOG("TRYING %s", name);
     }
     while (!targetBuilder->build(name, screenWidth)); // LTB - maybe change sceneSizeWidth to something other than 320?
-	newTarget = true;
-	reviewMode = true;
 
 	//targetBuilder->stopScan(); probably should fix this
 
@@ -949,6 +947,13 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_deleteCurrentProductTex
 {
 	deleteCurrentProductTexture = true;
 	//createProductTexture("empty string");
+}
+
+JNIEXPORT void JNICALL
+Java_com_qualcomm_QCARSamples_CloudRecognition_CloudReco_reviewModeWNewTarget(JNIEnv*, jobject)
+{
+	newTarget = true;
+	reviewMode = true;
 }
 
 // ----------------------------------------------------------------------------

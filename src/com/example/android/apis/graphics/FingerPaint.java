@@ -82,7 +82,7 @@ public class FingerPaint extends GraphicsActivity
         	if (targetExists == false)
         	{
         		//DebugLog.LOGD("uploadingTarget");
-        		//new upLoadToVuforiaTargetDatabase().execute(); // Uncomment for early upload of image target to vuforia cloud database
+        		new upLoadToVuforiaTargetDatabase().execute(); // Uncomment for early upload of image target to vuforia cloud database
         	}
         	mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         }
