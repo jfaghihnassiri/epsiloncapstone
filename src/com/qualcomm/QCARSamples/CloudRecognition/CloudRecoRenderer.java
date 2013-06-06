@@ -118,7 +118,8 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
         // make sure the OpenGL rendering is finalized
         //GLES20.glFinish();
      
-       
+        GLES20.glFlush();
+        
         if ( takeScreenShot ) {
         	saveScreenShot(0, 0, mViewWidth, mViewHeight);
             CloudReco.snapshot = grabPixels(0,0,mViewWidth, mViewHeight);
@@ -129,8 +130,8 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
         }
         
         
-        GLES20.glFlush();
-        GLES20.glFinish();
+     
+
     }
     
     private void saveScreenShot(int x, int y, int w, int h) {
