@@ -1228,6 +1228,7 @@ renderAugmentation(const QCAR::TrackableResult* trackableResult)
 	{
 		LOG("Rotating pose matrix in review mode");
 		SampleUtils::rotatePoseMatrix(450.0f, 0.0f, 0.0f, 1.0f, &modelViewMatrix.data[0]);
+	}
     // JFN
     SampleUtils::scalePoseMatrix(430.f * scaleFactor, 430.f * scaleFactor, 1.0f, &modelViewMatrix.data[0]);
     
