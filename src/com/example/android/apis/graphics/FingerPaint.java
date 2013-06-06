@@ -48,6 +48,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
 import java.lang.Math;
@@ -81,7 +82,7 @@ public class FingerPaint extends GraphicsActivity
         {
         	if (targetExists == false)
         	{
-        		//DebugLog.LOGD("uploadingTarget");
+        		 DebugLog.LOGD("uploadingTarget");
         		new upLoadToVuforiaTargetDatabase().execute(); // Uncomment for early upload of image target to vuforia cloud database
         	}
         	mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -138,7 +139,8 @@ public class FingerPaint extends GraphicsActivity
         }
 
         protected void onPostExecute(Boolean result) {
-        	
+        	Toast.makeText( getApplicationContext(), "Target upload finished", Toast.LENGTH_SHORT).show(); 
+
         }
 
     }
