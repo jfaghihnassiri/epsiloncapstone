@@ -8,6 +8,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/FacebookSDK"/>
 	<classpathentry exported="true" kind="lib" path="libs/aws-android-sdk-1.5.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="C:/Development/Android/vuforia-sdk-android-2-0-30/build/java/QCAR/QCAR.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Development/vuforia-sdk-android-2-0-30/build/java/QCAR/QCAR.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
