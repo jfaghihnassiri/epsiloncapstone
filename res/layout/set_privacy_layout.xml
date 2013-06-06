@@ -8,19 +8,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" >
 
-
-    <RadioButton
-        android:id="@+id/radioPublic"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:checked="true"
-        android:text="@string/radio_public" />
-
-    <RadioButton
-        android:id="@+id/radioPrivate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/radio_private" />
+		    <RadioButton
+		        android:id="@+id/radioPublic"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:checked="true"
+		        android:text="@string/radio_public" />
+		
+		    <RadioButton
+		        android:id="@+id/radioPrivate"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="@string/radio_private" />
 
     </RadioGroup>
 
