@@ -28,7 +28,7 @@
 	<string name="sharefb">Share on your Facebook Wall</string>
 	<string name="set_privacy">Privacy</string>
 	<string name="radio_public">public</string>
-	<string name="radio_private">private</string>
+	<string name="radio_private">friends</string>
 	<string name="done_set_privacy">Done</string>
 	<string name="share_hint">Type your message here!</string>
 	<string name="cancel">Cancel</string>
