@@ -1444,7 +1444,7 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_enterScreenShot
   crStarted = !targetFinder->stop();
 
   RS_TEMP = renderState;
-  //renderState = RS_NORMAL;
+  renderState = RS_TEXTURE_GENERATED;
   scanningMode = false;
 }
 
