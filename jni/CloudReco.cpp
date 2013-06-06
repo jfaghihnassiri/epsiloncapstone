@@ -1224,6 +1224,8 @@ renderAugmentation(const QCAR::TrackableResult* trackableResult)
     QCAR::Matrix44F modelViewProjection;
 	
 	if (reviewMode == true)
+	{
+		LOG("Rotating pose matrix in review mode");
 		SampleUtils::rotatePoseMatrix(450.0f, 0.0f, 0.0f, 1.0f, &modelViewMatrix.data[0]);
     // JFN
     SampleUtils::scalePoseMatrix(430.f * scaleFactor, 430.f * scaleFactor, 1.0f, &modelViewMatrix.data[0]);
@@ -1416,8 +1418,6 @@ initStateVariables()
     scanningMode = true;
     isShowing2DOverlay = false;
     startTransition3Dto2D = false;
-//<<<<<<< HEAD
-//=======
 }
 
 
@@ -1463,7 +1463,6 @@ Java_com_qualcomm_QCARSamples_CloudRecognition_CloudRecoRenderer_exitScreenShotM
 
   renderState = RS_TEMP;
   scanningMode = true;
-//>>>>>>> branch 'master' of https://github.com/jfaghihnassiri/epsiloncapstone.git
 }
 
 // ----------------------------------------------------------------------------
