@@ -3,5 +3,4 @@
 /doc
 libs/armeabi-v7a/
 libs/armeabi/
-obj/local/armeabi-v7a/
-obj/local/armeabi/
+obj/local/
