@@ -32,6 +32,7 @@ import android.os.AsyncTask;
 import android.os.Environment;
 import android.util.Log;
 
+import com.example.android.apis.graphics.FingerPaint;
 import com.qualcomm.QCAR.QCAR;
 import com.qualcomm.QCARSamples.CloudRecognition.utils.DebugLog;
 
@@ -88,6 +89,8 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
         
         mViewWidth = width;
         mViewHeight = height;
+        
+        FingerPaint.mHeight = height;
         
         // Call QCAR function to handle render surface size changes:
         QCAR.onSurfaceChanged(width, height);

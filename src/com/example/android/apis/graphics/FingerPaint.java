@@ -28,6 +28,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.*;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.Editable;
@@ -51,22 +52,44 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.Math;
 import android.widget.TextView.OnEditorActionListener;
 
 public class FingerPaint extends GraphicsActivity
         implements ColorPickerDialog.OnColorChangedListener {    
+	
+	public static int mHeight = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         
         //new upLoadToVuforiaTargetDatabase().execute();
-        
+
         Display display = getWindowManager().getDefaultDisplay();
         width = display.getWidth();
-        height = display.getHeight();
-        backgrnd = getIntent().getByteArrayExtra("bitMP");
+        height = mHeight;
+        
+        // Get the target image bitmap from the temporary file
+        Uri uriSavedImage = Uri.parse(getIntent().getStringExtra("bitMP"));
+        InputStream iStream;
+		try {
+			iStream = getContentResolver().openInputStream(uriSavedImage);
+	        backgrnd = getBytes(iStream);
+			iStream.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		File tempFile = new File(getIntent().getStringExtra("bitMP"));
+		tempFile.delete();
+		
+        
         byte[] foregrnd = getIntent().getByteArrayExtra("previousCanvas");
         boolean targetExists = getIntent().getBooleanExtra("existingTarget", true);
         
@@ -428,5 +451,17 @@ public class FingerPaint extends GraphicsActivity
 		super.onPause();
 		Global.applicationPaused();
 	}
+	
+	public byte[] getBytes(InputStream inputStream) throws IOException {
+	      ByteArrayOutputStream byteBuffer = new ByteArrayOutputStream();
+	      int bufferSize = 1024;
+	      byte[] buffer = new byte[bufferSize];
+
+	      int len = 0;
+	      while ((len = inputStream.read(buffer)) != -1) {
+	        byteBuffer.write(buffer, 0, len);
+	      }
+	      return byteBuffer.toByteArray();
+	    }
     
 }

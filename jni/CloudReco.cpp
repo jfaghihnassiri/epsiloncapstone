@@ -1089,27 +1089,28 @@ generateProductTextureInOpenGL()
         glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         // We create an empty power of two texture and upload a sub image.
-        // JFNA
-        // Used to be glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, 1024, 1024, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
         aug_width = productTexture->mWidth;
         aug_height = productTexture->mHeight;
-        frame_width = 1024;
-        frame_height = 1024;
+
+        // Set the frame size equal to the target size
+        frame_width = targetSize.data[0];
+        frame_height = targetSize.data[1];
+
+        // Set the bottom left corner coordinates
         botleft_x = ((frame_width/2.0)-(aug_width/2.0))-1;
         if(botleft_x<0) botleft_x=0;
+        botleft_x = 0;
         botleft_y = ((frame_height/2.0)-(aug_height/2.0))-1;
         if(botleft_y<0) botleft_y=0;
+        botleft_y = 0;
         LOG("JFN frameWH=(%f,%f), augWH=(%f,%f), tarWH=(%f,%f), botleftXY=(%f,%f)",frame_width,frame_height,aug_width, aug_height, targetSize.data[0],targetSize.data[1],botleft_x,botleft_y);
 
-        // Create frame
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, frame_width, frame_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
+        // Create the frame
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, aug_width, aug_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
-        // Add texture. Used to be glTexSubImage2D(GL_TEXTURE_2D, 0, 180, 230, productTexture->mWidth,
+        // Add the texture to the frame
         glTexSubImage2D(GL_TEXTURE_2D, 0, botleft_x, botleft_y, aug_width, aug_height, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*) productTexture->mData);
 
-        // JFN RELEASE if planning a release, please comment out the line below and comment in the line above.
-        //glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, aug_width, aug_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*) productTexture->mData );
-			
         // Updates the current Render State
         renderState = RS_NORMAL;
 		
@@ -1229,26 +1230,28 @@ renderAugmentation(const QCAR::TrackableResult* trackableResult)
 {
     QCAR::Matrix44F modelViewProjection;
 	
+    // If in review mode, rotate the matrix
 	if (reviewMode == true)
 	{
 		//LOG("Rotating pose matrix in review mode");
 		SampleUtils::rotatePoseMatrix(450.0f, 0.0f, 0.0f, 1.0f, &modelViewMatrix.data[0]);
 	}
-    // JFN
-    SampleUtils::scalePoseMatrix(430.f * scaleFactor, 430.f * scaleFactor, 1.0f, &modelViewMatrix.data[0]);
-    
+
+    // Scale the pose matrix based on the target size
+	SampleUtils::scalePoseMatrix(targetSize.data[0] * scaleFactor, targetSize.data[1] * scaleFactor, 1.0f, &modelViewMatrix.data[0]);
+
 	// Applies 3d Transformations to the plane
     SampleUtils::multiplyMatrix(&projectionMatrix.data[0],
             &modelViewMatrix.data[0] ,
             &modelViewProjection.data[0]);
+
 	//LOG("Matricies");
 	//SampleUtils::printMatrix(&projectionMatrix.data[0]);
 	//SampleUtils::printMatrix(&modelViewMatrix.data[0]);
 	//SampleUtils::printMatrix(&modelViewProjection.data[0]);
 
 
-    // Moves the trackable current position to a global variable used for
-    // the 3d to 2D animation
+    // Moves the trackable current position to a global variable used for the 3d to 2D animation
     pose = trackableResult->getPose();
 
     // Shader Program for drawing
