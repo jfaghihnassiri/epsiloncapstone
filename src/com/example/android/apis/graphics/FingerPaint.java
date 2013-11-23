@@ -86,8 +86,9 @@ public class FingerPaint extends GraphicsActivity
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		File tempFile = new File(getIntent().getStringExtra("bitMP"));
-		tempFile.delete();
+		File tempFile = new File(uriSavedImage.getPath());
+		if(!tempFile.delete())
+			System.out.println("DEBUG: Delete temporary file failed!");
 		
         
         byte[] foregrnd = getIntent().getByteArrayExtra("previousCanvas");
@@ -105,8 +106,8 @@ public class FingerPaint extends GraphicsActivity
         {
         	if (targetExists == false)
         	{
-        		 DebugLog.LOGD("uploadingTarget");
-        		new upLoadToVuforiaTargetDatabase().execute(); // Uncomment for early upload of image target to vuforia cloud database
+        		//DebugLog.LOGD("uploadingTarget");
+        		//new upLoadToVuforiaTargetDatabase().execute(); // Uncomment for early upload of image target to vuforia cloud database
         	}
         	mBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         }
@@ -162,7 +163,11 @@ public class FingerPaint extends GraphicsActivity
         }
 
         protected void onPostExecute(Boolean result) {
-        	Toast.makeText( getApplicationContext(), "Target upload finished", Toast.LENGTH_SHORT).show(); 
+        	if(targetId == null || targetId == "") {
+        		Toast.makeText(getApplicationContext(), "Target upload to Vuforia failed!", Toast.LENGTH_LONG).show();
+        	} else {
+        		Toast.makeText( getApplicationContext(), "Target upload successful! It will be available in 10 minutes.", Toast.LENGTH_LONG).show(); 
+        	}
 
         }
 

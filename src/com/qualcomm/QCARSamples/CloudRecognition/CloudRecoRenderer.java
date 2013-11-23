@@ -126,6 +126,18 @@ public class CloudRecoRenderer implements GLSurfaceView.Renderer
         if ( takeScreenShot ) {
         	saveScreenShot(0, 0, mViewWidth, mViewHeight);
             CloudReco.snapshot = grabPixels(0,0,mViewWidth, mViewHeight);
+            
+            // Resize image if too big (from tablet, etc)
+            int origWidth = CloudReco.snapshot.getWidth();
+            int origHeight = CloudReco.snapshot.getHeight();
+            double origSizeMB = CloudReco.snapshot.getRowBytes()*origHeight/3.0/1024.0/1024.0;
+            if(origSizeMB > 2.25) {
+	            System.out.println("DEBUG: Original image size: " + origWidth + "x" + origHeight + " (" + origSizeMB + " MB)");
+	            Bitmap smaller = Bitmap.createScaledBitmap(CloudReco.snapshot, origWidth*7/8, origHeight*7/8, false);
+	            System.out.println("DEBUG: Resized image to size " + smaller.getWidth() + "x" + smaller.getHeight() + " (" + smaller.getRowBytes()*smaller.getHeight()/3.0/1024.0/1024.0 + " MB)");
+	            CloudReco.snapshot = smaller;
+            }
+            
             Log.d("SNAPSHOT","snapshot taken in redner");
             takeScreenShot = false;
             CloudReco.imageReady = true;

@@ -1096,20 +1096,13 @@ generateProductTextureInOpenGL()
         frame_width = targetSize.data[0];
         frame_height = targetSize.data[1];
 
-        // Set the bottom left corner coordinates
-        botleft_x = ((frame_width/2.0)-(aug_width/2.0))-1;
-        if(botleft_x<0) botleft_x=0;
-        botleft_x = 0;
-        botleft_y = ((frame_height/2.0)-(aug_height/2.0))-1;
-        if(botleft_y<0) botleft_y=0;
-        botleft_y = 0;
-        LOG("JFN frameWH=(%f,%f), augWH=(%f,%f), tarWH=(%f,%f), botleftXY=(%f,%f)",frame_width,frame_height,aug_width, aug_height, targetSize.data[0],targetSize.data[1],botleft_x,botleft_y);
+        LOG("JFN frameWH=(%f,%f), augWH=(%f,%f), tarWH=(%f,%f)",frame_width,frame_height,aug_width, aug_height, targetSize.data[0],targetSize.data[1]);
 
         // Create the frame
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, aug_width, aug_height, 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
 
         // Add the texture to the frame
-        glTexSubImage2D(GL_TEXTURE_2D, 0, botleft_x, botleft_y, aug_width, aug_height, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*) productTexture->mData);
+        glTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, aug_width, aug_height, GL_RGBA, GL_UNSIGNED_BYTE, (GLvoid*) productTexture->mData);
 
         // Updates the current Render State
         renderState = RS_NORMAL;
@@ -1231,14 +1224,14 @@ renderAugmentation(const QCAR::TrackableResult* trackableResult)
     QCAR::Matrix44F modelViewProjection;
 	
     // If in review mode, rotate the matrix
-	if (reviewMode == true)
-	{
+	if (reviewMode == true) {
 		//LOG("Rotating pose matrix in review mode");
-		SampleUtils::rotatePoseMatrix(450.0f, 0.0f, 0.0f, 1.0f, &modelViewMatrix.data[0]);
+		SampleUtils::rotatePoseMatrix(90.0f, 0.0f, 0.0f, 1.0f, &modelViewMatrix.data[0]);
+		SampleUtils::scalePoseMatrix(targetSize.data[1] * scaleFactor, targetSize.data[0] * scaleFactor * 0.9, 1.0f, &modelViewMatrix.data[0]);
+	} else {
+		// Scale the pose matrix based on the target size
+		SampleUtils::scalePoseMatrix(targetSize.data[0] * scaleFactor, targetSize.data[1] * scaleFactor, 1.0f, &modelViewMatrix.data[0]);
 	}
-
-    // Scale the pose matrix based on the target size
-	SampleUtils::scalePoseMatrix(targetSize.data[0] * scaleFactor, targetSize.data[1] * scaleFactor, 1.0f, &modelViewMatrix.data[0]);
 
 	// Applies 3d Transformations to the plane
     SampleUtils::multiplyMatrix(&projectionMatrix.data[0],
